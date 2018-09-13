@@ -1,6 +1,6 @@
 /**
  * @ author SG Lee
- * @ since 2016
+ * @ since 2002
 */
 
 #ifndef __BSPTREE_H__
@@ -16,6 +16,30 @@
 #include "BSPPointCollection.h"
 
 using namespace std;
+
+template <typename T>
+struct GreaterDensity {
+	bool operator()(
+		const BSPNode<T> *_l, const BSPNode<T> *_r) {
+		if(_l->get_density() <= _r->get_density()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+};
+
+template <typename T>
+struct LesserDensity {
+	bool operator()(
+		const BSPNode<T> *_l, const BSPNode<T> *_r) {
+		if(_l->get_density() > _r->get_density()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+};
 
 template <typename T>
 class BSPTree {
@@ -57,7 +81,20 @@ public:
 		const BSPNode<T> *_target_node,
 		const int _di,
 		const int _dj,
-		const bool _empty_node_is_possible) const;
+		const bool _empty_node_is_possible = true) const;
+	void traverse_all_nodes(
+		list<const BSPNode<T> *> &_list,
+		function<const BSPNode<T> *(const BSPNode<T> *)> _func);
+	void sort_nodes(
+		list<const BSPNode<T> *> &_nodelist,
+		function<bool(const BSPNode<T> *, const BSPNode<T> *)> 
+			_func,
+			const bool _empty_node_is_possible = true);
+private:
+	void traverse_sub_nodes(
+		list<const BSPNode<T> *> &_list,
+		const BSPNode<T> *_target_node,
+		function<const BSPNode<T> *(const BSPNode<T> *)> _func);
 };
 
 template <typename T>
@@ -85,6 +122,11 @@ BSPTree<T>::initialize(
 	const int _i_from, const int _i_to, 
 	const int _j_from, const int _j_to, 
 	const double _cell_size) {
+	assert(_i_from < _i_to);
+	assert(_j_from < _j_to);
+	assert(_cell_size <= (_i_to-_i_from));
+	assert(_cell_size <= (_j_to-_j_from));
+
 	if (root) {
 		delete root;
 		root = 0;
@@ -144,23 +186,14 @@ BSPTree<T>::find_neighbor_node(
 	const BSPNode<T> *_target_node,
 	const int _di,
 	const int _dj,
-	const bool _empty_node_is_possible = true) const {
+	const bool _empty_node_is_possible) const {
 	int pi = _ref_point->get_i();
 	int pj = _ref_point->get_j();
 	if(!_target_node->is_overlapped(pi, pj, _di, _dj)) {
 		return;
 	}
-
-//	cout << "target ";
-//	_target_node->print_history_index();
-//	cout<<endl;
-	
 	// final node
 	if (!_target_node->has_subnodes()) {
-//		cout << "final ";
-//		_target_node->print_history_index();
-//		cout<<endl;
-		
 		if(_empty_node_is_possible) {
 			_node_list.push_back(_target_node);
 		} else {
@@ -168,10 +201,8 @@ BSPTree<T>::find_neighbor_node(
 				_node_list.push_back(_target_node);
 			}
 		}
-
 		return;
 	}
-
 
 	// check children 
 	const BSPNode<T> *child_node = 
@@ -186,6 +217,64 @@ BSPTree<T>::find_neighbor_node(
 			_dj);
 		child_node = child_node->get_next_brother();
 	}
+}
+
+template <typename T>
+void 
+BSPTree<T>::traverse_sub_nodes(
+	list<const BSPNode<T> *> &_list,
+	const BSPNode<T> *_target_node,
+	function<const BSPNode<T> *(const BSPNode<T> *)> _func) {
+	const BSPNode<T> *node = _func(_target_node);
+	if(node != 0 ) {
+		_list.push_back(node);
+	}
+
+	if (!_target_node->has_subnodes()) {
+		return;
+	}
+
+	// check children 
+	const BSPNode<T> *child_node =
+		_target_node->get_first_child();
+	// iteration of child nodes, node 1, 2, 3, 4
+	while(child_node != 0) { 
+		traverse_sub_nodes(_list,child_node,_func);
+		child_node = child_node->get_next_brother();
+	}
+}
+
+template <typename T>
+void 
+BSPTree<T>::traverse_all_nodes(
+	list<const BSPNode<T> *> &_list,
+	function<const BSPNode<T> *(const BSPNode<T> *)> _func) {
+	const BSPNode<T> *root = this->get_root();
+	traverse_sub_nodes(_list,root,_func);
+}
+
+template <typename T>
+void 
+BSPTree<T>::sort_nodes(
+	list<const BSPNode<T> *> &_nodelist,
+	function<bool(const BSPNode<T> *, const BSPNode<T> *)> 
+		_func,
+		const bool _is_empty_node_possible) {
+	traverse_all_nodes(
+		_nodelist,
+		[&](const BSPNode<T> *_node) -> const BSPNode<T> *{
+			if(_is_empty_node_possible) {
+				return _node;
+			} else {
+				if(_node->get_size_of_points() != 0) {
+					return _node;
+				} else {
+					return 0;
+				}
+			}
+		});
+
+	_nodelist.sort(_func);
 }
 
 #endif

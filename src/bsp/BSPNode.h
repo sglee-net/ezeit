@@ -1,6 +1,6 @@
 /**
  * @ author SG Lee
- * @ since 2016
+ * @ since 2002
  * Binary Spacitial Partiniting
 */
 
@@ -17,17 +17,48 @@
 
 using namespace std;
 
+typedef int dtype_t;
+//typedef double dtype_t;
+
+bool GT(const dtype_t &_l, const dtype_t &_r) {
+	return (_l > _r) ? true : false;
+}
+
+bool GE(const dtype_t &_l, const dtype_t &_r) {
+	return ( _l >= _r || 
+		fabs(_l-_r) < numeric_limits<dtype_t>::epsilon() ) 
+		? true : false;
+}
+
+bool LE(const dtype_t &_l, const dtype_t &_r) {
+	return ( _l <= _r || 
+		fabs(_l-_r) < numeric_limits<dtype_t>::epsilon() ) 
+		? true : false;
+}
+
+bool LT(const dtype_t &_l, const dtype_t &_r) {
+	return ( _l < _r) ? true : false;
+}
+
+bool EQ(const dtype_t &_l, const dtype_t &_r) {
+	return (fabs(_l-_r) < numeric_limits<dtype_t>::epsilon()) 
+		? true : false;
+}
+
 template <typename T>
 class BSPNode {
+public:
 private:
 	BSPNode();
 public:
 	BSPNode(
 		BSPNode<T> *_root,
-		int _node_index,
-		int _i_from, int _i_to, 
-		int _j_from, int _j_to, 
-		const double _cell_size);
+		const int _node_index,
+		const dtype_t _i_from, 
+		const dtype_t _i_to, 
+		const dtype_t _j_from, 
+		const dtype_t  _j_to, 
+		const dtype_t _cell_size);
 	~BSPNode();
 private:
 	void destroy_subnodes();
@@ -39,32 +70,25 @@ private:
 	BSPNode<T> *node4;
 	int node_index;
 	int level;
-	int i_from;
-	int j_from;
-	int i_to;
-	int j_to;
-	double cell_size;
+	dtype_t i_from;
+	dtype_t j_from;
+	dtype_t i_to;
+	dtype_t j_to;
+	dtype_t cell_size;
 	list<const BSPPoint<T> *> point_list;
 public:
 	double center_i() const;
 	double center_j() const;
-	int get_width() const { return (i_to-i_from); }
-	int get_height() const { return (j_to-j_from); }
+	dtype_t get_width() const { return (i_to-i_from); }
+	dtype_t get_height() const { return (j_to-j_from); }
+	dtype_t get_i_from() const { return i_from; }
+	dtype_t get_i_to() const { return i_to; }
+	dtype_t get_j_from() const { return j_from; }
+	dtype_t get_j_to() const { return j_to; }
 	const int get_level() const { return level; }
 	const int get_index() const { return node_index; }
-	void print_history_index() const {
-		cout << this->get_index();
-		const BSPNode<T> *parent_node =
-			this->get_parent();
-		while(parent_node != 0) {
-			cout
-			<< "<"
-			<< parent_node->get_index();
-			parent_node = 
-				parent_node->get_parent();
-		}
-		cout << endl;
-	}
+	void print_index() const; 
+	void get_index_list(list<int> &_list);
 	BSPNode * add_point_and_make_partition(const BSPPoint<T> * _p);
 	bool remove_point(const BSPPoint<T> *_p);
 private:
@@ -94,10 +118,10 @@ private:
 	const BSPNode<T> *get_node4() const { return node4; }
 public:
 	bool is_overlapped(
-		const int _pi, 
-		const int _pj, 
-		const int _di, 
-		const int _dj) const;
+		const dtype_t _pi, 
+		const dtype_t _pj, 
+		const dtype_t _di, 
+		const dtype_t _dj) const;
 };
 
 template <typename T>
@@ -113,16 +137,18 @@ BSPNode<T>::BSPNode() {
 	i_to = 0;
 	j_from = 0;
 	j_to = 0;
-	cell_size = 1.0;
+	cell_size = 1;
 }
 
 template <typename T>
 BSPNode<T>::BSPNode(
 	BSPNode<T> *_root, 
-	int _node_index, 
-	int _i_from, int _i_to, 
-	int _j_from, int _j_to, 
-	const double _cell_size) {
+	const int _node_index, 
+	const dtype_t _i_from, 
+	const dtype_t _i_to, 
+	const dtype_t _j_from, 
+	const dtype_t _j_to, 
+	const dtype_t _cell_size) {
 	assert(int(_i_to - _i_from) >= 1);
 	assert(int(_j_to - _j_from) >= 1);
 
@@ -178,6 +204,35 @@ BSPNode<T>::center_j() const {
 }
 
 template <typename T>
+void 
+BSPNode<T>::print_index() const {
+	cout << this->get_index();
+	const BSPNode<T> *parent_node =
+		this->get_parent();
+	while(parent_node != 0) {
+		cout
+		<< "<"
+		<< parent_node->get_index();
+		parent_node = 
+			parent_node->get_parent();
+	}
+//	cout << endl;
+}
+
+template <typename T>
+void 
+BSPNode<T>::get_index_list(list<int> &_list) {
+	_list.push_back(this->get_index());
+	const BSPNode<T> *parent_node =
+		this->get_parent();
+	while(parent_node != 0) {
+		_list.push_back(parent_node->get_index());
+		parent_node = 
+			parent_node->get_parent();
+	}
+}
+
+template <typename T>
 BSPNode<T> *
 BSPNode<T>::add_point_and_make_partition(
 	const BSPPoint<T> *_p) {
@@ -189,16 +244,15 @@ BSPNode<T>::add_point_and_make_partition(
 	else {
 		// divide this node to four sub-nodes, 
 		// and add a point to one of them
-		const int i = _p->get_i();
-		const int j = _p->get_j();
+		const dtype_t i = _p->get_i();
+		const dtype_t j = _p->get_j();
 
 		// if this node has sub-nodes, 
 		// points are not inserted into this.
 
 		// center i, j
-		// int() : ex) float(ci)=3.5 => int(3.5)=3
-		int ci = int(float(i_to - i_from) / 2.0) + i_from;
-		int cj = int(float(j_to - j_from) / 2.0) + j_from;
+		dtype_t ci = dtype_t((i_to - i_from) / 2.0) + i_from;
+		dtype_t cj = dtype_t((j_to - j_from) / 2.0) + j_from;
 
 		// node
 		// 2 1
@@ -242,24 +296,32 @@ BSPNode<T>::add_point_and_make_partition(
 		// 3 4
 		
 		// node 1
-		if (ci <= i && i <= i_to &&
-			j_from <= j && j < cj) {
+//		if (ci <= i && i <= i_to &&
+//			j_from <= j && j < cj) {
+		if( LE(ci,i) && LE(i,i_to) &&
+			LE(j_from,j) && LT(j,cj)) {
 			return node1->add_point_and_make_partition(_p);
 
 		}
 		// node 2
-		else if (i_from <= i && i < ci &&
-			j_from <= j && j < cj) {
+//		else if (i_from <= i && i < ci &&
+//			j_from <= j && j < cj) {
+		else if ( LE(i_from,i) && LT(i,ci) &&
+			LE(j_from,j) && LT(j,cj)) {
 			return node2->add_point_and_make_partition(_p);
 		}
 		// node 3
-		else if (i_from <= i && i < ci &&
-			cj <= j && j <= j_to) {
+//		else if (i_from <= i && i < ci &&
+//			cj <= j && j <= j_to) {
+		else if( LE(i_from,i) && LT(i,ci) &&
+			LE(cj,j) && LE(j,j_to)) {
 			return node3->add_point_and_make_partition(_p);
 		}
 		// node 4
-		else if (ci <= i && i <= i_to &&
-			cj <= j && j <= j_to) {
+//		else if (ci <= i && i <= i_to &&
+//			cj <= j && j <= j_to) {
+		else if( LE(ci,i) && LE(i,i_to) &&
+			LE(cj,j) && LE(j,j_to)) {
 			return node4->add_point_and_make_partition(_p);
 		}
 		else {
@@ -310,10 +372,12 @@ BSPNode<T>::get_root() const {
 template <typename T>
 bool 
 BSPNode<T>::can_be_divided() const {
-	int di = int(i_to - i_from);
-	int dj = int(j_to - j_from);
-	if (di <= 1 || dj <= 1 ||
-		di <= cell_size || dj <= cell_size) {
+	dtype_t di = dtype_t(i_to - i_from);
+	dtype_t dj = dtype_t(j_to - j_from);
+//	if (di <= 1 || dj <= 1 ||
+//		di <= cell_size || dj <= cell_size) {
+	if( LE(di,1) || LE(dj,1) ||
+		LE(di,cell_size) || LE(dj,cell_size) ) {
 		return false;
 	}
 	else {
@@ -354,8 +418,8 @@ BSPNode<T>::is_child_end() const {
 template <typename T>
 double 
 BSPNode<T>::get_density() const {
-	return double(point_list.size()/
-		((i_to-i_from)*(j_to-j_from)));
+	return double(point_list.size())/
+		double(((i_to-i_from)*(j_to-j_from)));
 }
 
 template <typename T>
@@ -379,26 +443,26 @@ BSPNode<T>::make_recursion(
 template <typename T>
 bool 
 BSPNode<T>::is_overlapped(
-	const int _pi, 
-	const int _pj, 
-	const int _di, 
-	const int _dj) const {
-	int boundary_i_min = _pi - _di;
-	int boundary_i_max = _pi + _di;
-	int boundary_j_min = _pj - _dj;
-	int boundary_j_max = _pj + _dj;
+	const dtype_t _pi, 
+	const dtype_t _pj, 
+	const dtype_t _di, 
+	const dtype_t _dj) const {
+	dtype_t i_min = _pi - _di;
+	dtype_t i_max = _pi + _di;
+	dtype_t j_min = _pj - _dj;
+	dtype_t j_max = _pj + _dj;
 //	const BSPNode<T> *root = this->get_root();
-//	if (boundary_i_min < root->i_from) { 
-//		boundary_i_min = root->i_from; 
+//	if (i_min < root->i_from) { 
+//		i_min = root->i_from; 
 //	}
-//	if (boundary_i_max > root->i_to) { 
-//		boundary_i_max = root->i_to; 
+//	if (i_max > root->i_to) { 
+//		i_max = root->i_to; 
 //	}
-//	if (boundary_j_min < root->j_from) { 
-//		boundary_j_min = root->j_from; 
+//	if (j_min < root->j_from) { 
+//		j_min = root->j_from; 
 //	}
-//	if (boundary_j_max > root->j_to) { 
-//		boundary_j_max = root->j_to; 
+//	if (j_max > root->j_to) { 
+//		j_max = root->j_to; 
 //	}
 
 	// 4 points from given (pi,pj)
@@ -408,34 +472,50 @@ BSPNode<T>::is_overlapped(
 	// (i_max, j_max), 4
 
 	// point 1 is overlapped with this node
-	if (this->i_from <= boundary_i_max && 
-		boundary_i_max <= this->i_to &&
-		this->j_from <= boundary_j_min && 
-		boundary_j_min <= this->j_to) {
+//	if (this->i_from <= i_max && 
+//		i_max <= this->i_to &&
+//		this->j_from <= j_min && 
+//		j_min <= this->j_to) {
+	if( LE(i_from, i_max) &&
+		LE(i_max, i_to) &&
+		LE(j_from, j_min) &&
+		LE(j_min, j_to) ) {
 		return true;
 	}
 
 	// point 2 is overlapped with this node
-	if (this->i_from <= boundary_i_min && 
-		boundary_i_min <= this->i_to &&
-		this->j_from <= boundary_j_min && 
-		boundary_j_min <= this->j_to) {
+//	if (this->i_from <= i_min && 
+//		i_min <= this->i_to &&
+//		this->j_from <= j_min && 
+//		j_min <= this->j_to) {
+	if( LE(i_from, i_min) &&
+		LE(i_min, i_to) &&
+		LE(j_from, j_min) &&
+		LE(j_min, j_to) ) {
 		return true;
 	}
 
 	// point 3 is overlapped with this node
-	if (this->i_from <= boundary_i_min && 
-		boundary_i_min <= this->i_to &&
-		this->j_from <= boundary_j_max && 
-		boundary_j_max <= this->j_to) {
+//	if (this->i_from <= i_min && 
+//		i_min <= this->i_to &&
+//		this->j_from <= j_max && 
+//		j_max <= this->j_to) {
+	if( LE(i_from, i_min) &&
+		LE(i_min, i_to) &&
+		LE(j_from, j_max) &&
+		LE(j_max, j_to) ) {
 		return true;
 	}
 
 	// point 4 is overlapped with this node
-	if (this->i_from <= boundary_i_max && 
-		boundary_i_max <= this->i_to &&
-		this->j_from <= boundary_j_max && 
-		boundary_j_max <= this->j_to) {
+//	if (this->i_from <= i_max && 
+//		i_max <= this->i_to &&
+//		this->j_from <= j_max && 
+//		j_max <= this->j_to) {
+	if( LE(i_from, i_max) &&
+		LE(i_max, i_to) &&
+		LE(j_from, j_max) &&
+		LE(j_max, j_to) ) {
 		return true;
 	}
 
