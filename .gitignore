@@ -1,0 +1,8 @@
+cmake_install.cmake
+gmock_main.pc
+gtest.pc
+CMakeCache.txt
+gmock.pc
+Makefile
+CMakeFiles/*
+gtest_main.pc

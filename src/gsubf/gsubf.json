@@ -1,0 +1,9 @@
+{
+	"path" : "",
+	"file_name" : "data.csv",
+	"delimiter" : ",",
+	"reference_index" : [ 2, 10 ],
+	"output_path" : "./output",
+	"postfix" : ".csv",
+	"skip_first_line" : true
+}

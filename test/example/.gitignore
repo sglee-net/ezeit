@@ -1,0 +1,5 @@
+MakeFiles/*
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+example_test
