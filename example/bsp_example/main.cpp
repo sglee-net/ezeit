@@ -131,7 +131,7 @@ int main(void) {
 				return false;
 			}
 		},
-		false);
+		true);
 
 	int scount = 0;
 	for_each(node_list.begin(),

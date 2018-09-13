@@ -107,7 +107,7 @@ public:
 	const BSPNode<T> *get_first_child() const;
 	const BSPNode<T> *get_next_brother() const;
 	bool is_child_end() const;
-	double get_density() const;
+	double get_density(const bool _including_children=true) const;
 	void make_recursion(
 		std::function<void(
 			const list<const BSPPoint<T> *> &)> &) const;
@@ -417,9 +417,24 @@ BSPNode<T>::is_child_end() const {
 
 template <typename T>
 double 
-BSPNode<T>::get_density() const {
-	return double(point_list.size())/
-		double(((i_to-i_from)*(j_to-j_from)));
+BSPNode<T>::get_density(const bool _including_children) const {
+	double density = double(point_list.size())/
+			double(((i_to-i_from)*(j_to-j_from)));
+	if(!_including_children) {
+		return density;
+	} else {
+		if(!this->has_subnodes()) {
+			return density;
+		} else {
+			const BSPNode<T> *child_node = 
+				this->get_first_child();
+			while(child_node != 0) {
+				density += child_node->get_density();
+				child_node = child_node->get_next_brother();
+			}
+			return density/4.0;
+		}
+	}
 }
 
 template <typename T>
