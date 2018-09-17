@@ -19,6 +19,11 @@
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/ml/ml.hpp>
+#include <bsp/BSPNode.h>
+#include <bsp/BSPPoint.h>
+#include <bsp/BSPPointCollection.h>
+#include <bsp/BSPTree.h>
+#include <statistics/statistics.h>
 
 using namespace std;
 using namespace std::chrono;
@@ -687,12 +692,13 @@ int main(void)
 	// step2: calculate descriptors (fecture vectors)
 	Mat descriptor;
 	detector->detectAndCompute(
-		blurImage9, 
+		blurImage3, 
 		Mat(), 
 		keypoints, 
 		descriptor);
 
 	cout<<descriptor.rows<<", "<<descriptor.cols<<endl;
+
 
 	Mat covarMat, meanMat;
 	cv::calcCovarMatrix(
@@ -731,10 +737,10 @@ int main(void)
 		keypoints,
 		covarMat);
 
-	addCovarCountLL(
-		filteredIndexes,
-		keypoints,
-		covarMat);
+//	addCovarCountLL(
+//		filteredIndexes,
+//		keypoints,
+//		covarMat);
 
 	removeCovarCountHH(
 		filteredIndexes,
@@ -816,6 +822,104 @@ int main(void)
 	Mat descriptor2;
 	descriptor.copyTo(descriptor2);
 
+	const int image_width = refImage.rows;
+	const int image_height = refImage.cols;
+	const int cell_size = 64;
+
+	int x_min = numeric_limits<int>::max();
+	int x_max = 0;
+	int y_min = numeric_limits<int>::max();
+	int y_max = 0;
+
+	BSPPointCollection<KeyPoint *> *kpcollection =
+		BSPPointCollection<KeyPoint *>::get_instance();
+	for_each(
+//		filteredKeypoints.begin(),
+//		filteredKeypoints.end(),
+		keypoints.begin(),
+		keypoints.end(),
+		[&](KeyPoint &_keypoint) {
+			BSPPoint<KeyPoint *> *pt = 
+				new BSPPoint<KeyPoint *>(
+					_keypoint.pt.x,
+					_keypoint.pt.y,
+					&_keypoint);
+			kpcollection->insert_point(
+				pt->get_i(),
+				pt->get_j(),
+				pt);
+
+			x_min = std::min(x_min, (int)_keypoint.pt.x);
+			x_max = std::max(x_max, (int)_keypoint.pt.x);
+			y_min = std::min(y_min, (int)_keypoint.pt.y);
+			y_max = std::max(y_max, (int)_keypoint.pt.y);
+		});
+
+	cout<<"x min, max " << x_min << ", "<< x_max <<endl;
+	cout<<"y min, max " << y_min << ", " << y_max <<endl;
+	cout<<"image size w, h " << refImage.cols << ", " << refImage.rows <<endl;
+
+	cout<<"points are inserted to BSPPointCollection"<<endl;
+
+	BSPTree<KeyPoint *> *kptree = 
+		BSPTree<KeyPoint *>::get_instance();
+	kptree->initialize(0, image_height, 0, image_width, cell_size);
+	kptree->add_points_and_make_partition(kpcollection);
+
+	cout<<"BSPTree is generated"<<endl;
+
+	list<const BSPNode<KeyPoint *> *> node_list;
+	kptree->sort_nodes(
+		node_list,
+		[](const BSPNode<KeyPoint *> *_l,
+			const BSPNode<KeyPoint *> *_r) -> bool {
+			return _l->get_density() < _r->get_density() 
+				? true : false;
+		},
+		false);
+
+	list<double> density_list;
+	for_each(
+		node_list.begin(),
+		node_list.end(),
+		[&](const BSPNode<KeyPoint *> *_node) {
+			_node->print_index();
+			cout<<", density: "
+			<<_node->get_density()
+			<<endl;
+
+			density_list.push_back(_node->get_density());
+		});
+
+	double density_avr = 0.0;
+	double density_var = 0.0;
+	double density_med = 0.0;
+	double density_min = 0.0;
+	double density_max = 0.0;
+	double density_rng = 0.0;
+	statistics::get_summary(
+		density_avr,
+		density_var,
+		density_med,
+		density_min,
+		density_max,
+		density_rng,
+		density_list);
+	cout<<"density info"
+		<<", avr:"
+		<<density_avr
+		<<", var:"
+		<<density_var
+		<<", med:"
+		<<density_med
+		<<", min:"
+		<<density_min
+		<<", max:"
+		<<density_max
+		<<", rng:"
+		<<density_rng
+		<<endl;
+	cout<<"standard dev:"<<sqrtf(density_var)<<endl;
 /*
 	// step3: match descriptor
 	FlannBasedMatcher matcher;
