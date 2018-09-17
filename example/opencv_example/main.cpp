@@ -677,6 +677,38 @@ int main(void)
 		0,
 		0);
 
+	const int threshold = 100;
+
+	Mat canny_output;
+	vector<vector<Point> > contours;
+	vector<Vec4i> hierarchy;
+	RNG rng(12345);
+
+	Canny(blurImage11, canny_output, threshold, threshold*2, 3);
+	findContours(
+		canny_output, 
+		contours, 
+		hierarchy, 
+		RETR_TREE, 
+		CHAIN_APPROX_SIMPLE, 
+		Point(0,0));
+	Mat contourMat = Mat::zeros(canny_output.size(), CV_8UC3);
+	for(size_t i=0; i<contours.size(); i++) {
+		Scalar color = 
+			Scalar(rng.uniform(0,255),
+			rng.uniform(0,255),
+			rng.uniform(0,25));
+		drawContours(
+			contourMat,
+			contours,
+			(int)i,
+			color,
+			2,
+			8,
+			hierarchy,
+			0,
+			Point());
+	}
 	// step1: detect the keypoints
 	
 //	int minHessian = 1000;
@@ -692,13 +724,13 @@ int main(void)
 	// step2: calculate descriptors (fecture vectors)
 	Mat descriptor;
 	detector->detectAndCompute(
-		blurImage3, 
+//		blurImage9, 
+		contourMat,
 		Mat(), 
 		keypoints, 
 		descriptor);
 
 	cout<<descriptor.rows<<", "<<descriptor.cols<<endl;
-
 
 	Mat covarMat, meanMat;
 	cv::calcCovarMatrix(
@@ -737,10 +769,10 @@ int main(void)
 		keypoints,
 		covarMat);
 
-//	addCovarCountLL(
-//		filteredIndexes,
-//		keypoints,
-//		covarMat);
+	addCovarCountLL(
+		filteredIndexes,
+		keypoints,
+		covarMat);
 
 	removeCovarCountHH(
 		filteredIndexes,
@@ -821,6 +853,17 @@ int main(void)
 
 	Mat descriptor2;
 	descriptor.copyTo(descriptor2);
+
+/*
+	// step3: match descriptor
+	FlannBasedMatcher matcher;
+	std::vector<DMatch> matches;
+	matcher.match(descriptor, descriptor2, matches);
+	for(int i=0; i<descriptor.rows; i++) {
+		double dist = matches[i].distance;
+		cout<<dist<<endl;
+	}
+*/
 
 	const int image_width = refImage.rows;
 	const int image_height = refImage.cols;
@@ -920,16 +963,9 @@ int main(void)
 		<<density_rng
 		<<endl;
 	cout<<"standard dev:"<<sqrtf(density_var)<<endl;
-/*
-	// step3: match descriptor
-	FlannBasedMatcher matcher;
-	std::vector<DMatch> matches;
-	matcher.match(descriptor, descriptor2, matches);
-	for(int i=0; i<descriptor.rows; i++) {
-		double dist = matches[i].distance;
-		cout<<dist<<endl;
-	}
-*/
+
+
+
 	Mat keypointsImage;
 	drawKeypoints(
 		refImage, 
@@ -950,6 +986,9 @@ int main(void)
 	imshow("refImage", keypointsImage);
 	imshow("keypoints Image", filteredKeypointsImage);
 	imshow("descriptor", descriptor);
+	imshow("canny edge", canny_output);
+	imshow("contours", contourMat);
+
 	waitKey(0);
 
 	return 0;
