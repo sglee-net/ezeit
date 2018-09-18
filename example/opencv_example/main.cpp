@@ -19,11 +19,12 @@
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/ml/ml.hpp>
-#include <bsp/BSPNode.h>
-#include <bsp/BSPPoint.h>
-#include <bsp/BSPPointCollection.h>
-#include <bsp/BSPTree.h>
+#include <bsp/QuadTreeNode.h>
+#include <bsp/QuadTreePoint.h>
+#include <bsp/QuadTreePointCollection.h>
+#include <bsp/QuadTree.h>
 #include <statistics/statistics.h>
+#include "ioiextraction.hpp"
 
 using namespace std;
 using namespace std::chrono;
@@ -625,6 +626,26 @@ void removeCovarCountHH (
  //	covarMat.copyTo(_output);
  //}
 
+void inverse(Mat &_img) {
+	if(_img.channels() == 1) {
+		for(size_t j=0; j<_img.rows; j++) {
+			uchar *p=_img.ptr<uchar>(j);
+			for(size_t i=0; i<_img.cols; i++) {
+				p[i] = 255 - p[i];
+			}
+		}
+	} else if(_img.channels() == 3) {
+		for(size_t j=0; j<_img.rows; j++) {
+			Vec3b *p=_img.ptr<Vec3b>(j);
+			for(size_t i=0; i<_img.cols; i++) {
+				p[i][0] = 255 - p[i][0];
+				p[i][1] = 255 - p[i][1];
+				p[i][2] = 255 - p[i][2];
+			}
+		}
+	}
+}
+
 int main(void)
 {
 	std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
@@ -633,7 +654,6 @@ int main(void)
 	cout<<"OpenCV example"<<endl;
 
 //	string path = "./refImage.jpeg";
-	//string path = "./solid.jpeg";
 //	string path = "/mnt/sda1/images/adc/Detection/overlapping/spot_656.jpg";
 //	string path = "/mnt/sda1/images/adc/Detection/overlapping/spot_439.jpg";
 	string path = "/mnt/sda1/images/adc/Detection/overlapping/brg_37.jpg";
@@ -644,6 +664,10 @@ int main(void)
 		cout<<"refImage is empty"<<endl;
 		return -1;
 	}
+
+//	inverse(refImage);
+
+//	threshold(refImage, refImage, 100, 200, 0);
 
 	Mat blurImage3;
 	Mat blurImage5;
@@ -684,12 +708,14 @@ int main(void)
 	vector<Vec4i> hierarchy;
 	RNG rng(12345);
 
-	Canny(blurImage11, canny_output, threshold, threshold*2, 3);
+	Canny(blurImage9, canny_output, threshold, threshold*2, 3);
 	findContours(
 		canny_output, 
 		contours, 
 		hierarchy, 
-		RETR_TREE, 
+		RETR_EXTERNAL, 
+//		RETR_CCOMP,
+//		RETR_TREE,
 		CHAIN_APPROX_SIMPLE, 
 		Point(0,0));
 	Mat contourMat = Mat::zeros(canny_output.size(), CV_8UC3);
@@ -703,12 +729,57 @@ int main(void)
 			contours,
 			(int)i,
 			color,
-			2,
-			8,
+			1,
+			4,
 			hierarchy,
 			0,
 			Point());
 	}
+
+	Rect roi;
+	for(size_t i=0; i<contours.size(); i++) {
+		double area = contourArea(contours[i], false);
+		cout<<i<<" area: "<<area<<endl;
+		if(fabs(area) > 50) {
+			roi = boundingRect(contours[i]);
+			double aspect_ratio = 
+				std::max(roi.height,roi.width)/
+				std::min(roi.height,roi.width);
+			cout<< aspect_ratio <<endl;
+			if(aspect_ratio < 2.0) {
+				Point2f center;
+				float radius=0.0f;
+				minEnclosingCircle(contours[i],
+					center,
+					radius);
+
+				rectangle(
+					refImage, 
+					roi, 
+					Scalar(0,0,255), 
+					2, 
+					LINE_8,
+					0);
+				circle(
+					refImage,
+					center,
+					radius,
+					Scalar(0,255,0));
+				drawContours(
+					refImage,
+					contours,
+					(int)i,
+					Scalar(255,0,0),
+					1,
+					4,
+					hierarchy,
+					0,
+					Point());
+					}
+
+		}
+	}
+
 	// step1: detect the keypoints
 	
 //	int minHessian = 1000;
@@ -724,8 +795,8 @@ int main(void)
 	// step2: calculate descriptors (fecture vectors)
 	Mat descriptor;
 	detector->detectAndCompute(
-//		blurImage9, 
-		contourMat,
+		blurImage9, 
+//		contourMat,
 		Mat(), 
 		keypoints, 
 		descriptor);
@@ -825,6 +896,11 @@ int main(void)
 //			i++;
 //		});
 
+	extract_IOI(
+		filteredIndexes,
+		keypoints,
+		covarMat);
+
 	Mat filteredMat;
 	vector<KeyPoint> filteredKeypoints;
 	for(list<size_t>::const_iterator citr = filteredIndexes.begin();
@@ -874,22 +950,22 @@ int main(void)
 	int y_min = numeric_limits<int>::max();
 	int y_max = 0;
 
-	BSPPointCollection<KeyPoint *> *kpcollection =
-		BSPPointCollection<KeyPoint *>::get_instance();
+	QuadTreePointCollection<KeyPoint *> *kpcollection =
+		QuadTreePointCollection<KeyPoint *>::get_instance();
 	for_each(
 //		filteredKeypoints.begin(),
 //		filteredKeypoints.end(),
 		keypoints.begin(),
 		keypoints.end(),
 		[&](KeyPoint &_keypoint) {
-			BSPPoint<KeyPoint *> *pt = 
-				new BSPPoint<KeyPoint *>(
+			QuadTreePoint<KeyPoint *> *pt = 
+				new QuadTreePoint<KeyPoint *>(
 					_keypoint.pt.x,
 					_keypoint.pt.y,
 					&_keypoint);
 			kpcollection->insert_point(
-				pt->get_i(),
-				pt->get_j(),
+				pt->get_x(),
+				pt->get_y(),
 				pt);
 
 			x_min = std::min(x_min, (int)_keypoint.pt.x);
@@ -902,20 +978,20 @@ int main(void)
 	cout<<"y min, max " << y_min << ", " << y_max <<endl;
 	cout<<"image size w, h " << refImage.cols << ", " << refImage.rows <<endl;
 
-	cout<<"points are inserted to BSPPointCollection"<<endl;
+	cout<<"points are inserted to QuadTreePointCollection"<<endl;
 
-	BSPTree<KeyPoint *> *kptree = 
-		BSPTree<KeyPoint *>::get_instance();
+	QuadTree<KeyPoint *> *kptree = 
+		QuadTree<KeyPoint *>::get_instance();
 	kptree->initialize(0, image_height, 0, image_width, cell_size);
 	kptree->add_points_and_make_partition(kpcollection);
 
-	cout<<"BSPTree is generated"<<endl;
+	cout<<"QuadTree is generated"<<endl;
 
-	list<const BSPNode<KeyPoint *> *> node_list;
+	list<const QuadTreeNode<KeyPoint *> *> node_list;
 	kptree->sort_nodes(
 		node_list,
-		[](const BSPNode<KeyPoint *> *_l,
-			const BSPNode<KeyPoint *> *_r) -> bool {
+		[](const QuadTreeNode<KeyPoint *> *_l,
+			const QuadTreeNode<KeyPoint *> *_r) -> bool {
 			return _l->get_density() < _r->get_density() 
 				? true : false;
 		},
@@ -925,7 +1001,7 @@ int main(void)
 	for_each(
 		node_list.begin(),
 		node_list.end(),
-		[&](const BSPNode<KeyPoint *> *_node) {
+		[&](const QuadTreeNode<KeyPoint *> *_node) {
 			_node->print_index();
 			cout<<", density: "
 			<<_node->get_density()
