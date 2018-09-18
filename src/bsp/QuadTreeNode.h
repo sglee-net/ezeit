@@ -70,6 +70,7 @@ private:
 	QuadTreeNode<T> *node4;
 	int node_index;
 	int level;
+	size_t count;
 	dtype_t x_from;
 	dtype_t y_from;
 	dtype_t x_to;
@@ -89,6 +90,8 @@ public:
 	const int get_index() const { return node_index; }
 	void print_index() const; 
 	void get_index_list(list<int> &_list);
+	size_t get_count() const { return count; }
+	void set_count(const size_t _v) { count = _v; }
 	QuadTreeNode * add_point_and_make_partition(const QuadTreePoint<T> * _p);
 	bool remove_point(const QuadTreePoint<T> *_p);
 private:
@@ -134,6 +137,7 @@ QuadTreeNode<T>::QuadTreeNode() {
 	node4 = 0;
 	node_index = 0;
 	level = 0;
+	count = 0;
 	x_from = 0;
 	x_to = 0;
 	y_from = 0;
@@ -164,6 +168,7 @@ QuadTreeNode<T>::QuadTreeNode(
 	} else {
 		level = _root->get_level() + 1;
 	}
+	count = 0;
 	x_from = _x_from;
 	x_to = _x_to;
 	y_from = _y_from;

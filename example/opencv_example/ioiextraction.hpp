@@ -251,24 +251,31 @@ void removeCovCountHH (
 
 void extract_IOI(
 	list<size_t> &_IOI, // Index Of Interesting
-	const vector<KeyPoint> &_keypoints,
-	const Mat &_cov_mat
-	) {
+	const Mat &_descriptors,
+	const vector<KeyPoint> &_keypoints) {
+	
+	Mat cov_mat, mean_mat;
+
+	cv::calcCovarMatrix(
+		_descriptors,
+		cov_mat,
+		mean_mat,
+		COVAR_NORMAL | COVAR_COLS | COVAR_SCALE);
 
 	addCovCountHL(
 		_IOI,
 		_keypoints,
-		_cov_mat);
+		cov_mat);
 
 	addCovCountLL(
 		_IOI,
 		_keypoints,
-		_cov_mat);
+		cov_mat);
 
 	removeCovCountHH(
 		_IOI,
 		_keypoints,
-		_cov_mat);
+		cov_mat);
 }
 
 #endif
