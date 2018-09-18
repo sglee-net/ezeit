@@ -21,10 +21,10 @@
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/ml/ml.hpp>
-#include <bsp/BSPNode.h>
-#include <bsp/BSPPoint.h>
-#include <bsp/BSPPointCollection.h>
-#include <bsp/BSPTree.h>
+#include <bsp/QuadTreeNode.h>
+#include <bsp/QuadTreePoint.h>
+#include <bsp/QuadTreePointCollection.h>
+#include <bsp/QuadTree.h>
 #include <statistics/statistics.h>
 
 using namespace std; 
@@ -250,7 +250,7 @@ void removeCovCountHH (
 }
 
 void extract_IOI(
-	list<size_t _IOI>, // Index Of Interesting
+	list<size_t> &_IOI, // Index Of Interesting
 	const vector<KeyPoint> &_keypoints,
 	const Mat &_cov_mat
 	) {
