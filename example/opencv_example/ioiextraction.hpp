@@ -250,7 +250,7 @@ void removeCovCountHH (
 }
 
 void extract_IOI(
-	list<size_t> &_IOI, // Index Of Interesting
+	list<size_t _IOI>, // Index Of Interesting
 	const vector<KeyPoint> &_keypoints,
 	const Mat &_cov_mat
 	) {
