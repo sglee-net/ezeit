@@ -96,7 +96,7 @@ public:
 		list<const QuadTreeNode<T> *> &_list,
 		function<const QuadTreeNode<T> *(
 			const QuadTreeNode<T> *)> _func) const;
-	void sort_nodes(
+	void get_sorted_nodes(
 		list<const QuadTreeNode<T> *> &_nodelist,
 		function<bool(
 			const QuadTreeNode<T> *, 
@@ -320,7 +320,7 @@ QuadTree<T>::traverse_all_nodes (
 
 template <typename T>
 void 
-QuadTree<T>::sort_nodes (
+QuadTree<T>::get_sorted_nodes (
 	list<const QuadTreeNode<T> *> &_nodelist,
 	function<bool(const QuadTreeNode<T> *, const QuadTreeNode<T> *)> 
 		_func,

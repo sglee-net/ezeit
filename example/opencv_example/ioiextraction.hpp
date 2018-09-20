@@ -25,7 +25,7 @@
 #include <bsp/QuadTreePoint.h>
 #include <bsp/QuadTreePointCollection.h>
 #include <bsp/QuadTree.h>
-#include <statistics/statistics.h>
+#include <statistics/statistics.hpp>
 
 using namespace std; 
 using namespace std::chrono;

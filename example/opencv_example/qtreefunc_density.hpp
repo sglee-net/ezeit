@@ -15,7 +15,7 @@
 #include <bsp/QuadTreePoint.h>
 #include <bsp/QuadTreePointCollection.h>
 #include <bsp/QuadTree.h>
-#include <statistics/statistics.h>
+#include <statistics/statistics.hpp>
 #include "ioiextraction.hpp"
 
 using namespace std;
@@ -33,7 +33,7 @@ struct QTreeFuncDensity {
 		list<const QuadTreeNode<T> *> &_node_list,
 		const QuadTree<T> *_kpointtree
 	) {
-		_kpointtree->sort_nodes(
+		_kpointtree->get_sorted_nodes(
 			_node_list,
 			[](const QuadTreeNode<T> *_l,
 				const QuadTreeNode<T> *_r) -> bool {

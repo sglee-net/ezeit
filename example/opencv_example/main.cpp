@@ -23,7 +23,7 @@
 #include <bsp/QuadTreePoint.h>
 #include <bsp/QuadTreePointCollection.h>
 #include <bsp/QuadTree.h>
-#include <statistics/statistics.h>
+#include <statistics/statistics.hpp>
 #include "ioiextraction.hpp"
 #include "qtreefunc_density.hpp"
 
@@ -323,8 +323,7 @@ int main(void)
 	list<const QuadTreeNode<KeyPoint *> *> temp_list;
 	kpointtree->traverse_all_nodes(
 		temp_list,
-		kpointtree->get_root(),
-		[&](const QuadTreeNode<KeyPoint *> *_node)
+		[](const QuadTreeNode<KeyPoint *> *_node) 
 			-> const QuadTreeNode<KeyPoint *> *{
 			return _node;
 		});

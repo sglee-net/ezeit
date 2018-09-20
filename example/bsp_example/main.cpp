@@ -30,9 +30,9 @@ using namespace std::chrono;
 //					point->get_bsp_node();
 //				cout 
 //				<< "(i,j) "
-//				<< point->get_i()
+//				<< point->get_x()
 //				<< ", "
-//				<< point->get_j()
+//				<< point->get_y()
 //				<<", level: "
 //				<< node->get_level()
 //				<< ", density: "
@@ -73,8 +73,8 @@ int main(void) {
 			QuadTreePoint<double> *point = 
 				new QuadTreePoint<double>(i,j,1);
 			collection->insert_point(
-				point->get_i(),
-				point->get_j(),
+				point->get_x(),
+				point->get_y(),
 				point);
 			if(i==5 && j==5) {
 				ref_point = point;
@@ -121,7 +121,7 @@ int main(void) {
 		});
 
 	node_list.clear();
-	bsptree->sort_nodes(
+	bsptree->get_sorted_nodes(
 		node_list,
 		[](const QuadTreeNode<double> *_l,
 			const QuadTreeNode<double> *_r) -> bool {
@@ -148,13 +148,13 @@ int main(void) {
 			<<","
 			<<_node->get_height()
 			<<",i "
-			<<_node->get_i_from()
+			<<_node->get_x_from()
 			<<", "
-			<<_node->get_i_to()
+			<<_node->get_x_to()
 			<<",j "
-			<<_node->get_j_from()
+			<<_node->get_y_from()
 			<<", "
-			<<_node->get_j_to()
+			<<_node->get_y_to()
 			<<endl;
 			scount += _node->get_size_of_points();
 		});
