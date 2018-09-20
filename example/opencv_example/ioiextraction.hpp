@@ -99,9 +99,9 @@ void addCovCountHL (
 		++itr_index_count_list;
 	}
 
-	cout<<"size of keypoints: "<<_keypoints.size()<<endl;
-	cout<<"size of index_count_list: "<<index_count_list.size()<<endl;
-	cout<<"size of filteredIndexes: "<<_filteredIndexes.size()<<endl;
+//	cout<<"size of keypoints: "<<_keypoints.size()<<endl;
+//	cout<<"size of index_count_list: "<<index_count_list.size()<<endl;
+//	cout<<"size of filteredIndexes: "<<_filteredIndexes.size()<<endl;
 }
 
 void addCovCountLL (
@@ -170,9 +170,9 @@ void addCovCountLL (
 		++itr_index_count_list;
 	}
 
-	cout<<"size of keypoints: "<<_keypoints.size()<<endl;
-	cout<<"size of index_count_list: "<<index_count_list.size()<<endl;
-	cout<<"size of filteredIndexes: "<<_filteredIndexes.size()<<endl;
+//	cout<<"size of keypoints: "<<_keypoints.size()<<endl;
+//	cout<<"size of index_count_list: "<<index_count_list.size()<<endl;
+//	cout<<"size of filteredIndexes: "<<_filteredIndexes.size()<<endl;
 }
 
 void removeCovCountHH (
@@ -244,9 +244,9 @@ void removeCovCountHH (
 		_filteredIndexes.remove(element.first);
 	}
 
-	cout<<"size of keypoints: "<<_keypoints.size()<<endl;
-	cout<<"size of index_count_list: "<<index_count_list.size()<<endl;
-	cout<<"size of filteredIndexes: "<<_filteredIndexes.size()<<endl;
+//	cout<<"size of keypoints: "<<_keypoints.size()<<endl;
+//	cout<<"size of index_count_list: "<<index_count_list.size()<<endl;
+//	cout<<"size of filteredIndexes: "<<_filteredIndexes.size()<<endl;
 }
 
 void extract_IOI(
