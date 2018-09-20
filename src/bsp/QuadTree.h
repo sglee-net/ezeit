@@ -95,20 +95,20 @@ public:
 	void traverse_all_nodes(
 		list<const QuadTreeNode<T> *> &_list,
 		function<const QuadTreeNode<T> *(
-			const QuadTreeNode<T> *)> _func);
+			const QuadTreeNode<T> *)> _func) const;
 	void sort_nodes(
 		list<const QuadTreeNode<T> *> &_nodelist,
 		function<bool(
 			const QuadTreeNode<T> *, 
 			const QuadTreeNode<T> *)> 
 			_func,
-			const bool _empty_node_is_possible = true);
+			const bool _empty_node_is_possible = true) const;
 private:
 	void traverse_sub_nodes(
 		list<const QuadTreeNode<T> *> &_list,
 		const QuadTreeNode<T> *_target_node,
 		function<const QuadTreeNode<T> *(
-			const QuadTreeNode<T> *)> _func);
+			const QuadTreeNode<T> *)> _func) const;
 };
 
 template <typename T>
@@ -287,7 +287,8 @@ void
 QuadTree<T>::traverse_sub_nodes(
 	list<const QuadTreeNode<T> *> &_list,
 	const QuadTreeNode<T> *_target_node,
-	function<const QuadTreeNode<T> *(const QuadTreeNode<T> *)> _func) {
+	function<const QuadTreeNode<T> *(
+		const QuadTreeNode<T> *)> _func) const {
 	const QuadTreeNode<T> *node = _func(_target_node);
 	if(node != 0 ) {
 		_list.push_back(node);
@@ -309,23 +310,25 @@ QuadTree<T>::traverse_sub_nodes(
 
 template <typename T>
 void 
-QuadTree<T>::traverse_all_nodes(
+QuadTree<T>::traverse_all_nodes (
 	list<const QuadTreeNode<T> *> &_list,
-	function<const QuadTreeNode<T> *(const QuadTreeNode<T> *)> _func) {
+	function<const QuadTreeNode<T> *(
+		const QuadTreeNode<T> *)> _func) const {
 	const QuadTreeNode<T> *root = this->get_root();
 	traverse_sub_nodes(_list,root,_func);
 }
 
 template <typename T>
 void 
-QuadTree<T>::sort_nodes(
+QuadTree<T>::sort_nodes (
 	list<const QuadTreeNode<T> *> &_nodelist,
 	function<bool(const QuadTreeNode<T> *, const QuadTreeNode<T> *)> 
 		_func,
-		const bool _is_empty_node_possible) {
+		const bool _is_empty_node_possible) const {
 	traverse_all_nodes(
 		_nodelist,
-		[&](const QuadTreeNode<T> *_node) -> const QuadTreeNode<T> *{
+		[&](const QuadTreeNode<T> *_node) 
+			-> const QuadTreeNode<T> *{
 			if(_is_empty_node_possible) {
 				return _node;
 			} else {

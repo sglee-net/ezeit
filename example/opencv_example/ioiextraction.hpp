@@ -252,7 +252,8 @@ void removeCovCountHH (
 void extract_IOI(
 	list<size_t> &_IOI, // Index Of Interesting
 	const Mat &_descriptors,
-	const vector<KeyPoint> &_keypoints) {
+	const vector<KeyPoint> &_keypoints,
+	const map<string,double> &_properties) {
 	
 	Mat cov_mat, mean_mat;
 
