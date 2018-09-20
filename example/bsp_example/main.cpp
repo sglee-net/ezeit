@@ -11,22 +11,22 @@
 #include <string>
 #include <thread>
 #include <iostream>
-#include <bsp/BSPNode.h>
-#include <bsp/BSPTree.h>
-#include <bsp/BSPPointCollection.h>
-#include <bsp/BSPPoint.h>
+#include <bsp/QuadTreeNode.h>
+#include <bsp/QuadTree.h>
+#include <bsp/QuadTreePointCollection.h>
+#include <bsp/QuadTreePoint.h>
 
 using namespace std;
 using namespace std::chrono;
 
 //static int gcount=0;
 //struct ShowPointList {
-//	void operator()(const list<const BSPPoint<double> *> &_list) const {
+//	void operator()(const list<const QuadTreePoint<double> *> &_list) const {
 //		for_each(
 //			_list.begin(),
 //			_list.end(),
-//			[](const BSPPoint<double> *point) {
-//				const BSPNode<double> *node = 
+//			[](const QuadTreePoint<double> *point) {
+//				const QuadTreeNode<double> *node = 
 //					point->get_bsp_node();
 //				cout 
 //				<< "(i,j) "
@@ -40,7 +40,7 @@ using namespace std::chrono;
 //				<< ", "
 //				<< " index: "
 //				<< node->get_index();
-//				const BSPNode<double> *parent_node = 
+//				const QuadTreeNode<double> *parent_node = 
 //					node->get_parent();
 //				while(parent_node!=0) {
 //					cout
@@ -64,14 +64,14 @@ int main(void) {
 
 	const size_t point_count=10;
 
-	const BSPPoint<double> *ref_point = 0;
+	const QuadTreePoint<double> *ref_point = 0;
 
-	BSPPointCollection<double> *collection = 
-		BSPPointCollection<double>::get_instance();
+	QuadTreePointCollection<double> *collection = 
+		QuadTreePointCollection<double>::get_instance();
 	for(size_t i=0; i<=point_count; i++) {
 		for(size_t j=0; j<=point_count; j++) {
-			BSPPoint<double> *point = 
-				new BSPPoint<double>(i,j,1);
+			QuadTreePoint<double> *point = 
+				new QuadTreePoint<double>(i,j,1);
 			collection->insert_point(
 				point->get_i(),
 				point->get_j(),
@@ -82,21 +82,21 @@ int main(void) {
 		}
 	}
 
-	BSPTree<double> *bsptree =
-		BSPTree<double>::get_instance();
+	QuadTree<double> *bsptree =
+		QuadTree<double>::get_instance();
 	bsptree->initialize(0,10,0,10,2);	
 	bsptree->add_points_and_make_partition(collection);
 
 	cout << "points are added" << endl;
 	
-	const BSPNode<double> *rootNode = bsptree->get_root();
+	const QuadTreeNode<double> *rootNode = bsptree->get_root();
 //	std::function<void(
-//		const list<const BSPPoint<double> *> &)> functionObj =
+//		const list<const QuadTreePoint<double> *> &)> functionObj =
 //		ShowPointList();
 //	rootNode->make_recursion(functionObj);
 //	cout << "points count " << gcount << endl;
 
-	list<const BSPNode<double> *> node_list;
+	list<const QuadTreeNode<double> *> node_list;
 	const int di=1;
 	const int dj=1;
 	bsptree->find_neighbor_node(
@@ -112,7 +112,7 @@ int main(void) {
 	
 	for_each(node_list.begin(),
 		node_list.end(),
-		[](const BSPNode<double> *_node) {
+		[](const QuadTreeNode<double> *_node) {
 			cout
 			<< _node
 			<< ", index: ";
@@ -123,8 +123,8 @@ int main(void) {
 	node_list.clear();
 	bsptree->sort_nodes(
 		node_list,
-		[](const BSPNode<double> *_l,
-			const BSPNode<double> *_r) -> bool {
+		[](const QuadTreeNode<double> *_l,
+			const QuadTreeNode<double> *_r) -> bool {
 			if(_l->get_density() < _r->get_density()) {
 				return true;
 			} else {
@@ -136,7 +136,7 @@ int main(void) {
 	int scount = 0;
 	for_each(node_list.begin(),
 		node_list.end(),
-		[&](const BSPNode<double> *_node) {
+		[&](const QuadTreeNode<double> *_node) {
 			cout
 		//	<< _node 
 			<< "id: ";

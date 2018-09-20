@@ -21,18 +21,18 @@ set(SRC_HEADER
 	${INCDIR}/glogger/glogger.h 
 	${INCDIR}/glogger/gexecutor_filewriter.h 
 	${INCDIR}/gtaskque/gtaskque.h 
-	${SRCDIR}/bsp/BSPPoint.h 
-	${SRCDIR}/bsp/BSPPointCollection.h 
-	${SRCDIR}/bsp/BSPNode.h 
-	${SRCDIR}/bsp/BSPTree.h
+	${SRCDIR}/bsp/QuadTreePoint.h 
+	${SRCDIR}/bsp/QuadTreePointCollection.h 
+	${SRCDIR}/bsp/QuadTreeNode.h 
+	${SRCDIR}/bsp/QuadTree.h
 	)
 set(SRC_CPP main.cpp)
 set(SRC_FILES 
 	${SRC_HEADER} 
-#	${SRCDIR}/bsp/BSPPoint.cpp 
-#	${SRCDIR}/bsp/BSPPointCollection.cpp 
-#	${SRCDIR}/bsp/BSPNode.cpp 
-#	${SRCDIR}/bsp/BSPTree.cpp 
+#	${SRCDIR}/bsp/QuadTreePoint.cpp 
+#	${SRCDIR}/bsp/QuadTreePointCollection.cpp 
+#	${SRCDIR}/bsp/QuadTreeNode.cpp 
+#	${SRCDIR}/bsp/QuadTree.cpp 
 	${SRC_CPP})
 
 add_executable(bsp_example ${SRC_FILES})
