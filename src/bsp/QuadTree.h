@@ -46,10 +46,11 @@ struct LesserDensity {
 template <typename T>
 class QuadTree {
 private:
-	QuadTree();
+//	QuadTree();
 	QuadTree(const QuadTree &) {}
 	QuadTree &operator=(const QuadTree<T> &) { return *this; }
 public:
+	QuadTree();
 	~QuadTree();
 public:
 	static QuadTree<T> *get_instance() {

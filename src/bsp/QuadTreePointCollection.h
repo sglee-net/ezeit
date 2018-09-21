@@ -15,12 +15,13 @@ using namespace std;
 template <typename T>
 class QuadTreePointCollection {
 private:
-	QuadTreePointCollection();
+//	QuadTreePointCollection();
 	QuadTreePointCollection(const QuadTreePointCollection &) {}
 	QuadTreePointCollection &operator=(const QuadTreePointCollection &) { 
 		return *this; 
 	}
 public:
+	QuadTreePointCollection();
 	~QuadTreePointCollection();
 public:
 	static QuadTreePointCollection<T> *get_instance() {

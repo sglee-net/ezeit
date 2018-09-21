@@ -78,8 +78,8 @@ private:
 	dtype_t cell_size;
 	list<const QuadTreePoint<T> *> point_list;
 public:
-	double center_i() const;
-	double center_j() const;
+	double center_x() const;
+	double center_y() const;
 	dtype_t get_width() const { return (x_to-x_from); }
 	dtype_t get_height() const { return (y_to-y_from); }
 	dtype_t get_x_from() const { return x_from; }
@@ -90,8 +90,8 @@ public:
 	const int get_index() const { return node_index; }
 	void print_index() const; 
 	void get_index_list(list<int> &_list);
-	size_t get_count() const { return count; }
-	void set_count(const size_t _v) { count = _v; }
+//	size_t get_count() const { return count; }
+//	void set_count(const size_t _v) { count = _v; }
 	QuadTreeNode * add_point_and_make_partition(const QuadTreePoint<T> * _p);
 	bool remove_point(const QuadTreePoint<T> *_p);
 private:
@@ -199,13 +199,13 @@ QuadTreeNode<T>::destroy_subnodes() {
 
 template <typename T>
 double 
-QuadTreeNode<T>::center_i() const {
+QuadTreeNode<T>::center_x() const {
 	return fabs(double(x_to + x_from)) / 2.0;
 }
 
 template <typename T>
 double 
-QuadTreeNode<T>::center_j() const {
+QuadTreeNode<T>::center_y() const {
 	return  fabs(double(y_to + y_from)) / 2.0;
 }
 
