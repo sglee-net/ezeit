@@ -33,8 +33,9 @@ struct QTreeFuncDensity {
 		list<const QuadTreeNode<T> *> &_node_list,
 		const QuadTree<T> *_kpointtree
 	) {
+		list<const QuadTreeNode<T> *> base_nodes;
 		_kpointtree->get_sorted_nodes(
-			_node_list,
+			base_nodes,
 			[](const QuadTreeNode<T> *_l,
 				const QuadTreeNode<T> *_r) -> bool {
 				return _l->get_density() 
@@ -50,8 +51,8 @@ struct QTreeFuncDensity {
 		list<double> density_list;
 
 		for_each(
-			_node_list.begin(),
-			_node_list.end(),
+			base_nodes.begin(),
+			base_nodes.end(),
 			[&](const QuadTreeNode<T> *_node) {
 				pair<double,const QuadTreeNode<T> *>
 					a_pair(_node->get_density(),
@@ -120,6 +121,8 @@ struct QTreeFuncDensity {
 		
 		cout<<"density&node list #"<<density_and_node_list.size()<<endl;
 
+		density_and_node_list.sort();
+		density_and_node_list.unique();
 		for_each(
 			density_and_node_list.begin(),
 			density_and_node_list.end(),

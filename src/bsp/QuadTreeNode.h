@@ -459,90 +459,23 @@ QuadTreeNode<T>::make_recursion(
 }
 
 // check overlap between two rectangles
-// one rectagle is this
-// the other is compolsed of these corners, ci-di ~ ci+di, cj-dj ~ cj+dj
 template <typename T>
 bool 
 QuadTreeNode<T>::is_overlapped(
-	const dtype_t _x_min, 
-	const dtype_t _x_max, 
-	const dtype_t _y_min, 
-	const dtype_t _y_max) const {
-//	dtype_t x_min = _px - _dx;
-//	dtype_t x_max = _px + _dx;
-//	dtype_t y_min = _py - _dy;
-//	dtype_t y_max = _py + _dy;
-//
-//
-//	const QuadTreeNode<T> *root = this->get_root();
-//	if (i_min < root->x_from) { 
-//		i_min = root->x_from; 
-//	}
-//	if (i_max > root->x_to) { 
-//		i_max = root->x_to; 
-//	}
-//	if (j_min < root->y_from) { 
-//		j_min = root->y_from; 
-//	}
-//	if (j_max > root->y_to) { 
-//		j_max = root->y_to; 
-//	}
-
-	// 4 points from given (pi,pj)
-	// (i_max, j_min), 1
-	// (i_min, j_min), 2
-	// (i_min, j_max), 3
-	// (i_max, j_max), 4
-
-	// point 1 is overlapped with this node
-//	if (this->x_from <= i_max && 
-//		i_max <= this->x_to &&
-//		this->y_from <= j_min && 
-//		j_min <= this->y_to) {
-	if( LE(this->x_from, _x_max) &&
-		LE(_x_max, this->x_to) &&
-		LE(this->y_from, _y_min) &&
-		LE(_y_min, this->y_to) ) {
-		return true;
+	const dtype_t _x_from, 
+	const dtype_t _x_to, 
+	const dtype_t _y_from, 
+	const dtype_t _y_to) const {
+	if(GE(this->x_from, _x_to) ||
+		GE(_x_from, this->x_to)) {
+		return false;
+	}
+	if(GE(this->y_from, _y_to) ||
+		GE(_y_from, this->y_to)) {
+		return false;
 	}
 
-	// point 2 is overlapped with this node
-//	if (this->x_from <= i_min && 
-//		i_min <= this->x_to &&
-//		this->y_from <= j_min && 
-//		j_min <= this->y_to) {
-	if( LE(this->x_from, _x_min) &&
-		LE(_x_min, this->x_to) &&
-		LE(this->y_from, _y_min) &&
-		LE(_y_min, this->y_to) ) {
-		return true;
-	}
-
-	// point 3 is overlapped with this node
-//	if (this->x_from <= i_min && 
-//		i_min <= this->x_to &&
-//		this->y_from <= j_max && 
-//		j_max <= this->y_to) {
-	if( LE(this->x_from, _x_min) &&
-		LE(_x_min, this->x_to) &&
-		LE(this->y_from, _y_max) &&
-		LE(_y_max, this->y_to) ) {
-		return true;
-	}
-
-	// point 4 is overlapped with this node
-//	if (this->x_from <= i_max && 
-//		i_max <= this->x_to &&
-//		this->y_from <= j_max && 
-//		j_max <= this->y_to) {
-	if( LE(this->x_from, _x_max) &&
-		LE(_x_max, this->x_to) &&
-		LE(this->y_from, _y_max) &&
-		LE(_y_max, this->y_to) ) {
-		return true;
-	}
-
-	return false;
+	return true;
 }
 
 #endif

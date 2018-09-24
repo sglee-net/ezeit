@@ -84,11 +84,20 @@ int main(void)
 
 	cout<<"OpenCV example"<<endl;
 
+	namedWindow("refImage", WINDOW_NORMAL);
+
 //	string path = "./refImage.jpeg";
 //	string path = "/mnt/sda1/images/adc/Detection/overlapping/spot_656.jpg";
 //	string path = "/mnt/sda1/images/adc/Detection/overlapping/spot_439.jpg";
-	string path = "/mnt/sda1/images/adc/Detection/overlapping/brg_37.jpg";
+//	string path = "/mnt/sda1/images/adc/Detection/overlapping/brg_37.jpg";
 //	string path = "/mnt/sda1/images/adc/Detection/overlapping/lsac_18.jpg";
+
+//	string path = "./refImage.jpeg";
+//	string path = "./images/spot_656.jpg";
+//	string path = "./images/spot_439.jpg";
+	string path = "./images/brg_37.jpg";
+//	string path = "./images/lsac_18.jpg";
+
 	Mat refImage;
 	refImage = imread(path,1);
 	if(refImage.empty()) {
@@ -261,9 +270,9 @@ int main(void)
 	///////////////////////////////////////////////////////////////////
 	// extract IOI (Index of Interest)
 	const vector<KeyPoint> *ioi_keypoints = 0;
-	ioi_keypoints = keypoints_map.find(1)->second;
+	ioi_keypoints = keypoints_map.find(BLUR9_IMAGE)->second;
 	const Mat *ioi_descriptors = 0;
-	ioi_descriptors = descriptors_map.find(1)->second;
+	ioi_descriptors = descriptors_map.find(BLUR9_IMAGE)->second;
 
 	map<string, double> ioi_properties;
 	list<size_t> filteredIndexes;
@@ -284,11 +293,15 @@ int main(void)
 	///////////////////////////////////////////////////////////////////
 
 
+//	filteredKeyPoints.clear();
+//	copy(KeyPoints.begin(),KeyPoints.end(),filteredKeyPoints.begin());
+
+
 	///////////////////////////////////////////////////////////////////
 	// make QuadTree and PointCollection according to each image
 	const int image_width = refImage.rows;
 	const int image_height = refImage.cols;
-	const int cell_size = 64;
+	const int cell_size = 32;
 	int x_min = numeric_limits<int>::max();
 	int x_max = 0;
 	int y_min = numeric_limits<int>::max();
@@ -366,10 +379,42 @@ int main(void)
 		temp_list,
 		[&](const QuadTreeNode<KeyPoint *> *_node) 
 			-> const QuadTreeNode<KeyPoint *> *{
-////			if(_node->get_size_of_points() != 0) {
+			if(_node->get_size_of_points() != 0) {
 				probability_map.insert(
 				pair<const QuadTreeNode<KeyPoint *> *,
 					double>(_node,0.0));
+
+//			double aspect_ratio = 
+//				double(_node->get_y_to()-_node->get_y_from())
+//				/double(_node->get_x_to()-_node->get_x_from());
+//			_node->print_index();
+//			cout<<" ar "<<aspect_ratio
+//			<<" "
+//			<<_node->get_x_from()
+//			<<", "
+//			<<_node->get_x_to()
+//			<<", "
+//			<<_node->get_y_from()
+//			<<", "
+//			<<_node->get_y_to()
+//			<<endl;
+//
+//			Mat temp;
+//			refImage.copyTo(temp);
+//			Rect rect(_node->get_x_from(),
+//				_node->get_y_from(),
+//				_node->get_width(),
+//				_node->get_height());
+//			rectangle(
+//				temp, 
+//				rect,
+//				Scalar(255,255,0),
+//				1, 
+//				LINE_8,
+//				0);
+//			imshow("bbox", 
+//				temp);
+//			waitKey(0);
 
 //				cout
 //				<<_node
@@ -377,11 +422,15 @@ int main(void)
 //				<<", ";
 //				_node->print_index();
 //				cout<<endl;
-////			}
-			return _node;
+			
+				return _node;
+			} else {
+				return 0;
+			}
 		});
 
 	///////////////////////////////////////////////////////////////////
+	size_t test_count = 0;
 	for(size_t i = BLUR3_IMAGE; 
 		i <= BLUR9_IMAGE; 
 		i = i+BLUR_INCREMENT) {
@@ -393,6 +442,10 @@ int main(void)
 		list<const QuadTreeNode<KeyPoint *> *> node_list;
 		density_func(node_list,kptree);
 
+		cout<<"pre "<<node_list.size()<<endl;
+		node_list.sort();
+		node_list.unique();
+		cout<<"post "<<node_list.size()<<endl;
 		cout<<"density is calculated"<<endl;
 
 		double weight = 1.0;
@@ -403,9 +456,9 @@ int main(void)
 			// find out reference nodes
 			// that are overlapped with _node 
 			list<const QuadTreeNode<KeyPoint *> *> 
-				ref_node_list; 
+				overlapped_nodes; 
 			ref_kptree->find_neighbor_node(
-				ref_node_list,
+				overlapped_nodes,
 				ref_kptree->get_root(),
 				_node->get_x_from(),
 				_node->get_x_to(),
@@ -422,22 +475,35 @@ int main(void)
 //				_ref_node->print_index();
 //				cout<<endl;
 //			});
+
+//			cout<<_node<<"found neighbors "<<overlapped_nodes.size()<<", ";
+//			cout<<_node->get_x_from()
+//			<<", "<<_node->get_y_from()
+//			<<", "<<_node->get_width()
+//			<<", "<<_node->get_height()<<endl;
 			for_each(
-				ref_node_list.begin(),
-				ref_node_list.end(),
+				overlapped_nodes.begin(),
+				overlapped_nodes.end(),
 				[&](const QuadTreeNode<KeyPoint *> *
-					_ref_node) {
+					node) {
+//			cout<<"ref node "<<node<<", "
+//			<<node->get_x_from()
+//			<<", "<<node->get_y_from()
+//			<<", "<<node->get_width()
+//			<<", "<<node->get_height()<<endl;
 				map<const QuadTreeNode<KeyPoint *> *, 
 					double>::iterator itr = 
-					probability_map.find(_ref_node);
+					probability_map.find(node);
 				if(itr != probability_map.end()) {
+					cout<<"p "<<itr->second<<endl;
 					itr->second += 1.0 * weight;
 				} else {
-					cout<<"check"<<endl;
-					throw("check");
 				}
 			});
+
 		});
+
+		test_count++;
 	}
 	///////////////////////////////////////////////////////////////////
 
@@ -445,7 +511,6 @@ int main(void)
 	drawKeypoints(
 		refImage, 
 		*keypoints_map.find(RAW_IMAGE)->second,
-//		*keypoints, 
 		keypoints_raw_image, 
 		Scalar::all(-1), 
 		DrawMatchesFlags::DEFAULT);
@@ -453,7 +518,8 @@ int main(void)
 	Mat filtered_keypoints_raw_image;
 	drawKeypoints(
 		refImage, 
-		filteredKeypoints, 
+//		filteredKeypoints, 
+		*keypoints_map.find(BLUR9_IMAGE)->second,
 		filtered_keypoints_raw_image,
 		Scalar::all(-1), 
 		DrawMatchesFlags::DEFAULT);
@@ -464,22 +530,27 @@ int main(void)
 		[&](pair<const QuadTreeNode<KeyPoint *> *,double> 
 			a_pair) {
 			Rect rect(
-				a_pair.first->get_x_from(),
-				a_pair.first->get_y_from(),
-				a_pair.first->get_x_to(),
-				a_pair.first->get_y_to());
-			
+				a_pair.first->get_x_from()+2,
+				a_pair.first->get_y_from()+2,
+				a_pair.first->get_width()-4,
+				a_pair.first->get_height()-4);
+			cout<<a_pair.first<<", "<<a_pair.second<<endl;
+			Scalar color(255,255,0);
+			if(a_pair.second>= test_count) {
+				color=Scalar(0,0,255);
+			}
 			rectangle(
 				filtered_keypoints_raw_image, 
 				rect,
-			//	Scalar(255,255,0),
-				canny_rect_color,
-				2, 
+				color,
+				1, 
 				LINE_8,
 				0);
+//			imshow("filtered keypoints image", 
+//				filtered_keypoints_raw_image);
+//			waitKey(0);
 		});
 
-	namedWindow("refImage", WINDOW_NORMAL);
 	imshow("keypoints image", keypoints_raw_image);
 	imshow("filtered keypoints image", filtered_keypoints_raw_image);
 //	imshow("descriptors", descriptors_raw);
