@@ -67,7 +67,7 @@ struct QTreeFuncDensity {
 		double min = 0.0;
 		double max = 0.0;
 		double rng = 0.0;
-		statistics::get_summary(
+		statistics::SummaryStatistics::get_summary(
 			avr,
 			var,
 			med,

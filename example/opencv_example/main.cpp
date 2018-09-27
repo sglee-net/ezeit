@@ -26,6 +26,7 @@
 #include <statistics/statistics.hpp>
 #include "ioiextraction.hpp"
 #include "qtreefunc_density.hpp"
+#include "cluster.hpp"
 
 using namespace std;
 using namespace std::chrono;

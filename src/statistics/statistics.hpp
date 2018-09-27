@@ -4,11 +4,45 @@
 #include <map>
 #include <list>
 #include <limits>
+#include "rapidjson/document.h"
 
 using namespace std;
+using namespace rapidjson;
 
 namespace statistics {
-	void get_summary(
+
+class SummaryStatistics {
+public:
+	double avr;
+	double var;
+	double med;
+	double min;
+	double max;
+	double rng;
+public:
+	SummaryStatistics() {
+		avr = var = med = min = max = rng = 0.0;
+	}
+
+	SummaryStatistics(const SummaryStatistics &_v) {
+		*this = _v;
+	}
+
+	SummaryStatistics &operator = (const SummaryStatistics &_v) {
+		avr = _v.avr;
+		var = _v.var;
+		med = _v.med;
+		min = _v.min;
+		max = _v.max;
+		rng = _v.rng;
+		return *this;
+	}
+
+	static void get_summary(
+		SummaryStatistics &_summary,
+		const list<double> &_list);
+
+	static void get_summary(
 		double &_avr,
 		double &_var,
 		double &_med,
@@ -16,9 +50,27 @@ namespace statistics {
 		double &_max,
 		double &_rng,
 		const list<double> &_list);
+
+	static SummaryStatistics read_json(const Value &_obj);
+
+	template <typename Writer>
+	void serialize(Writer &writer) const;
 };
 
-void statistics::get_summary(
+void SummaryStatistics::get_summary(
+	SummaryStatistics &_summary,
+	const list<double> &_list) {
+	get_summary(
+		_summary.avr,
+		_summary.var,
+		_summary.med,
+		_summary.min,
+		_summary.max,
+		_summary.rng,
+		_list);
+}
+
+void SummaryStatistics::get_summary(
 		double &_avr,
 		double &_var,
 		double &_med,
@@ -63,5 +115,75 @@ void statistics::get_summary(
 		});
 	_var = _var / double(_list.size());
 }
+
+SummaryStatistics SummaryStatistics::read_json(const Value &_obj) {
+	SummaryStatistics summary;
+	{
+		const Value &obj = _obj["avr"];
+		assert(!obj.IsNull());
+		assert(obj.IsDouble());
+		summary.avr=obj.GetDouble();
+	}
+	{
+		const Value &obj = _obj["var"];
+		assert(!obj.IsNull());
+		assert(obj.IsDouble());
+		summary.var=obj.GetDouble();
+	}
+	{
+		const Value &obj = _obj["med"];
+		assert(!obj.IsNull());
+		assert(obj.IsDouble());
+		summary.med=obj.GetDouble();
+	}
+	{
+		const Value &obj = _obj["min"];
+		assert(!obj.IsNull());
+		assert(obj.IsDouble());
+		summary.min=obj.GetDouble();
+	}
+	{
+		const Value &obj = _obj["max"];
+		assert(!obj.IsNull());
+		assert(obj.IsDouble());
+		summary.max=obj.GetDouble();
+	}
+	{
+		const Value &obj = _obj["rng"];
+		assert(!obj.IsNull());
+		assert(obj.IsDouble());
+		summary.rng=obj.GetDouble();
+	}
+}
+
+template <typename Writer>
+void SummaryStatistics::serialize(Writer &writer) const {
+	writer.StartObject();
+
+	writer.String("avr");
+	writer.Double(avr);
+
+	writer.String("var");
+	writer.Double(var);
+
+	writer.String("med");
+	writer.Double(med);
+	
+	writer.String("med");
+	writer.Double(med);
+
+	writer.String("min");
+	writer.Double(min);
+	
+	writer.String("max");
+	writer.Double(max);
+	
+	writer.String("rng");
+	writer.Double(rng);
+
+	writer.EndObject();
+}
+
+};
 
 #endif
