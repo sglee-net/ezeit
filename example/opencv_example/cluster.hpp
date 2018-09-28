@@ -49,14 +49,14 @@ public:
 	list<T> *get_centroid() const { return &centroid; }
 
 	void set_distance_function(
-		std::function<double(
+		const std::function<double(
 			const list<T> &_l,
 			const list<T> &_r)> &_func) {
 		dist_func = _func;
 	}
 
 	void set_similarity_function(
-		std::function<double(
+		const std::function<double(
 			const list<T> &_l,
 			const list<T> &_r)> &_func) {
 		simil_func = _func;
@@ -65,6 +65,7 @@ public:
 	void compute_centroid(
 		list<T> &_centroid,
 		const list<list<T> *> &_vset);
+	
 	void compute(const list<list<T> *> &_vset); 
 
 	void read_json(const string &_json);
@@ -189,7 +190,7 @@ void Cluster<T>::serialize(Writer &writer) const {
 	for_each(
 		centroid.begin(),
 		centroid.end(),
-		[&](T v) {
+		[&](const T &v) {
 			if(typeid(v).name() == typeid(float).name() ||
 				typeid(v).name() == typeid(double).name()){
 				writer.Double(v);
@@ -221,7 +222,7 @@ public:
 	virtual ~Clusters();
 private:
 	list<Cluster<T> *> cluster_list;
-	void remove_all();
+	void clear();
 public:
 	void add_cluster(Cluster<T> *_cluster);
 
@@ -238,12 +239,12 @@ const string Clusters<T>::key_clusters = "clusters";
 
 template <typename T>
 Clusters<T>::~Clusters() {
-	remove_all();
+	clear();
 }
 
 template <typename T>
 void 
-Clusters<T>::remove_all() {
+Clusters<T>::clear() {
 	for_each(
 		cluster_list.begin(),
 		cluster_list.end(),
@@ -273,7 +274,7 @@ void Clusters<T>::read_json(const string &_json) {
 
 template <typename T>
 void Clusters<T>::read_json(const Value &_obj) {
-	remove_all();	
+	clear();	
 	const Value &obj_cluster = _obj[key_clusters.c_str()];
 	assert(obj_cluster.IsArray());
 	for(SizeType i=0; i<obj_cluster.Size(); i++) {
