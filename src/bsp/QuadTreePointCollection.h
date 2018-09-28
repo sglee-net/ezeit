@@ -8,29 +8,44 @@
 
 #include <map>
 #include <list>
+#include <limits>
 #include "QuadTreePoint.h"
 
 using namespace std;
 
+struct cmpLessDoublePair {
+	template <typename T>
+//	: public std::binary_function<pair<T,T>, pair<T,T>, bool> {
+	bool operator()(const pair<T,T> &_l,const pair<T,T> &_r) const {
+		if(fabs(_l.first-_r.first) < numeric_limits<T>::epsilon()) {
+			return (_l.second < _r.second)? true:false;
+		} else {
+			return (_l.first < _r.first)? true:false; 
+		}
+	}
+};
+
 template <typename T, typename S>
 class QuadTreePointCollection {
 private:
-//	QuadTreePointCollection();
 	QuadTreePointCollection(const QuadTreePointCollection &) {}
 	QuadTreePointCollection &operator=(const QuadTreePointCollection &) { 
 		return *this; 
 	}
 public:
+	// for multiple instances
 	QuadTreePointCollection();
 	~QuadTreePointCollection();
 public:
+	// for singleton instance
 	static QuadTreePointCollection<T,S> *get_instance() {
 		static QuadTreePointCollection<T,S> instance;
 		return &instance;
 	}
 private:
 	list<QuadTreePoint<T,S> *> point_list;
-	map<std::pair<T, T>, QuadTreePoint<T,S> *> point_map;
+	map<pair<T, T>, QuadTreePoint<T,S> *,cmpLessDoublePair> 
+		point_map;
 public:
 	bool empty() const;
 	size_t size() const;

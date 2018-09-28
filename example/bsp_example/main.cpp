@@ -64,14 +64,14 @@ int main(void) {
 
 	const size_t point_count=10;
 
-	const QuadTreePoint<double> *ref_point = 0;
+	const QuadTreePoint<double,double> *ref_point = 0;
 
-	QuadTreePointCollection<double> *collection = 
-		QuadTreePointCollection<double>::get_instance();
+	QuadTreePointCollection<double,double> *collection = 
+		QuadTreePointCollection<double,double>::get_instance();
 	for(size_t i=0; i<=point_count; i++) {
 		for(size_t j=0; j<=point_count; j++) {
-			QuadTreePoint<double> *point = 
-				new QuadTreePoint<double>(i,j,1);
+			QuadTreePoint<double,double> *point = 
+				new QuadTreePoint<double,double>(i,j,1);
 			collection->insert_point(
 				point->get_x(),
 				point->get_y(),
@@ -82,29 +82,29 @@ int main(void) {
 		}
 	}
 
-	QuadTree<double> *bsptree =
-		QuadTree<double>::get_instance();
-	bsptree->initialize(0,10,0,10,2);	
+	QuadTree<double,double> *bsptree =
+		QuadTree<double,double>::get_instance();
+	bsptree->initialize(0,0,10,10,2);	
 	bsptree->add_points_and_make_partition(collection);
 
 	cout << "points are added" << endl;
 	
-	const QuadTreeNode<double> *rootNode = bsptree->get_root();
+	const QuadTreeNode<double,double> *rootNode = bsptree->get_root();
 //	std::function<void(
 //		const list<const QuadTreePoint<double> *> &)> functionObj =
 //		ShowPointList();
 //	rootNode->make_recursion(functionObj);
 //	cout << "points count " << gcount << endl;
 
-	list<const QuadTreeNode<double> *> node_list;
-	const int di=1;
-	const int dj=1;
+	list<const QuadTreeNode<double,double> *> node_list;
+	const double dx=1;
+	const double dy=1;
 	bsptree->find_neighbor_node(
 		node_list,
 		ref_point,
 		ref_point->get_bsp_node()->get_root(),
-		di,
-		dj);
+		dx,
+		dy);
 
 	cout<<"find neighbor "
 		<<ref_point->get_bsp_node()
@@ -112,7 +112,7 @@ int main(void) {
 	
 	for_each(node_list.begin(),
 		node_list.end(),
-		[](const QuadTreeNode<double> *_node) {
+		[](const QuadTreeNode<double,double> *_node) {
 			cout
 			<< _node
 			<< ", index: ";
@@ -123,8 +123,8 @@ int main(void) {
 	node_list.clear();
 	bsptree->get_sorted_nodes(
 		node_list,
-		[](const QuadTreeNode<double> *_l,
-			const QuadTreeNode<double> *_r) -> bool {
+		[](const QuadTreeNode<double,double> *_l,
+			const QuadTreeNode<double,double> *_r) -> bool {
 			if(_l->get_density() < _r->get_density()) {
 				return true;
 			} else {
@@ -136,7 +136,7 @@ int main(void) {
 	int scount = 0;
 	for_each(node_list.begin(),
 		node_list.end(),
-		[&](const QuadTreeNode<double> *_node) {
+		[&](const QuadTreeNode<double,double> *_node) {
 			cout
 		//	<< _node 
 			<< "id: ";
