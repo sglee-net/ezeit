@@ -24,20 +24,20 @@ using namespace cv;
 using namespace cv::xfeatures2d;
 using namespace cv::ml;
 
-template <typename T>
+template <typename T, typename S>
 struct QTreeFuncDensity {
 	double weight = 1.0;
 	double fano_factor_threshold = 0.01;
 
 	void operator() (
-		list<const QuadTreeNode<T> *> &_node_list,
-		const QuadTree<T> *_kpointtree
+		list<const QuadTreeNode<T,S> *> &_node_list,
+		const QuadTree<T,S> *_kpointtree
 	) {
-		list<const QuadTreeNode<T> *> base_nodes;
+		list<const QuadTreeNode<T,S> *> base_nodes;
 		_kpointtree->get_sorted_nodes(
 			base_nodes,
-			[](const QuadTreeNode<T> *_l,
-				const QuadTreeNode<T> *_r) -> bool {
+			[](const QuadTreeNode<T,S> *_l,
+				const QuadTreeNode<T,S> *_r) -> bool {
 				return _l->get_density() 
 					< _r->get_density() 
 					? true : false;
@@ -46,15 +46,15 @@ struct QTreeFuncDensity {
 		
 		list<pair<
 			double,
-			const QuadTreeNode<T> *> > 
+			const QuadTreeNode<T,S> *> > 
 				density_and_node_list;
 		list<double> density_list;
 
 		for_each(
 			base_nodes.begin(),
 			base_nodes.end(),
-			[&](const QuadTreeNode<T> *_node) {
-				pair<double,const QuadTreeNode<T> *>
+			[&](const QuadTreeNode<T,S> *_node) {
+				pair<double,const QuadTreeNode<T,S> *>
 					a_pair(_node->get_density(),
 						_node);
 				density_and_node_list.push_back(a_pair);
@@ -87,7 +87,7 @@ struct QTreeFuncDensity {
 
 		typename list<pair<
 			double,
-			const QuadTreeNode<T> *>>::iterator 
+			const QuadTreeNode<T,S> *>>::iterator 
 				itr_density = 
 					density_and_node_list.begin();
 		while(itr_density != density_and_node_list.end()) {
@@ -127,7 +127,7 @@ struct QTreeFuncDensity {
 			density_and_node_list.begin(),
 			density_and_node_list.end(),
 			[&](const pair<double,
-				const QuadTreeNode<T> *> &_a_pair) {
+				const QuadTreeNode<T,S> *> &_a_pair) {
 				_node_list.push_back(
 					_a_pair.second);
 			});

@@ -4,10 +4,20 @@
 #include <map>
 #include <list>
 #include <limits>
+
+#ifndef RAPIDJSON
+#define RAPIDJSON 1 
+#endif
+
+#ifdef RAPIDJSON
 #include "rapidjson/document.h"
+#endif
 
 using namespace std;
+
+#if RAPIDJSON == 1
 using namespace rapidjson;
+#endif
 
 namespace statistics {
 
@@ -51,10 +61,12 @@ public:
 		double &_rng,
 		const list<double> &_list);
 
+#if RAPIDJSON == 1
 	static SummaryStatistics read_json(const Value &_obj);
 
 	template <typename Writer>
 	void serialize(Writer &writer) const;
+#endif
 };
 
 void SummaryStatistics::get_summary(
@@ -116,6 +128,7 @@ void SummaryStatistics::get_summary(
 	_var = _var / double(_list.size());
 }
 
+#if RAPIDJSON == 1
 SummaryStatistics SummaryStatistics::read_json(const Value &_obj) {
 	SummaryStatistics summary;
 	{
@@ -168,9 +181,6 @@ void SummaryStatistics::serialize(Writer &writer) const {
 
 	writer.String("med");
 	writer.Double(med);
-	
-	writer.String("med");
-	writer.Double(med);
 
 	writer.String("min");
 	writer.Double(min);
@@ -183,6 +193,7 @@ void SummaryStatistics::serialize(Writer &writer) const {
 
 	writer.EndObject();
 }
+#endif
 
 };
 

@@ -12,7 +12,7 @@
 
 using namespace std;
 
-template <typename T>
+template <typename T, typename S>
 class QuadTreePointCollection {
 private:
 //	QuadTreePointCollection();
@@ -24,52 +24,52 @@ public:
 	QuadTreePointCollection();
 	~QuadTreePointCollection();
 public:
-	static QuadTreePointCollection<T> *get_instance() {
-		static QuadTreePointCollection<T> instance;
+	static QuadTreePointCollection<T,S> *get_instance() {
+		static QuadTreePointCollection<T,S> instance;
 		return &instance;
 	}
 private:
-	list<QuadTreePoint<T> *> point_list;
-	map<std::pair<int, int>, QuadTreePoint<T> *> point_map;
+	list<QuadTreePoint<T,S> *> point_list;
+	map<std::pair<T, T>, QuadTreePoint<T,S> *> point_map;
 public:
 	bool empty() const;
 	size_t size() const;
 	void clear();
-	void insert_point(const int _i, const int _j, QuadTreePoint<T> *_pt);
-	QuadTreePoint<T> *get_point(const int _i, const int _j);
-	bool erase_point(const int _i, const int _j);
-	typename list<QuadTreePoint<T> *>::const_iterator begin()const;
-	typename list<QuadTreePoint<T> *>::const_iterator end()const;
+	void insert_point(const T _x, const T _y, QuadTreePoint<T,S> *_pt);
+	QuadTreePoint<T,S> *get_point(const T _x, const T _y);
+	bool erase_point(const T _x, const T _y);
+	typename list<QuadTreePoint<T,S> *>::const_iterator begin()const;
+	typename list<QuadTreePoint<T,S> *>::const_iterator end()const;
 };
 
-template <typename T>
-QuadTreePointCollection<T>::QuadTreePointCollection() {
+template <typename T, typename S>
+QuadTreePointCollection<T,S>::QuadTreePointCollection() {
 }
 
-template <typename T>
-QuadTreePointCollection<T>::~QuadTreePointCollection() {
+template <typename T, typename S>
+QuadTreePointCollection<T,S>::~QuadTreePointCollection() {
 	clear();
 }
 
-template <typename T>
+template <typename T, typename S>
 size_t 
-QuadTreePointCollection<T>::size() const {
+QuadTreePointCollection<T,S>::size() const {
 	return point_map.size();
 }
 
-template <typename T>
+template <typename T, typename S>
 bool 
-QuadTreePointCollection<T>::empty() const {
+QuadTreePointCollection<T,S>::empty() const {
 	return point_map.empty() ? true : false ;
 }
 
-template <typename T>
+template <typename T, typename S>
 void 
-QuadTreePointCollection<T>::clear() {
-	typename list<QuadTreePoint<T> *>::iterator itr_point = 
+QuadTreePointCollection<T,S>::clear() {
+	typename list<QuadTreePoint<T,S> *>::iterator itr_point = 
 		point_list.begin();
 	while(itr_point!=point_list.end()) {
-		QuadTreePoint<T> *pt = (*itr_point);
+		QuadTreePoint<T,S> *pt = (*itr_point);
 		// dealloc
 		delete pt;
 		pt = 0;
@@ -80,41 +80,41 @@ QuadTreePointCollection<T>::clear() {
 	point_map.clear();
 }
 
-template <typename T>
+template <typename T, typename S>
 void 
-QuadTreePointCollection<T>::insert_point(
-	const int _i, 
-	const int _j, 
-	QuadTreePoint<T> *_pt) {
+QuadTreePointCollection<T,S>::insert_point(
+	const T _x, 
+	const T _y, 
+	QuadTreePoint<T,S> *_pt) {
 	point_map.insert(
-		pair< pair<int, int>, 
-		QuadTreePoint<T> *>(
-			pair<int, int>(_i,_j), _pt));
+		pair< pair<T,T>, 
+		QuadTreePoint<T,S> *>(
+			pair<T,T>(_x,_y), _pt));
 	point_list.push_back(_pt);
 }
 
-template <typename T>
-QuadTreePoint<T> *
-QuadTreePointCollection<T>::get_point(
-	const int _i, 
-	const int _j) {
-	typename map<pair<int,int>, QuadTreePoint<T> *>::iterator itr = 
-		point_map.find(pair<int,int>(_i, _j));
+template <typename T, typename S>
+QuadTreePoint<T,S> *
+QuadTreePointCollection<T,S>::get_point(
+	const T _x, 
+	const T _y) {
+	typename map<pair<T,T>, QuadTreePoint<T,S> *>::iterator itr = 
+		point_map.find(pair<T,T>(_x, _y));
 	return  (itr == point_map.end()) ? 0 : itr->second;
 }
 
-template <typename T>
+template <typename T, typename S>
 bool 
-QuadTreePointCollection<T>::erase_point(
-	const int _i, 
-	const int _j) {
-	typename map<pair<int,int>, QuadTreePoint<T> *>::iterator itr = 
-		point_map.find(pair<int, int>(_i,_j));
+QuadTreePointCollection<T,S>::erase_point(
+	const T _x, 
+	const T _y) {
+	typename map<pair<T,T>, QuadTreePoint<T,S> *>::iterator itr = 
+		point_map.find(pair<T,T>(_x,_y));
 	if (itr == point_map.end()) {
 		return false;
 	}
 	else {
-		QuadTreePoint<T> *point = itr->second;
+		QuadTreePoint<T,S> *point = itr->second;
 		point_list.remove(point);
 		point_map.erase(itr);
 
@@ -122,15 +122,15 @@ QuadTreePointCollection<T>::erase_point(
 	}
 }
 
-template <typename T>
-typename list<QuadTreePoint<T> *>::const_iterator 
-QuadTreePointCollection<T>::begin() const {
+template <typename T, typename S>
+typename list<QuadTreePoint<T,S> *>::const_iterator 
+QuadTreePointCollection<T,S>::begin() const {
 	return point_list.begin();
 }
 
-template <typename T>
-typename list<QuadTreePoint<T> *>::const_iterator 
-QuadTreePointCollection<T>::end() const {
+template <typename T, typename S>
+typename list<QuadTreePoint<T,S> *>::const_iterator 
+QuadTreePointCollection<T,S>::end() const {
 	return point_list.end();
 }
 

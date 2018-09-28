@@ -27,6 +27,13 @@
 #include "ioiextraction.hpp"
 #include "qtreefunc_density.hpp"
 #include "cluster.hpp"
+#include "rapidjson/document.h"
+#include "rapidjson/filereadstream.h"
+#include "rapidjson/filewritestream.h"
+#include "rapidjson/writer.h"
+#include <cstdio>
+
+using namespace rapidjson;
 
 using namespace std;
 using namespace std::chrono;
@@ -82,6 +89,29 @@ int main(void)
 {
 	std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
 	std::chrono::duration<double> sec;
+
+
+//	FILE *infp = fopen("clusters.json", "r");
+//	char readBuffer[65536];
+//	FileReadStream is(infp, readBuffer, sizeof(readBuffer));
+//	Document d;
+//	d.ParseStream(is);
+//	Clusters<double> clusters;
+//	clusters.read_json(d);
+//	fclose(infp);
+//
+//	
+//	FILE *outfp = fopen("clusters_out.json", "w");
+//	char writeBuffer[65536];
+//	FileWriteStream os(outfp, writeBuffer, sizeof(writeBuffer));
+//	Writer<FileWriteStream> writer(os);
+//	clusters.serialize(writer);
+//	//d.Accept(writer);
+//
+//	fclose(outfp);
+//
+//	return 0;
+
 
 	cout<<"OpenCV example"<<endl;
 
@@ -307,8 +337,9 @@ int main(void)
 	int x_max = 0;
 	int y_min = numeric_limits<int>::max();
 	int y_max = 0;
-	map<size_t, QuadTreePointCollection<KeyPoint *> *> kpcollection_map;
-	map<size_t, QuadTree<KeyPoint *> *> kptree_map;
+	map<size_t, QuadTreePointCollection<double,KeyPoint *> *> 
+		kpcollection_map;
+	map<size_t, QuadTree<double,KeyPoint *> *> kptree_map;
 
 	for(size_t i = RAW_IMAGE; 
 		i <= BLUR9_IMAGE; 
@@ -324,15 +355,15 @@ int main(void)
 		}
 
 		keypoints = citr->second;
-		QuadTreePointCollection<KeyPoint *> *kpcollection =
-			new QuadTreePointCollection<KeyPoint *>();
+		QuadTreePointCollection<double,KeyPoint *> *kpcollection =
+			new QuadTreePointCollection<double,KeyPoint *>();
 //			QuadTreePointCollection<KeyPoint *>::get_instance();
 		for_each(
 			keypoints->begin(),
 			keypoints->end(),
 			[&](KeyPoint &_keypoint) {
-				QuadTreePoint<KeyPoint *> *pt = 
-					new QuadTreePoint<KeyPoint *>(
+				QuadTreePoint<double,KeyPoint *> *pt = 
+				new QuadTreePoint<double,KeyPoint *>(
 						_keypoint.pt.x,
 						_keypoint.pt.y,
 						&_keypoint);
@@ -347,42 +378,42 @@ int main(void)
 				y_max=std::max(y_max,(int)_keypoint.pt.y);
 			});
 
-		QuadTree<KeyPoint *> *kptree = 
-			new QuadTree<KeyPoint *>();
+		QuadTree<double,KeyPoint *> *kptree = 
+			new QuadTree<double,KeyPoint *>();
 //			QuadTree<KeyPoint *>::get_instance();
 		kptree->initialize(
 			0, 
-			image_height, 
 			0, 
+			image_height, 
 			image_width, 
 			cell_size);
 		kptree->add_points_and_make_partition(kpcollection);
 		kpcollection_map.insert(
 			pair<size_t,
-			QuadTreePointCollection<KeyPoint *> *>(
+			QuadTreePointCollection<double,KeyPoint *> *>(
 				i,kpcollection));
 		kptree_map.insert(
 			pair<size_t,
-			QuadTree<KeyPoint *> *>(
+			QuadTree<double,KeyPoint *> *>(
 				i,kptree));
 		cout<<"QuadTree is generated for image "<<i<<endl;
 	}
 	///////////////////////////////////////////////////////////////////
 
-	map<const QuadTreeNode<KeyPoint *> *,double> 
+	map<const QuadTreeNode<double,KeyPoint *> *,double> 
 		probability_map;
 	// make reference tree with a raw image and keypoints
-	QuadTree<KeyPoint *> *ref_kptree = 
+	QuadTree<double,KeyPoint *> *ref_kptree = 
 		kptree_map.find(RAW_IMAGE)->second;
-	list<const QuadTreeNode<KeyPoint *> *> temp_list;
+	list<const QuadTreeNode<double,KeyPoint *> *> temp_list;
 	// insert all nodes that contain keypoints
 	ref_kptree->traverse_all_nodes(
 		temp_list,
-		[&](const QuadTreeNode<KeyPoint *> *_node) 
-			-> const QuadTreeNode<KeyPoint *> *{
+		[&](const QuadTreeNode<double,KeyPoint *> *_node) 
+			-> const QuadTreeNode<double,KeyPoint *> *{
 			if(_node->get_size_of_points() != 0) {
 				probability_map.insert(
-				pair<const QuadTreeNode<KeyPoint *> *,
+				pair<const QuadTreeNode<double,KeyPoint *> *,
 					double>(_node,0.0));
 
 //			double aspect_ratio = 
@@ -436,11 +467,11 @@ int main(void)
 		i <= BLUR9_IMAGE; 
 		i = i+BLUR_INCREMENT) {
 
-		QuadTree<KeyPoint *> *kptree = 
+		QuadTree<double,KeyPoint *> *kptree = 
 			kptree_map.find(i)->second;
 
-		QTreeFuncDensity<KeyPoint *> density_func;
-		list<const QuadTreeNode<KeyPoint *> *> node_list;
+		QTreeFuncDensity<double,KeyPoint *> density_func;
+		list<const QuadTreeNode<double,KeyPoint *> *> node_list;
 		density_func(node_list,kptree);
 
 		cout<<"pre "<<node_list.size()<<endl;
@@ -453,10 +484,10 @@ int main(void)
 		for_each(
 			node_list.begin(),
 			node_list.end(),
-			[&](const QuadTreeNode<KeyPoint *> *_node) {
+			[&](const QuadTreeNode<double,KeyPoint *> *_node) {
 			// find out reference nodes
 			// that are overlapped with _node 
-			list<const QuadTreeNode<KeyPoint *> *> 
+			list<const QuadTreeNode<double,KeyPoint *> *> 
 				overlapped_nodes; 
 			ref_kptree->find_neighbor_node(
 				overlapped_nodes,
@@ -485,14 +516,14 @@ int main(void)
 			for_each(
 				overlapped_nodes.begin(),
 				overlapped_nodes.end(),
-				[&](const QuadTreeNode<KeyPoint *> *
+				[&](const QuadTreeNode<double,KeyPoint *> *
 					node) {
 //			cout<<"ref node "<<node<<", "
 //			<<node->get_x_from()
 //			<<", "<<node->get_y_from()
 //			<<", "<<node->get_width()
 //			<<", "<<node->get_height()<<endl;
-				map<const QuadTreeNode<KeyPoint *> *, 
+				map<const QuadTreeNode<double,KeyPoint *> *, 
 					double>::iterator itr = 
 					probability_map.find(node);
 				if(itr != probability_map.end()) {
@@ -528,7 +559,7 @@ int main(void)
 	for_each(
 		probability_map.begin(),
 		probability_map.end(),
-		[&](pair<const QuadTreeNode<KeyPoint *> *,double> 
+		[&](pair<const QuadTreeNode<double,KeyPoint *> *,double> 
 			a_pair) {
 			Rect rect(
 				a_pair.first->get_x_from()+2,
@@ -586,7 +617,7 @@ int main(void)
 
 	for_each(kptree_map.begin(),
 		kptree_map.end(),
-		[](pair<size_t,QuadTree<KeyPoint *> *> _a_pair) {
+		[](pair<size_t,QuadTree<double,KeyPoint *> *> _a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;
 			}
@@ -594,7 +625,7 @@ int main(void)
 
 	for_each(kpcollection_map.begin(),
 		kpcollection_map.end(),
-		[](pair<size_t,QuadTreePointCollection<KeyPoint *> *>
+		[](pair<size_t,QuadTreePointCollection<double,KeyPoint *> *>
 			_a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;

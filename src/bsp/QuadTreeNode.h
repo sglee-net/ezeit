@@ -17,143 +17,146 @@
 
 using namespace std;
 
-typedef int dtype_t;
-//typedef double dtype_t;
-
-bool GT(const dtype_t &_l, const dtype_t &_r) {
+template<typename T>
+bool GT(const T &_l, const T &_r) {
 	return (_l > _r) ? true : false;
 }
 
-bool GE(const dtype_t &_l, const dtype_t &_r) {
+template<typename T>
+bool GE(const T &_l, const T &_r) {
 	return ( _l >= _r || 
-		fabs(_l-_r) < numeric_limits<dtype_t>::epsilon() ) 
+		fabs(_l-_r) < numeric_limits<T>::epsilon() ) 
 		? true : false;
 }
 
-bool LE(const dtype_t &_l, const dtype_t &_r) {
+template<typename T>
+bool LE(const T &_l, const T &_r) {
 	return ( _l <= _r || 
-		fabs(_l-_r) < numeric_limits<dtype_t>::epsilon() ) 
+		fabs(_l-_r) < numeric_limits<T>::epsilon() ) 
 		? true : false;
 }
 
-bool LT(const dtype_t &_l, const dtype_t &_r) {
+template<typename T>
+bool LT(const T &_l, const T &_r) {
 	return ( _l < _r) ? true : false;
 }
 
-bool EQ(const dtype_t &_l, const dtype_t &_r) {
-	return (fabs(_l-_r) < numeric_limits<dtype_t>::epsilon()) 
+template<typename T>
+bool EQ(const T &_l, const T &_r) {
+	return (fabs(_l-_r) < numeric_limits<T>::epsilon()) 
 		? true : false;
 }
 
-template <typename T>
+template <typename T, typename S>
 class QuadTreeNode {
 public:
 private:
 	QuadTreeNode();
 public:
 	QuadTreeNode(
-		QuadTreeNode<T> *_root,
-		const int _node_index,
-		const dtype_t _x_from, 
-		const dtype_t _x_to, 
-		const dtype_t _y_from, 
-		const dtype_t _y_to, 
-		const dtype_t _cell_size);
+		QuadTreeNode<T,S> *_root,
+		const int _index,
+		const T _x_from, 
+		const T _y_from, 
+		const T _x_to, 
+		const T _y_to, 
+		const T _cell_size);
 	~QuadTreeNode();
 private:
 	void destroy_subnodes();
 private:
-	QuadTreeNode<T> *parent;
-	QuadTreeNode<T> *node1;
-	QuadTreeNode<T> *node2;
-	QuadTreeNode<T> *node3;
-	QuadTreeNode<T> *node4;
-	int node_index;
-	int level;
-	size_t count;
-	dtype_t x_from;
-	dtype_t y_from;
-	dtype_t x_to;
-	dtype_t y_to;
-	dtype_t cell_size;
-	list<const QuadTreePoint<T> *> point_list;
+	QuadTreeNode<T,S> *parent;
+	QuadTreeNode<T,S> *node1;
+	QuadTreeNode<T,S> *node2;
+	QuadTreeNode<T,S> *node3;
+	QuadTreeNode<T,S> *node4;
+	int index; // 1, 2, 3, 4
+	int level; // root:0 -> child1 -> child2 -> child3 ...
+//	size_t count;
+	T x_from;
+	T y_from;
+	T x_to;
+	T y_to;
+	T cell_size;
+	list<const QuadTreePoint<T,S> *> point_list;
 public:
 	double center_x() const;
 	double center_y() const;
-	dtype_t get_width() const { return (x_to-x_from); }
-	dtype_t get_height() const { return (y_to-y_from); }
-	dtype_t get_x_from() const { return x_from; }
-	dtype_t get_x_to() const { return x_to; }
-	dtype_t get_y_from() const { return y_from; }
-	dtype_t get_y_to() const { return y_to; }
+	T get_width() const { return (x_to-x_from); }
+	T get_height() const { return (y_to-y_from); }
+	T get_x_from() const { return x_from; }
+	T get_x_to() const { return x_to; }
+	T get_y_from() const { return y_from; }
+	T get_y_to() const { return y_to; }
 	const int get_level() const { return level; }
-	const int get_index() const { return node_index; }
+	const int get_index() const { return index; }
 	void print_index() const; 
 	void get_index_list(list<int> &_list);
-//	size_t get_count() const { return count; }
-//	void set_count(const size_t _v) { count = _v; }
-	QuadTreeNode * add_point_and_make_partition(const QuadTreePoint<T> * _p);
-	bool remove_point(const QuadTreePoint<T> *_p);
+	QuadTreeNode * add_point_and_make_partition(
+		const QuadTreePoint<T,S> * _p);
+	bool remove_point(const QuadTreePoint<T,S> *_p);
 private:
 	bool can_be_divided() const;
 public:
-	typename list<const QuadTreePoint<T> *>::const_iterator 
+	typename list<const QuadTreePoint<T,S> *>::const_iterator 
 	begin_point_list()const { return point_list.begin(); }
-	typename list<const QuadTreePoint<T> *>::const_iterator 
+
+	typename list<const QuadTreePoint<T,S> *>::const_iterator 
 	end_point_list()const { return point_list.end(); }
-	const list<const QuadTreePoint<T> *> *
+	
+	const list<const QuadTreePoint<T,S> *> *
 	get_point_list() { return &point_list; }
+
 	size_t get_size_of_points() const;
 	bool has_subnodes() const;
-	const QuadTreeNode<T> *get_root() const;
-	const QuadTreeNode<T> *get_parent() const { return parent; }
-	const QuadTreeNode<T> *get_first_child() const;
-	const QuadTreeNode<T> *get_next_brother() const;
+	const QuadTreeNode<T,S> *get_root() const;
+	const QuadTreeNode<T,S> *get_parent() const { return parent; }
+	const QuadTreeNode<T,S> *get_first_child() const;
+	const QuadTreeNode<T,S> *get_next_brother() const;
 	bool is_child_end() const;
 	double get_density(const bool _including_children=true) const;
 	void make_recursion(
 		std::function<void(
-			const list<const QuadTreePoint<T> *> &)> &) const;
+			const list<const QuadTreePoint<T,S> *> &)> &) const;
 private:
-	const QuadTreeNode<T> *get_node1() const { return node1; }
-	const QuadTreeNode<T> *get_node2() const { return node2; }
-	const QuadTreeNode<T> *get_node3() const { return node3; }
-	const QuadTreeNode<T> *get_node4() const { return node4; }
+	const QuadTreeNode<T,S> *get_node1() const { return node1; }
+	const QuadTreeNode<T,S> *get_node2() const { return node2; }
+	const QuadTreeNode<T,S> *get_node3() const { return node3; }
+	const QuadTreeNode<T,S> *get_node4() const { return node4; }
 public:
-	// x_min, x_max, y_min, y_max
+	// x_min, y_min, x_max, y_max
 	bool is_overlapped(
-		const dtype_t _x_min, 
-		const dtype_t _x_max, 
-		const dtype_t _y_min, 
-		const dtype_t _y_max) const;
+		const T _x_min, 
+		const T _y_min, 
+		const T _x_max, 
+		const T _y_max) const;
 };
 
-template <typename T>
-QuadTreeNode<T>::QuadTreeNode() {
+template <typename T, typename S>
+QuadTreeNode<T,S>::QuadTreeNode() {
 	parent = 0;
 	node1 = 0;
 	node2 = 0;
 	node3 = 0;
 	node4 = 0;
-	node_index = 0;
+	index = 0;
 	level = 0;
-	count = 0;
 	x_from = 0;
-	x_to = 0;
 	y_from = 0;
+	x_to = 0;
 	y_to = 0;
 	cell_size = 1;
 }
 
-template <typename T>
-QuadTreeNode<T>::QuadTreeNode(
-	QuadTreeNode<T> *_root, 
-	const int _node_index, 
-	const dtype_t _x_from, 
-	const dtype_t _x_to, 
-	const dtype_t _y_from, 
-	const dtype_t _y_to, 
-	const dtype_t _cell_size) {
+template <typename T, typename S>
+QuadTreeNode<T,S>::QuadTreeNode(
+	QuadTreeNode<T,S> *_root, 
+	const int _index, 
+	const T _x_from, 
+	const T _y_from, 
+	const T _x_to, 
+	const T _y_to, 
+	const T _cell_size) {
 	assert(int(_x_to - _x_from) >= 1);
 	assert(int(_y_to - _y_from) >= 1);
 
@@ -162,13 +165,12 @@ QuadTreeNode<T>::QuadTreeNode(
 	node2 = 0;
 	node3 = 0;
 	node4 = 0;
-	node_index = _node_index;
+	index = _index;
 	if(_root == 0) {
 		level = 0;
 	} else {
 		level = _root->get_level() + 1;
 	}
-	count = 0;
 	x_from = _x_from;
 	x_to = _x_to;
 	y_from = _y_from;
@@ -176,14 +178,14 @@ QuadTreeNode<T>::QuadTreeNode(
 	cell_size = _cell_size;
 }
 
-template <typename T>
-QuadTreeNode<T>::~QuadTreeNode() {
+template <typename T, typename S>
+QuadTreeNode<T,S>::~QuadTreeNode() {
 	this->destroy_subnodes();
 }
 
-template <typename T>
+template <typename T, typename S>
 void 
-QuadTreeNode<T>::destroy_subnodes() {
+QuadTreeNode<T,S>::destroy_subnodes() {
 	if (this->has_subnodes()) {
 		node1->destroy_subnodes();
 		node2->destroy_subnodes();
@@ -197,23 +199,23 @@ QuadTreeNode<T>::destroy_subnodes() {
 	}
 }
 
-template <typename T>
+template <typename T, typename S>
 double 
-QuadTreeNode<T>::center_x() const {
+QuadTreeNode<T,S>::center_x() const {
 	return fabs(double(x_to + x_from)) / 2.0;
 }
 
-template <typename T>
+template <typename T, typename S>
 double 
-QuadTreeNode<T>::center_y() const {
+QuadTreeNode<T,S>::center_y() const {
 	return  fabs(double(y_to + y_from)) / 2.0;
 }
 
-template <typename T>
+template <typename T, typename S>
 void 
-QuadTreeNode<T>::print_index() const {
+QuadTreeNode<T,S>::print_index() const {
 	cout << this->get_index();
-	const QuadTreeNode<T> *parent_node =
+	const QuadTreeNode<T,S> *parent_node =
 		this->get_parent();
 	while(parent_node != 0) {
 		cout
@@ -225,11 +227,11 @@ QuadTreeNode<T>::print_index() const {
 //	cout << endl;
 }
 
-template <typename T>
+template <typename T, typename S>
 void 
-QuadTreeNode<T>::get_index_list(list<int> &_list) {
+QuadTreeNode<T,S>::get_index_list(list<int> &_list) {
 	_list.push_back(this->get_index());
-	const QuadTreeNode<T> *parent_node =
+	const QuadTreeNode<T,S> *parent_node =
 		this->get_parent();
 	while(parent_node != 0) {
 		_list.push_back(parent_node->get_index());
@@ -238,10 +240,10 @@ QuadTreeNode<T>::get_index_list(list<int> &_list) {
 	}
 }
 
-template <typename T>
-QuadTreeNode<T> *
-QuadTreeNode<T>::add_point_and_make_partition(
-	const QuadTreePoint<T> *_p) {
+template <typename T, typename S>
+QuadTreeNode<T,S> *
+QuadTreeNode<T,S>::add_point_and_make_partition(
+	const QuadTreePoint<T,S> *_p) {
 	if (!can_be_divided()) {
 		// not divide, just add point to this node
 		point_list.push_back(_p);
@@ -250,49 +252,49 @@ QuadTreeNode<T>::add_point_and_make_partition(
 	else {
 		// divide this node to four sub-nodes, 
 		// and add a point to one of them
-		const dtype_t i = _p->get_x();
-		const dtype_t j = _p->get_y();
+		const T x = _p->get_x();
+		const T y = _p->get_y();
 
 		// if this node has sub-nodes, 
 		// points are not inserted into this.
 
 		// center i, j
-		dtype_t ci = dtype_t((x_to - x_from) / 2.0) + x_from;
-		dtype_t cj = dtype_t((y_to - y_from) / 2.0) + y_from;
+		T cx = T((x_to - x_from) / 2.0) + x_from;
+		T cy = T((y_to - y_from) / 2.0) + y_from;
 
 		// node
 		// 2 1
 		// 3 4
 		if (!this->has_subnodes()) {
-			node1 = new QuadTreeNode<T>(
+			node1 = new QuadTreeNode<T,S>(
 					this, 
 					1, 
-					ci, 
-					x_to, 
+					cx, 
 					y_from, 
-					cj, 
+					x_to, 
+					cy, 
 					cell_size);
-			node2 = new QuadTreeNode<T>(
+			node2 = new QuadTreeNode<T,S>(
 					this, 
 					2, 
 					x_from, 
-					ci, 
 					y_from, 
-					cj, cell_size);
-			node3 = new QuadTreeNode<T>(
+					cx, 
+					cy, cell_size);
+			node3 = new QuadTreeNode<T,S>(
 					this, 
 					3, 
 					x_from, 
-					ci, 
-					cj, 
+					cy, 
+					cx, 
 					y_to, 
 					cell_size);
-			node4 = new QuadTreeNode<T>(
+			node4 = new QuadTreeNode<T,S>(
 					this, 
 					4, 
-					ci, 
+					cx, 
+					cy, 
 					x_to, 
-					cj, 
 					y_to, 
 					cell_size);
 		}
@@ -302,32 +304,32 @@ QuadTreeNode<T>::add_point_and_make_partition(
 		// 3 4
 		
 		// node 1
-//		if (ci <= i && i <= x_to &&
-//			y_from <= j && j < cj) {
-		if( LE(ci,i) && LE(i,x_to) &&
-			LE(y_from,j) && LT(j,cj)) {
+//		if (cx <= x && x <= x_to &&
+//			y_from <= y && y < cy) {
+		if( LE(cx,x) && LE(x,x_to) &&
+			LE(y_from,y) && LT(y,cy)) {
 			return node1->add_point_and_make_partition(_p);
 
 		}
 		// node 2
-//		else if (x_from <= i && i < ci &&
-//			y_from <= j && j < cj) {
-		else if ( LE(x_from,i) && LT(i,ci) &&
-			LE(y_from,j) && LT(j,cj)) {
+//		else if (x_from <= x && x < cx &&
+//			y_from <= y && y < cy) {
+		else if ( LE(x_from,x) && LT(x,cx) &&
+			LE(y_from,y) && LT(y,cy)) {
 			return node2->add_point_and_make_partition(_p);
 		}
 		// node 3
-//		else if (x_from <= i && i < ci &&
-//			cj <= j && j <= y_to) {
-		else if( LE(x_from,i) && LT(i,ci) &&
-			LE(cj,j) && LE(j,y_to)) {
+//		else if (x_from <= x && x < cx &&
+//			cy <= y && y <= y_to) {
+		else if( LE(x_from,x) && LT(x,cx) &&
+			LE(cy,y) && LE(y,y_to)) {
 			return node3->add_point_and_make_partition(_p);
 		}
 		// node 4
-//		else if (ci <= i && i <= x_to &&
-//			cj <= j && j <= y_to) {
-		else if( LE(ci,i) && LE(i,x_to) &&
-			LE(cj,j) && LE(j,y_to)) {
+//		else if (cx <= x && x <= x_to &&
+//			cy <= y && y <= y_to) {
+		else if( LE(cx,x) && LE(x,x_to) &&
+			LE(cy,y) && LE(y,y_to)) {
 			return node4->add_point_and_make_partition(_p);
 		}
 		else {
@@ -336,11 +338,11 @@ QuadTreeNode<T>::add_point_and_make_partition(
 	}
 }
 
-template <typename T>
+template <typename T, typename S>
 bool 
-QuadTreeNode<T>::remove_point(
-	const QuadTreePoint<T> * _p) {
-	typename list<const QuadTreePoint<T> *>::iterator result = 
+QuadTreeNode<T,S>::remove_point(
+	const QuadTreePoint<T,S> * _p) {
+	typename list<const QuadTreePoint<T,S> *>::iterator result = 
 		find(point_list.begin(), point_list.end(), _p);
 	if (result == point_list.end()) {
 		return false;
@@ -350,40 +352,40 @@ QuadTreeNode<T>::remove_point(
 	}
 }
 
-template <typename T>
+template <typename T, typename S>
 size_t 
-QuadTreeNode<T>::get_size_of_points() const {
+QuadTreeNode<T,S>::get_size_of_points() const {
 	return point_list.size();
 }
 
-template <typename T>
+template <typename T, typename S>
 bool 
-QuadTreeNode<T>::has_subnodes() const {
+QuadTreeNode<T,S>::has_subnodes() const {
 	return (node1 == 0 && 
 		node2 == 0 && 
 		node3 == 0 && 
 		node4 == 0) ? false : true;
 }
 
-template <typename T>
-const QuadTreeNode<T> * 
-QuadTreeNode<T>::get_root() const {
-	const QuadTreeNode<T> *parent = this->get_parent();
+template <typename T, typename S>
+const QuadTreeNode<T,S> * 
+QuadTreeNode<T,S>::get_root() const {
+	const QuadTreeNode<T,S> *parent = this->get_parent();
 	while (parent->get_parent() != 0) {
 		parent = parent->get_parent();
 	}
 	return parent;
 }
 
-template <typename T>
+template <typename T, typename S>
 bool 
-QuadTreeNode<T>::can_be_divided() const {
-	dtype_t di = dtype_t(x_to - x_from);
-	dtype_t dj = dtype_t(y_to - y_from);
+QuadTreeNode<T,S>::can_be_divided() const {
+	T dx = T(x_to - x_from);
+	T dy = T(y_to - y_from);
 //	if (di <= 1 || dj <= 1 ||
 //		di <= cell_size || dj <= cell_size) {
-	if( LE(di,1) || LE(dj,1) ||
-		LE(di,cell_size) || LE(dj,cell_size) ) {
+	if( LE(dx,(T)1.0) || LE(dy,(T)1.0) ||
+		LE(dx,cell_size) || LE(dy,cell_size) ) {
 		return false;
 	}
 	else {
@@ -391,39 +393,39 @@ QuadTreeNode<T>::can_be_divided() const {
 	}
 }
 
-template <typename T>
-const QuadTreeNode<T> * 
-QuadTreeNode<T>::get_first_child() const {
+template <typename T, typename S>
+const QuadTreeNode<T,S> * 
+QuadTreeNode<T,S>::get_first_child() const {
 	return get_node1();
 }
 
-template <typename T>
-const QuadTreeNode<T> * 
-QuadTreeNode<T>::get_next_brother() const {
-	if (this->node_index == 0) {
+template <typename T, typename S>
+const QuadTreeNode<T,S> * 
+QuadTreeNode<T,S>::get_next_brother() const {
+	if (this->index == 0) {
 		return 0;
-	} else if (this->node_index == 1) {
+	} else if (this->index == 1) {
 		return this->get_parent()->get_node2();
-	} else if(this->node_index == 2) {
+	} else if(this->index == 2) {
 		return this->get_parent()->get_node3();
-	} else if (this->node_index == 3) {
+	} else if (this->index == 3) {
 		return this->get_parent()->get_node4();
-	} else if (this->node_index == 4) {
+	} else if (this->index == 4) {
 		return 0;
 	} else {
 		throw("check code");
 	}
 }
 
-template <typename T>
+template <typename T, typename S>
 bool 
-QuadTreeNode<T>::is_child_end() const {
-	return (this->node_index == 4) ? true : false;
+QuadTreeNode<T,S>::is_child_end() const {
+	return (this->index == 4) ? true : false;
 }
 
-template <typename T>
+template <typename T, typename S>
 double 
-QuadTreeNode<T>::get_density(const bool _including_children) const {
+QuadTreeNode<T,S>::get_density(const bool _including_children) const {
 	double density = double(point_list.size())/
 			double(((x_to-x_from)*(y_to-y_from)));
 	if(!_including_children) {
@@ -432,7 +434,7 @@ QuadTreeNode<T>::get_density(const bool _including_children) const {
 		if(!this->has_subnodes()) {
 			return density;
 		} else {
-			const QuadTreeNode<T> *child_node = 
+			const QuadTreeNode<T,S> *child_node = 
 				this->get_first_child();
 			while(child_node != 0) {
 				density += child_node->get_density();
@@ -443,15 +445,15 @@ QuadTreeNode<T>::get_density(const bool _including_children) const {
 	}
 }
 
-template <typename T>
+template <typename T, typename S>
 void 
-QuadTreeNode<T>::make_recursion(
+QuadTreeNode<T,S>::make_recursion(
 	std::function<void(
-		const list<const QuadTreePoint<T> *> &)> &_func) const {
+		const list<const QuadTreePoint<T,S> *> &)> &_func) const {
 	if(!this->point_list.empty()) {
 		_func(point_list);
 	}
-	const QuadTreeNode<T> *child_node = this->get_first_child();
+	const QuadTreeNode<T,S> *child_node = this->get_first_child();
 	while(child_node !=0 ) {
 		child_node->make_recursion(_func);
 		child_node = child_node->get_next_brother();
@@ -459,13 +461,13 @@ QuadTreeNode<T>::make_recursion(
 }
 
 // check overlap between two rectangles
-template <typename T>
+template <typename T, typename S>
 bool 
-QuadTreeNode<T>::is_overlapped(
-	const dtype_t _x_from, 
-	const dtype_t _x_to, 
-	const dtype_t _y_from, 
-	const dtype_t _y_to) const {
+QuadTreeNode<T,S>::is_overlapped(
+	const T _x_from, 
+	const T _x_to, 
+	const T _y_from, 
+	const T _y_to) const {
 	if(GE(this->x_from, _x_to) ||
 		GE(_x_from, this->x_to)) {
 		return false;

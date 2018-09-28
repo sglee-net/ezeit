@@ -1,0 +1,57 @@
+{
+  "clusters": [
+    {
+      "name" : "1",
+      "centroid": [
+        0.0,
+        0.0,
+        1.1,
+        0.0,
+        0.0
+      ],
+      "distance_summary": {
+        "avr": 1.0,
+        "var": 2.0,
+        "med": 3.0,
+        "min": 4.0,
+        "max": 5.0,
+        "rng": 6.0
+      },
+      "similarity_summary": {
+        "avr": 0.0,
+        "var": 0.0,
+        "med": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "rng": 0.0
+      }
+    }
+    ,
+    {
+      "name" : "2",
+      "centroid": [
+        0.0,
+        0.0,
+        2.2,
+        0.0,
+        0.0
+      ],
+      "distance_summary": {
+        "avr": 0.1,
+        "var": 0.2,
+        "med": 0.3,
+        "min": 0.4,
+        "max": 0.5,
+        "rng": 0.6
+      },
+      "similarity_summary": {
+        "avr": 0.0,
+        "var": 0.0,
+        "med": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "rng": 0.0
+      }
+    }
+  ]
+}

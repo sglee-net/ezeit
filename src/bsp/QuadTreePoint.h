@@ -13,10 +13,10 @@
 
 using namespace std;
 
-template <typename T>
+template <typename T, typename S>
 class QuadTreeNode;
 
-template <typename T>
+template <typename T, typename S>
 class QuadTreePoint {
 private:
 	QuadTreePoint() {
@@ -26,9 +26,9 @@ private:
 	}
 public:
 	QuadTreePoint(
-		const int _x, 
-		const int _y, 
-		const T &_v) {
+		const T _x, 
+		const T _y, 
+		const S &_v) {
 		x = _x;
 		y = _y;
 		value = _v;
@@ -37,51 +37,52 @@ public:
 
 	~QuadTreePoint() {}
 private:
-	int x;
-	int y;
-	T value;
+	T x;
+	T y;
+	S value;
 	// node will be set by the function add_point_make_tree of QuadTreeTree
-	const QuadTreeNode<T> *node; 
+	const QuadTreeNode<T,S> *node; 
 public:
-	int get_x() const { return x;  }
-	void set_x(const int _v) { x = _v;  }
-	int get_y() const { return y; }
-	void set_y(const int _v) { y = _v; }
-	double get_value() const { return value; }
-	void set_value(const double _v) { value = _v; }
+	T get_x() const { return x;  }
+	void set_x(const T _v) { x = _v;  }
+	T get_y() const { return y; }
+	void set_y(const T _v) { y = _v; }
+	S get_value() const { return value; }
+	void set_value(const S _v) { value = _v; }
 
-	void set_bsp_node(const QuadTreeNode<T> *_node) { node = _node; }
-	const QuadTreeNode<T> *get_bsp_node() const { return node; }
-	QuadTreeNode<T> *get_bsp_node() { return (QuadTreeNode<T> *)node; }
+	void set_bsp_node(const QuadTreeNode<T,S> *_node) { node = _node; }
+	const QuadTreeNode<T,S> *get_bsp_node() const { return node; }
+	QuadTreeNode<T,S> *get_bsp_node() { 
+		return (QuadTreeNode<T,S> *)node; }
 	
-	double get_distance(const QuadTreePoint<T> *_v) const {
+	double get_distance(const QuadTreePoint<T,S> *_v) const {
 		return sqrt(
-			pow(_v->get_x() - (double)this->get_x(), 2.0) + 
-			pow(_v->get_y() - (double)this->get_y(), 2.0));
+		pow((double)_v->get_x()-(double)this->get_x(),2.0)
+		+pow((double)_v->get_y()-(double)this->get_y(),2.0));
 	}
 
 	double get_distance(const double _x, const double _y) const {
 		return sqrt(
-			pow(_x - (double)this->get_x(), 2.0) + 
-			pow(_y - (double)this->get_y(), 2.0));
+		pow((double)_x-(double)this->get_x(),2.0) + 
+		pow((double)_y-(double)this->get_y(),2.0));
 	}
 };
 
-template <typename T>
+template <typename T, typename S>
 double 
 get_distance_btw_points(
-	const QuadTreePoint<T> * _v1, 
-	const QuadTreePoint<T> * _v2) {
+	const QuadTreePoint<T,S> * _v1, 
+	const QuadTreePoint<T,S> * _v2) {
 	return sqrt(
-		pow(_v2->get_x() - _v1->get_x(), 2.0) + 
-		pow(_v2->get_y() - _v1->get_y(), 2.0));
+	pow((double)_v2->get_x()-(double)_v1->get_x(),2.0) + 
+	pow((double)_v2->get_y()-(double)_v1->get_y(),2.0));
 }
 
-template <typename T>
+template <typename T, typename S>
 void 
 clear_list_with_delete(
-	list<QuadTreePoint<T> *> &_list) {
-	typename list<QuadTreePoint<T> *>::iterator itr = _list.begin();
+	list<QuadTreePoint<T,S> *> &_list) {
+	typename list<QuadTreePoint<T,S> *>::iterator itr = _list.begin();
 	while (itr != _list.end()) {
 		delete (*itr);
 		(*itr) = 0;
