@@ -1,5 +1,6 @@
-#ifndef __ROIEXTRACTION_HPP__
-#define __ROIEXTRACTION_HPP__
+#ifndef __IOIEXTRACTION_HPP__
+#define __IOIEXTRACTION_HPP__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <set>

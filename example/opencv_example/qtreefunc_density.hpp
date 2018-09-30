@@ -25,14 +25,15 @@ using namespace cv::xfeatures2d;
 using namespace cv::ml;
 
 template <typename T, typename S>
-struct QTreeFuncDensity {
+class QTreeFuncDensity {
+public:
 	double weight = 1.0;
 	double fano_factor_threshold = 0.01;
 
 	void operator() (
 		list<const QuadTreeNode<T,S> *> &_node_list,
 		const QuadTree<T,S> *_kpointtree
-	) {
+	) const {
 		list<const QuadTreeNode<T,S> *> base_nodes;
 		_kpointtree->get_sorted_nodes(
 			base_nodes,

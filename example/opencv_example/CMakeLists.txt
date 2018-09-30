@@ -17,7 +17,11 @@ message(STATUS "OpenCV_LIBS = ${OpenCV_LIBS}")
 
 #link_directories(${NIB} /usr/local/lib)
 
-set(SRC_HEADER ${INCDIR}/glogger/glogger.h ${INCDIR}/glogger/gexecutor_filewriter.h ${INCDIR}/gtaskque/gtaskque.h)
+set(SRC_HEADER 
+	${INCDIR}/glogger/glogger.h 
+	${INCDIR}/glogger/gexecutor_filewriter.h 
+	${INCDIR}/gtaskque/gtaskque.h
+	)
 set(SRC_CPP main.cpp)
 set(SRC_FILES ${SRC_HEADER} ${SRC_CPP})
 
