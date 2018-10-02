@@ -157,8 +157,11 @@ QuadTreeNode<T,S>::QuadTreeNode(
 	const T _x_to, 
 	const T _y_to, 
 	const T _cell_size) {
-	assert(int(_x_to - _x_from) >= 1);
-	assert(int(_y_to - _y_from) >= 1);
+	assert(T(_x_to-_x_from) >= _cell_size);
+	assert(T(_y_to-_y_from) >= _cell_size);
+	if(std::is_integral<T>::value) {
+		assert(_cell_size >= 1);
+	}
 
 	parent = _root;
 	node1 = 0;
@@ -259,8 +262,8 @@ QuadTreeNode<T,S>::add_point_and_make_partition(
 		// points are not inserted into this.
 
 		// center i, j
-		T cx = T((x_to - x_from) / 2.0) + x_from;
-		T cy = T((y_to - y_from) / 2.0) + y_from;
+		T cx = T(double(x_to - x_from) * 0.5) + x_from;
+		T cy = T(double(y_to - y_from) * 0.5) + y_from;
 
 		// node
 		// 2 1
@@ -304,6 +307,9 @@ QuadTreeNode<T,S>::add_point_and_make_partition(
 		// 3 4
 		
 		// node 1
+		// ---
+		// | |
+		//
 //		if (cx <= x && x <= x_to &&
 //			y_from <= y && y < cy) {
 		if( LE(cx,x) && LE(x,x_to) &&
@@ -312,27 +318,44 @@ QuadTreeNode<T,S>::add_point_and_make_partition(
 
 		}
 		// node 2
+		// ---
+		// | 
+		// ---
 //		else if (x_from <= x && x < cx &&
-//			y_from <= y && y < cy) {
+//			y_from <= y && y <= cy) {
 		else if ( LE(x_from,x) && LT(x,cx) &&
-			LE(y_from,y) && LT(y,cy)) {
+			LE(y_from,y) && LE(y,cy)) {
 			return node2->add_point_and_make_partition(_p);
 		}
 		// node 3
-//		else if (x_from <= x && x < cx &&
-//			cy <= y && y <= y_to) {
-		else if( LE(x_from,x) && LT(x,cx) &&
-			LE(cy,y) && LE(y,y_to)) {
+		// 
+		// | |
+		// ---
+//		else if (x_from <= x && x <= cx &&
+//			cy < y && y <= y_to) {
+		else if( LE(x_from,x) && LE(x,cx) &&
+			LT(cy,y) && LE(y,y_to)) {
 			return node3->add_point_and_make_partition(_p);
 		}
 		// node 4
-//		else if (cx <= x && x <= x_to &&
+		// ---
+		//   |
+		// ---
+//		else if (cx < x && x <= x_to &&
 //			cy <= y && y <= y_to) {
-		else if( LE(cx,x) && LE(x,x_to) &&
+		else if( LT(cx,x) && LE(x,x_to) &&
 			LE(cy,y) && LE(y,y_to)) {
 			return node4->add_point_and_make_partition(_p);
 		}
+		// exactly center
+		else if ( EQ(cx,x) && EQ(cy,y) ) {
+			return node1->add_point_and_make_partition(_p);
+		}
 		else {
+			cout << "cx, cy" << cx << ", " <<cy<<endl;
+			cout<< "x from, to" << x_from << ", "<<x_to <<endl;
+			cout<< "y from, to" << y_from << ", "<<y_to <<endl;
+			cout<<"x,y"<< x<<", "<<y<<endl;
 			throw ("you have to modify the above algorithm");
 		}
 	}
@@ -380,12 +403,9 @@ QuadTreeNode<T,S>::get_root() const {
 template <typename T, typename S>
 bool 
 QuadTreeNode<T,S>::can_be_divided() const {
-	T dx = T(x_to - x_from);
-	T dy = T(y_to - y_from);
-//	if (di <= 1 || dj <= 1 ||
-//		di <= cell_size || dj <= cell_size) {
-	if( LE(dx,(T)1.0) || LE(dy,(T)1.0) ||
-		LE(dx,cell_size) || LE(dy,cell_size) ) {
+	T dx = T(double(x_to - x_from)*0.5);
+	T dy = T(double(y_to - y_from)*0.5);
+	if( LT(dx,cell_size) || LT(dy,cell_size) ) {
 		return false;
 	}
 	else {

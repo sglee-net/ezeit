@@ -55,6 +55,9 @@ using namespace std::chrono;
 //	}
 //};
 
+//typedef int data_t;
+typedef double data_t;
+
 int main(void) {
 	std::chrono::system_clock::time_point start_time = 
 		std::chrono::system_clock::now();
@@ -64,14 +67,14 @@ int main(void) {
 
 	const size_t point_count=10;
 
-	const QuadTreePoint<double,double> *ref_point = 0;
+	const QuadTreePoint<data_t,double> *ref_point = 0;
 
-	QuadTreePointCollection<double,double> *collection = 
-		QuadTreePointCollection<double,double>::get_instance();
+	QuadTreePointCollection<data_t,double> *collection = 
+		QuadTreePointCollection<data_t,double>::get_instance();
 	for(size_t i=0; i<=point_count; i++) {
 		for(size_t j=0; j<=point_count; j++) {
-			QuadTreePoint<double,double> *point = 
-				new QuadTreePoint<double,double>(i,j,1);
+			QuadTreePoint<data_t,double> *point = 
+				new QuadTreePoint<data_t,double>(i,j,1);
 			collection->insert_point(
 				point->get_x(),
 				point->get_y(),
@@ -82,23 +85,23 @@ int main(void) {
 		}
 	}
 
-	QuadTree<double,double> *bsptree =
-		QuadTree<double,double>::get_instance();
-	bsptree->initialize(0,0,10,10,2);	
+	QuadTree<data_t,double> *bsptree =
+		QuadTree<data_t,double>::get_instance();
+	bsptree->initialize(0,0,10,10,5.0);	
 	bsptree->add_points_and_make_partition(collection);
 
 	cout << "points are added" << endl;
 	
-	const QuadTreeNode<double,double> *rootNode = bsptree->get_root();
+	const QuadTreeNode<data_t,double> *rootNode = bsptree->get_root();
 //	std::function<void(
 //		const list<const QuadTreePoint<double> *> &)> functionObj =
 //		ShowPointList();
 //	rootNode->make_recursion(functionObj);
 //	cout << "points count " << gcount << endl;
 
-	list<const QuadTreeNode<double,double> *> node_list;
-	const double dx=1;
-	const double dy=1;
+	list<const QuadTreeNode<data_t,double> *> node_list;
+	const data_t dx=1;
+	const data_t dy=1;
 	bsptree->find_neighbor_node(
 		node_list,
 		ref_point,
@@ -112,7 +115,7 @@ int main(void) {
 	
 	for_each(node_list.begin(),
 		node_list.end(),
-		[](const QuadTreeNode<double,double> *_node) {
+		[](const QuadTreeNode<data_t,double> *_node) {
 			cout
 			<< _node
 			<< ", index: ";
@@ -123,8 +126,8 @@ int main(void) {
 	node_list.clear();
 	bsptree->get_sorted_nodes(
 		node_list,
-		[](const QuadTreeNode<double,double> *_l,
-			const QuadTreeNode<double,double> *_r) -> bool {
+		[](const QuadTreeNode<data_t,double> *_l,
+			const QuadTreeNode<data_t,double> *_r) -> bool {
 			if(_l->get_density() < _r->get_density()) {
 				return true;
 			} else {
@@ -136,7 +139,7 @@ int main(void) {
 	int scount = 0;
 	for_each(node_list.begin(),
 		node_list.end(),
-		[&](const QuadTreeNode<double,double> *_node) {
+		[&](const QuadTreeNode<data_t,double> *_node) {
 			cout
 		//	<< _node 
 			<< "id: ";

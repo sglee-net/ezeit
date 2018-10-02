@@ -85,6 +85,8 @@ void inverse(Mat &_img) {
 	}
 }
 
+typedef int data_t;
+
 int main(void)
 {
 	std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
@@ -333,13 +335,13 @@ int main(void)
 	const int image_width = refImage.rows;
 	const int image_height = refImage.cols;
 	const int cell_size = 32;
-	int x_min = numeric_limits<int>::max();
-	int x_max = 0;
-	int y_min = numeric_limits<int>::max();
-	int y_max = 0;
-	map<size_t, QuadTreePointCollection<double,KeyPoint *> *> 
+	data_t x_min = numeric_limits<data_t>::max();
+	data_t x_max = 0;
+	data_t y_min = numeric_limits<data_t>::max();
+	data_t y_max = 0;
+	map<size_t, QuadTreePointCollection<data_t,KeyPoint *> *> 
 		kpcollection_map;
-	map<size_t, QuadTree<double,KeyPoint *> *> kptree_map;
+	map<size_t, QuadTree<data_t,KeyPoint *> *> kptree_map;
 
 	for(size_t i = RAW_IMAGE; 
 		i <= BLUR9_IMAGE; 
@@ -355,15 +357,14 @@ int main(void)
 		}
 
 		keypoints = citr->second;
-		QuadTreePointCollection<double,KeyPoint *> *kpcollection =
-			new QuadTreePointCollection<double,KeyPoint *>();
-//			QuadTreePointCollection<KeyPoint *>::get_instance();
+		QuadTreePointCollection<data_t,KeyPoint *> *kpcollection =
+			new QuadTreePointCollection<data_t,KeyPoint *>();
 		for_each(
 			keypoints->begin(),
 			keypoints->end(),
 			[&](KeyPoint &_keypoint) {
-				QuadTreePoint<double,KeyPoint *> *pt = 
-				new QuadTreePoint<double,KeyPoint *>(
+				QuadTreePoint<data_t,KeyPoint *> *pt = 
+				new QuadTreePoint<data_t,KeyPoint *>(
 						_keypoint.pt.x,
 						_keypoint.pt.y,
 						&_keypoint);
@@ -372,15 +373,14 @@ int main(void)
 					pt->get_y(),
 					pt);
 
-				x_min=std::min(x_min,(int)_keypoint.pt.x);
-				x_max=std::max(x_max,(int)_keypoint.pt.x);
-				y_min=std::min(y_min,(int)_keypoint.pt.y);
-				y_max=std::max(y_max,(int)_keypoint.pt.y);
+				x_min=std::min(x_min,(data_t)_keypoint.pt.x);
+				x_max=std::max(x_max,(data_t)_keypoint.pt.x);
+				y_min=std::min(y_min,(data_t)_keypoint.pt.y);
+				y_max=std::max(y_max,(data_t)_keypoint.pt.y);
 			});
 
-		QuadTree<double,KeyPoint *> *kptree = 
-			new QuadTree<double,KeyPoint *>();
-//			QuadTree<KeyPoint *>::get_instance();
+		QuadTree<data_t,KeyPoint *> *kptree = 
+			new QuadTree<data_t,KeyPoint *>();
 		kptree->initialize(
 			0, 
 			0, 
@@ -390,30 +390,30 @@ int main(void)
 		kptree->add_points_and_make_partition(kpcollection);
 		kpcollection_map.insert(
 			pair<size_t,
-			QuadTreePointCollection<double,KeyPoint *> *>(
+			QuadTreePointCollection<data_t,KeyPoint *> *>(
 				i,kpcollection));
 		kptree_map.insert(
 			pair<size_t,
-			QuadTree<double,KeyPoint *> *>(
+			QuadTree<data_t,KeyPoint *> *>(
 				i,kptree));
 		cout<<"QuadTree is generated for image "<<i<<endl;
 	}
 	///////////////////////////////////////////////////////////////////
 
-	map<const QuadTreeNode<double,KeyPoint *> *,double> 
+	map<const QuadTreeNode<data_t,KeyPoint *> *,double> 
 		probability_map;
 	// make reference tree with a raw image and keypoints
-	QuadTree<double,KeyPoint *> *ref_kptree = 
+	QuadTree<data_t,KeyPoint *> *ref_kptree = 
 		kptree_map.find(RAW_IMAGE)->second;
-	list<const QuadTreeNode<double,KeyPoint *> *> temp_list;
+	list<const QuadTreeNode<data_t,KeyPoint *> *> temp_list;
 	// insert all nodes that contain keypoints
 	ref_kptree->traverse_all_nodes(
 		temp_list,
-		[&](const QuadTreeNode<double,KeyPoint *> *_node) 
-			-> const QuadTreeNode<double,KeyPoint *> *{
+		[&](const QuadTreeNode<data_t,KeyPoint *> *_node) 
+			-> const QuadTreeNode<data_t,KeyPoint *> *{
 			if(_node->get_size_of_points() != 0) {
 				probability_map.insert(
-				pair<const QuadTreeNode<double,KeyPoint *> *,
+				pair<const QuadTreeNode<data_t,KeyPoint *> *,
 					double>(_node,0.0));
 
 //			double aspect_ratio = 
@@ -467,11 +467,11 @@ int main(void)
 		i <= BLUR9_IMAGE; 
 		i = i+BLUR_INCREMENT) {
 
-		QuadTree<double,KeyPoint *> *kptree = 
+		QuadTree<data_t,KeyPoint *> *kptree = 
 			kptree_map.find(i)->second;
 
-		QTreeFuncDensity<double,KeyPoint *> density_func;
-		list<const QuadTreeNode<double,KeyPoint *> *> node_list;
+		QTreeFuncDensity<data_t,KeyPoint *> density_func;
+		list<const QuadTreeNode<data_t,KeyPoint *> *> node_list;
 		density_func(node_list,kptree);
 
 		cout<<"pre "<<node_list.size()<<endl;
@@ -484,10 +484,10 @@ int main(void)
 		for_each(
 			node_list.begin(),
 			node_list.end(),
-			[&](const QuadTreeNode<double,KeyPoint *> *_node) {
+			[&](const QuadTreeNode<data_t,KeyPoint *> *_node) {
 			// find out reference nodes
 			// that are overlapped with _node 
-			list<const QuadTreeNode<double,KeyPoint *> *> 
+			list<const QuadTreeNode<data_t,KeyPoint *> *> 
 				overlapped_nodes; 
 			ref_kptree->find_neighbor_node(
 				overlapped_nodes,
@@ -516,14 +516,14 @@ int main(void)
 			for_each(
 				overlapped_nodes.begin(),
 				overlapped_nodes.end(),
-				[&](const QuadTreeNode<double,KeyPoint *> *
+				[&](const QuadTreeNode<data_t,KeyPoint *> *
 					node) {
 //			cout<<"ref node "<<node<<", "
 //			<<node->get_x_from()
 //			<<", "<<node->get_y_from()
 //			<<", "<<node->get_width()
 //			<<", "<<node->get_height()<<endl;
-				map<const QuadTreeNode<double,KeyPoint *> *, 
+				map<const QuadTreeNode<data_t,KeyPoint *> *, 
 					double>::iterator itr = 
 					probability_map.find(node);
 				if(itr != probability_map.end()) {
@@ -559,7 +559,7 @@ int main(void)
 	for_each(
 		probability_map.begin(),
 		probability_map.end(),
-		[&](pair<const QuadTreeNode<double,KeyPoint *> *,double> 
+		[&](pair<const QuadTreeNode<data_t,KeyPoint *> *,double> 
 			a_pair) {
 			Rect rect(
 				a_pair.first->get_x_from()+2,
@@ -617,7 +617,7 @@ int main(void)
 
 	for_each(kptree_map.begin(),
 		kptree_map.end(),
-		[](pair<size_t,QuadTree<double,KeyPoint *> *> _a_pair) {
+		[](pair<size_t,QuadTree<data_t,KeyPoint *> *> _a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;
 			}
@@ -625,7 +625,7 @@ int main(void)
 
 	for_each(kpcollection_map.begin(),
 		kpcollection_map.end(),
-		[](pair<size_t,QuadTreePointCollection<double,KeyPoint *> *>
+		[](pair<size_t,QuadTreePointCollection<data_t,KeyPoint *> *>
 			_a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;
