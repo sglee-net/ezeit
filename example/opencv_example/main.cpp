@@ -32,6 +32,8 @@
 #include "rapidjson/filewritestream.h"
 #include "rapidjson/writer.h"
 #include <cstdio>
+#include "dscsel_major.hpp"
+#include "dscsel_unique.hpp"
 
 using namespace rapidjson;
 
@@ -85,7 +87,7 @@ void inverse(Mat &_img) {
 	}
 }
 
-typedef int data_t;
+typedef int type_t;
 
 int main(void)
 {
@@ -300,30 +302,64 @@ int main(void)
 	}
 	///////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////
-	// extract IOI (Index of Interest)
-	const vector<KeyPoint> *ioi_keypoints = 0;
-	ioi_keypoints = keypoints_map.find(BLUR9_IMAGE)->second;
-	const Mat *ioi_descriptors = 0;
-	ioi_descriptors = descriptors_map.find(BLUR9_IMAGE)->second;
+	list<size_t> ioi;
+	Mat correlation;
+	Mat mean_mat;
+	map<string,double> properties;
+	cv::calcCovarMatrix(
+		*descriptors_map.find(BLUR9_IMAGE)->second,
+		correlation,
+		mean_mat,
+		COVAR_NORMAL | COVAR_COLS | COVAR_SCALE);
+	DSCSELUnique *dscsel_unique = DSCSELUnique::get_instance();
+	(*dscsel_unique)(
+		ioi,
+		*keypoints_map.find(BLUR9_IMAGE)->second,
+		*descriptors_map.find(BLUR9_IMAGE)->second,
+		correlation,
+		'+',
+		properties);
 
-	map<string, double> ioi_properties;
-	list<size_t> filteredIndexes;
-	extract_IOI(
-		filteredIndexes,
-		*ioi_descriptors,
-		*ioi_keypoints,
-		ioi_properties);
-
-	Mat filteredMat;
+	DSCSELMajor *dscsel_major = DSCSELMajor::get_instance();
+	(*dscsel_major)(
+		ioi,
+		*keypoints_map.find(BLUR9_IMAGE)->second,
+		*descriptors_map.find(BLUR9_IMAGE)->second,
+		correlation,
+		'-',
+		properties);
 	vector<KeyPoint> filteredKeypoints;
-	for(list<size_t>::const_iterator citr = filteredIndexes.begin();
-		citr != filteredIndexes.end();
+	for(list<size_t>::const_iterator citr = ioi.begin();
+		citr != ioi.end();
 		++citr) {
-		filteredMat.push_back(ioi_descriptors->row(*citr));
-		filteredKeypoints.push_back(ioi_keypoints->at(*citr));
+		filteredKeypoints.push_back(
+			keypoints_map.find(BLUR9_IMAGE)->second->at(*citr));
 	}
-	///////////////////////////////////////////////////////////////////
+
+//	///////////////////////////////////////////////////////////////////
+//	// extract IOI (Index of Interest)
+//	const vector<KeyPoint> *ioi_keypoints = 0;
+//	ioi_keypoints = keypoints_map.find(BLUR9_IMAGE)->second;
+//	const Mat *ioi_descriptors = 0;
+//	ioi_descriptors = descriptors_map.find(BLUR9_IMAGE)->second;
+//
+//	map<string, double> ioi_properties;
+//	list<size_t> filteredIndexes;
+//	extract_IOI(
+//		filteredIndexes,
+//		*ioi_descriptors,
+//		*ioi_keypoints,
+//		ioi_properties);
+//
+//	Mat filteredMat;
+//	vector<KeyPoint> filteredKeypoints;
+//	for(list<size_t>::const_iterator citr = filteredIndexes.begin();
+//		citr != filteredIndexes.end();
+//		++citr) {
+//		filteredMat.push_back(ioi_descriptors->row(*citr));
+//		filteredKeypoints.push_back(ioi_keypoints->at(*citr));
+//	}
+//	///////////////////////////////////////////////////////////////////
 
 
 //	filteredKeyPoints.clear();
@@ -335,13 +371,13 @@ int main(void)
 	const int image_width = refImage.rows;
 	const int image_height = refImage.cols;
 	const int cell_size = 32;
-	data_t x_min = numeric_limits<data_t>::max();
-	data_t x_max = 0;
-	data_t y_min = numeric_limits<data_t>::max();
-	data_t y_max = 0;
-	map<size_t, QuadTreePointCollection<data_t,KeyPoint *> *> 
+//	type_t x_min = numeric_limits<type_t>::max();
+//	type_t x_max = 0;
+//	type_t y_min = numeric_limits<type_t>::max();
+//	type_t y_max = 0;
+	map<size_t, QuadTreePointCollection<type_t,KeyPoint *> *> 
 		kpcollection_map;
-	map<size_t, QuadTree<data_t,KeyPoint *> *> kptree_map;
+	map<size_t, QuadTree<type_t,KeyPoint *> *> kptree_map;
 
 	for(size_t i = RAW_IMAGE; 
 		i <= BLUR9_IMAGE; 
@@ -357,14 +393,14 @@ int main(void)
 		}
 
 		keypoints = citr->second;
-		QuadTreePointCollection<data_t,KeyPoint *> *kpcollection =
-			new QuadTreePointCollection<data_t,KeyPoint *>();
+		QuadTreePointCollection<type_t,KeyPoint *> *kpcollection =
+			new QuadTreePointCollection<type_t,KeyPoint *>();
 		for_each(
 			keypoints->begin(),
 			keypoints->end(),
 			[&](KeyPoint &_keypoint) {
-				QuadTreePoint<data_t,KeyPoint *> *pt = 
-				new QuadTreePoint<data_t,KeyPoint *>(
+				QuadTreePoint<type_t,KeyPoint *> *pt = 
+				new QuadTreePoint<type_t,KeyPoint *>(
 						_keypoint.pt.x,
 						_keypoint.pt.y,
 						&_keypoint);
@@ -373,14 +409,14 @@ int main(void)
 					pt->get_y(),
 					pt);
 
-				x_min=std::min(x_min,(data_t)_keypoint.pt.x);
-				x_max=std::max(x_max,(data_t)_keypoint.pt.x);
-				y_min=std::min(y_min,(data_t)_keypoint.pt.y);
-				y_max=std::max(y_max,(data_t)_keypoint.pt.y);
+//				x_min=std::min(x_min,(type_t)_keypoint.pt.x);
+//				x_max=std::max(x_max,(type_t)_keypoint.pt.x);
+//				y_min=std::min(y_min,(type_t)_keypoint.pt.y);
+//				y_max=std::max(y_max,(type_t)_keypoint.pt.y);
 			});
 
-		QuadTree<data_t,KeyPoint *> *kptree = 
-			new QuadTree<data_t,KeyPoint *>();
+		QuadTree<type_t,KeyPoint *> *kptree = 
+			new QuadTree<type_t,KeyPoint *>();
 		kptree->initialize(
 			0, 
 			0, 
@@ -390,31 +426,32 @@ int main(void)
 		kptree->add_points_and_make_partition(kpcollection);
 		kpcollection_map.insert(
 			pair<size_t,
-			QuadTreePointCollection<data_t,KeyPoint *> *>(
+			QuadTreePointCollection<type_t,KeyPoint *> *>(
 				i,kpcollection));
 		kptree_map.insert(
 			pair<size_t,
-			QuadTree<data_t,KeyPoint *> *>(
+			QuadTree<type_t,KeyPoint *> *>(
 				i,kptree));
 		cout<<"QuadTree is generated for image "<<i<<endl;
 	}
 	///////////////////////////////////////////////////////////////////
 
-	map<const QuadTreeNode<data_t,KeyPoint *> *,double> 
+	map<const QuadTreeNode<type_t,KeyPoint *> *,double> 
 		probability_map;
 	// make reference tree with a raw image and keypoints
-	QuadTree<data_t,KeyPoint *> *ref_kptree = 
+	QuadTree<type_t,KeyPoint *> *ref_kptree = 
 		kptree_map.find(RAW_IMAGE)->second;
-	list<const QuadTreeNode<data_t,KeyPoint *> *> temp_list;
+	list<const QuadTreeNode<type_t,KeyPoint *> *> temp_list;
 	// insert all nodes that contain keypoints
 	ref_kptree->traverse_all_nodes(
 		temp_list,
-		[&](const QuadTreeNode<data_t,KeyPoint *> *_node) 
-			-> const QuadTreeNode<data_t,KeyPoint *> *{
+		[&](const QuadTreeNode<type_t,KeyPoint *> *_node) 
+			-> const QuadTreeNode<type_t,KeyPoint *> *{
 			if(_node->get_size_of_points() != 0) {
 				probability_map.insert(
-				pair<const QuadTreeNode<data_t,KeyPoint *> *,
-					double>(_node,0.0));
+				pair<
+				const QuadTreeNode<type_t,KeyPoint *> *,
+				double> (_node,0.0));
 
 //			double aspect_ratio = 
 //				double(_node->get_y_to()-_node->get_y_from())
@@ -467,11 +504,11 @@ int main(void)
 		i <= BLUR9_IMAGE; 
 		i = i+BLUR_INCREMENT) {
 
-		QuadTree<data_t,KeyPoint *> *kptree = 
+		QuadTree<type_t,KeyPoint *> *kptree = 
 			kptree_map.find(i)->second;
 
-		QTreeFuncDensity<data_t,KeyPoint *> density_func;
-		list<const QuadTreeNode<data_t,KeyPoint *> *> node_list;
+		QTreeFuncDensity<type_t,KeyPoint *> density_func;
+		list<const QuadTreeNode<type_t,KeyPoint *> *> node_list;
 		density_func(node_list,kptree);
 
 		cout<<"pre "<<node_list.size()<<endl;
@@ -484,17 +521,17 @@ int main(void)
 		for_each(
 			node_list.begin(),
 			node_list.end(),
-			[&](const QuadTreeNode<data_t,KeyPoint *> *_node) {
+			[&](const QuadTreeNode<type_t,KeyPoint *> *_node) {
 			// find out reference nodes
 			// that are overlapped with _node 
-			list<const QuadTreeNode<data_t,KeyPoint *> *> 
+			list<const QuadTreeNode<type_t,KeyPoint *> *> 
 				overlapped_nodes; 
 			ref_kptree->find_neighbor_node(
 				overlapped_nodes,
 				ref_kptree->get_root(),
 				_node->get_x_from(),
-				_node->get_x_to(),
 				_node->get_y_from(),
+				_node->get_x_to(),
 				_node->get_y_to(),
 				false);
 //			for_each(
@@ -516,14 +553,14 @@ int main(void)
 			for_each(
 				overlapped_nodes.begin(),
 				overlapped_nodes.end(),
-				[&](const QuadTreeNode<data_t,KeyPoint *> *
+				[&](const QuadTreeNode<type_t,KeyPoint *> *
 					node) {
 //			cout<<"ref node "<<node<<", "
 //			<<node->get_x_from()
 //			<<", "<<node->get_y_from()
 //			<<", "<<node->get_width()
 //			<<", "<<node->get_height()<<endl;
-				map<const QuadTreeNode<data_t,KeyPoint *> *, 
+				map<const QuadTreeNode<type_t,KeyPoint *> *, 
 					double>::iterator itr = 
 					probability_map.find(node);
 				if(itr != probability_map.end()) {
@@ -550,8 +587,8 @@ int main(void)
 	Mat filtered_keypoints_raw_image;
 	drawKeypoints(
 		refImage, 
-//		filteredKeypoints, 
-		*keypoints_map.find(BLUR9_IMAGE)->second,
+		filteredKeypoints, 
+//		*keypoints_map.find(BLUR9_IMAGE)->second,
 		filtered_keypoints_raw_image,
 		Scalar::all(-1), 
 		DrawMatchesFlags::DEFAULT);
@@ -559,7 +596,7 @@ int main(void)
 	for_each(
 		probability_map.begin(),
 		probability_map.end(),
-		[&](pair<const QuadTreeNode<data_t,KeyPoint *> *,double> 
+		[&](pair<const QuadTreeNode<type_t,KeyPoint *> *,double> 
 			a_pair) {
 			Rect rect(
 				a_pair.first->get_x_from()+2,
@@ -617,7 +654,7 @@ int main(void)
 
 	for_each(kptree_map.begin(),
 		kptree_map.end(),
-		[](pair<size_t,QuadTree<data_t,KeyPoint *> *> _a_pair) {
+		[](pair<size_t,QuadTree<type_t,KeyPoint *> *> _a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;
 			}
@@ -625,7 +662,7 @@ int main(void)
 
 	for_each(kpcollection_map.begin(),
 		kpcollection_map.end(),
-		[](pair<size_t,QuadTreePointCollection<data_t,KeyPoint *> *>
+		[](pair<size_t,QuadTreePointCollection<type_t,KeyPoint *> *>
 			_a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;

@@ -10,14 +10,23 @@
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/ml/ml.hpp>
 
+#include "dscsel.hpp"
+
 struct DSCSELMajor {
+	static DSCSELMajor *get_instance() {
+		static DSCSELMajor instance;
+		return &instance;
+	}
+
 	/**
 	 * @param ioi
 	 * Index of Interest
-	 * @param descriptor
-	 * descritor vectors corresponding to keypoints
 	 * @param keypoints
 	 * keypoints by local feature detector such as SIFT, SURF, etc.
+	 * @param descriptor
+	 * descritor vectors corresponding to keypoints
+	 * @param correlation
+	 * correlation matrix of descriptor
 	 * @param kind_of_function
 	 * '+' for addition and '-' for removal
 	 * @param properties
@@ -26,10 +35,41 @@ struct DSCSELMajor {
 	*/
 	void operator() (
 		list<size_t> &_ioi,
-		const Mat &_descriptor,
 		const vector<KeyPoint> &_keypoints,
-		const char kind_of_function,
+		const Mat &_descriptor,
+		const Mat &_correlation,
+		const char _kind_of_function,
 		const map<string,double> &_properties) const {
+		list<size_t> ioi;
+		find_correlated_index(
+			ioi,
+			_keypoints,
+			_descriptor,
+			_correlation,
+			"HIGH",
+			"HIGH",
+			0.9);
+		switch(_kind_of_function) {
+			case '+':
+			for_each(ioi.begin(),
+				ioi.end(),
+				[&](const size_t i) {
+					_ioi.push_back(i);
+				});
+			break;
+			case '-':
+			for_each(ioi.begin(),
+				ioi.end(),
+				[&](const size_t i) {
+					_ioi.remove(i);
+				});
+			break;
+			default:
+			throw("unsupported kind of function");
+			break;
+		}
+		_ioi.sort();
+		_ioi.unique();
 	}
 };
 
