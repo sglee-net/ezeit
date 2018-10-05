@@ -32,25 +32,26 @@ public:
 
 	void operator() (
 		list<const QuadTreeNode<T,S> *> &_node_list,
-		const QuadTree<T,S> *_kpointtree
+		const QuadTree<T,S> *_kptree
 	) const {
 		list<const QuadTreeNode<T,S> *> base_nodes;
-		_kpointtree->get_sorted_nodes(
+		_kptree->get_sorted_nodes(
 			base_nodes,
 			[](const QuadTreeNode<T,S> *_l,
 				const QuadTreeNode<T,S> *_r) -> bool {
+				// ascending
 				return _l->get_density() 
 					< _r->get_density() 
 					? true : false;
 			},
 			false);
+		// base_nodes are sorted by density
 		
 		list<pair<
 			double,
 			const QuadTreeNode<T,S> *> > 
 				density_and_node_list;
 		list<double> density_list;
-
 		for_each(
 			base_nodes.begin(),
 			base_nodes.end(),

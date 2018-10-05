@@ -35,11 +35,19 @@ struct DSCSELMajor {
 	*/
 	void operator() (
 		list<size_t> &_ioi,
-		const vector<KeyPoint> &_keypoints,
-		const Mat &_descriptor,
+		const vector<KeyPoint *> *_keypoints,
+		const Mat *_descriptor,
 		const Mat &_correlation,
 		const char _kind_of_function,
 		const map<string,double> &_properties) const {
+		assert(_keypoints->size() == _descriptor->rows);
+//		for_each(
+//			_ioi.begin(),
+//			_ioi.end(),
+//			[](size_t i) {
+//				cout<<"ref index "<<i<<endl;
+//			});
+
 		list<size_t> ioi;
 		find_correlated_index(
 			ioi,
@@ -48,7 +56,14 @@ struct DSCSELMajor {
 			_correlation,
 			"HIGH",
 			"HIGH",
-			0.9);
+			0.8);
+//		for_each(
+//			ioi.begin(),
+//			ioi.end(),
+//			[](size_t i) {
+//				cout<<"tag index "<<i<<endl;
+//			});
+
 		switch(_kind_of_function) {
 			case '+':
 			for_each(ioi.begin(),

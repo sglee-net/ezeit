@@ -18,21 +18,66 @@ using namespace cv;
 using namespace cv::xfeatures2d;
 using namespace cv::ml;
 
+//class DSCSELFunctionList {
+//private:
+//	DSCSELFunctionList() {}
+//	DSCSELFunctionList(const DSCSELFunctionList &) {}
+//	DSCSELFunctionList &operator=(const DSCSELFunctionList &) {
+//		return *this;
+//	}
+//public:
+//	static DSCSELFunctionList *get_instance() {
+//		static DSCSELFunctionList instance;
+//		return &instance;
+//	}
+//	
+//	void push_back(const std::function<void(
+//			list<size_t> &,
+//			const vector<KeyPoint> &,
+//			const Mat &,
+//			const Mat &,
+//			const char,
+//			const map<string,double> &
+//			)> &_func) {
+//		function_list.push_back(_func);
+//	}
+//
+//	void run(
+//		list<size_t> &ioi,
+//		const vector<KeyPoint> &_keypoints,
+//		const Mat &_descriptor,
+//		const Mat &_correlation,
+//		const char _kind_of_function,
+//		const map<string,double> &_properties
+//	) const {
+//	}
+//private:
+//	list<std::function<void(
+//			list<size_t> &,
+//			const vector<KeyPoint> &,
+//			const Mat &,
+//			const Mat &,
+//			const char,
+//			const map<string,double> &
+//			)>> function_list;
+//};
+
 template <typename T, typename S>
 void find_nodes_with_ioi(
 	list<const QuadTreeNode<T,S> *> &_node_list,
 	const QuadTree<T,S> *_kptree,
 	const list<size_t> &_ioi,
-	const vector<KeyPoint> &_keypoints,
+	const vector<S> *_keypoints,
 	const T &_distance_margin) {
 	for_each(
 		_ioi.begin(),
 		_ioi.end(),
 		[&](size_t i) {
-		T x_from = _keypoints[i].pt.x-_distance_margin;
-		T y_from = _keypoints[i].pt.y-_distance_margin;
-		T x_to = _keypoints[i].pt.x+_distance_margin;
-		T y_to = _keypoints[i].pt.y+_distance_margin;
+		Point2f pt = (*_keypoints)[i]->pt;
+		T x_from = pt.x-_distance_margin;
+		T y_from = pt.y-_distance_margin;
+		T x_to = pt.x+_distance_margin;
+		T y_to = pt.y+_distance_margin;
 		_kptree->find_neighbor_node(
 			_node_list,
 			_kptree->get_root(),
@@ -46,11 +91,11 @@ void find_nodes_with_ioi(
 
 // frequency ratio
 // for LOW frequency : 0.1
-// for HIGH frequency: 0.9
+// for HIGH frequency: 0.8
 void find_correlated_index (
 	list<size_t> &_ioi,
-	const vector<KeyPoint> &_keypoints,
-	const Mat &_descriptor,
+	const vector<KeyPoint *> *_keypoints,
+	const Mat *_descriptor,
 	const Mat &_correlation,
 	const string _correlation_type,
 	const string _frequency_type,
@@ -60,16 +105,16 @@ void find_correlated_index (
 
 	for(size_t i=0; i<_correlation.rows; i++) {
 		for(size_t j=i+1; j<_correlation.cols; j++) {
-			KeyPoint keypoint1 = _keypoints[i];
-			KeyPoint keypoint2 = _keypoints[j];
+			KeyPoint *keypoint1 = (*_keypoints)[i];
+			KeyPoint *keypoint2 = (*_keypoints)[j];
 			float cov = fabs(_correlation.at<float>(i,j));
-			float dist = cv::norm(keypoint1.pt-keypoint2.pt);
+			float dist = cv::norm(keypoint1->pt-keypoint2->pt);
 			bool is_covariance_satisfied = false;
 			if(_correlation_type == "HIGH") {
-				if(fabs(cov) > 1e1) 
+				if(fabs(cov) > 1e3) 
 					is_covariance_satisfied = true;
 			} else if (_correlation_type == "LOW") {
-				if(fabs(cov) < 1e-1) 
+				if(fabs(cov) < 1e-3) 
 					is_covariance_satisfied = true;
 			} else {
 				throw ("unsupported type in findCovCount");
@@ -109,7 +154,7 @@ void find_correlated_index (
 		index_count_list.end(),
 		[&]( const pair<size_t,size_t> &l,
 			const pair<size_t,size_t> &r) {
-			if(l.second != r.second) {
+//			if(l.second != r.second) {
 				if(_frequency_type=="LOW") {
 					// < ascending
 					return l.second < r.second;
@@ -119,8 +164,8 @@ void find_correlated_index (
 				} else {
 					throw ("unsupported type");
 				}
-			}
-			return l.first < r.first;
+//			}
+//			return l.first < r.first;
 		});
 
 
@@ -129,6 +174,12 @@ void find_correlated_index (
 	size_t push_size = 
 		index_count_list.size() * _frequency_cutoff_ratio;
 	for(size_t i = 0; i < push_size; i++) {
+//		cout<<"index,count "
+//		<<itr_index_count_list->first
+//		<<", "
+//		<<itr_index_count_list->second
+//		<<endl;
+
 		_ioi.push_back(itr_index_count_list->first);
 		++itr_index_count_list;
 	}

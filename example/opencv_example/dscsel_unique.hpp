@@ -33,8 +33,8 @@ struct DSCSELUnique {
 	*/
 	void operator() (
 		list<size_t> &_ioi,
-		const vector<KeyPoint> &_keypoints,
-		const Mat &_descriptor,
+		const vector<KeyPoint *> *_keypoints,
+		const Mat *_descriptor,
 		const Mat &_correlation,
 		const char kind_of_function,
 		const map<string,double> &_properties) const {
@@ -46,7 +46,7 @@ struct DSCSELUnique {
 			_correlation,
 			"HIGH",
 			"LOW",
-			0.1);
+			0.2);
 		switch(kind_of_function) {
 			case '+':
 			for_each(ioi.begin(),
@@ -66,7 +66,7 @@ struct DSCSELUnique {
 			throw("unsupported kind of function");
 			break;
 		}
-		ioi.clear();
+		
 		find_correlated_index(
 			ioi,
 			_keypoints,
@@ -74,7 +74,7 @@ struct DSCSELUnique {
 			_correlation,
 			"LOW",
 			"LOW",
-			0.1);
+			0.2);
 		switch(kind_of_function) {
 			case '+':
 			for_each(ioi.begin(),

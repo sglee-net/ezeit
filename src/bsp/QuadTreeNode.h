@@ -485,8 +485,8 @@ template <typename T, typename S>
 bool 
 QuadTreeNode<T,S>::is_overlapped(
 	const T _x_from, 
-	const T _x_to, 
 	const T _y_from, 
+	const T _x_to, 
 	const T _y_to) const {
 	if(GE(this->x_from, _x_to) ||
 		GE(_x_from, this->x_to)) {

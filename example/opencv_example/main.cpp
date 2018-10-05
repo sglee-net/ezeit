@@ -34,6 +34,8 @@
 #include <cstdio>
 #include "dscsel_major.hpp"
 #include "dscsel_unique.hpp"
+#include "siftfunc_density.hpp"
+#include "siftfunc_frequency.hpp"
 
 using namespace rapidjson;
 
@@ -129,8 +131,8 @@ int main(void)
 
 //	string path = "./refImage.jpeg";
 //	string path = "./images/spot_656.jpg";
-//	string path = "./images/spot_439.jpg";
-	string path = "./images/brg_37.jpg";
+	string path = "./images/spot_439.jpg";
+//	string path = "./images/brg_37.jpg";
 //	string path = "./images/lsac_18.jpg";
 
 	Mat refImage;
@@ -206,6 +208,11 @@ int main(void)
 		Point(0,0));
 	Mat contourMat = Mat::zeros(canny_output.size(), CV_8UC3);
 	for(size_t i=0; i<contours.size(); i++) {
+		double area = contourArea(contours[i], false);
+		cout<<i<<" area: "<<area<<endl;
+		if(fabs(area) < 10) {
+			continue;
+		}
 		Scalar color = 
 			Scalar(rng.uniform(0,255),
 			rng.uniform(0,255),
@@ -225,7 +232,7 @@ int main(void)
 	Rect roi;
 	for(size_t i=0; i<contours.size(); i++) {
 		double area = contourArea(contours[i], false);
-//		cout<<i<<" area: "<<area<<endl;
+		cout<<i<<" area: "<<area<<endl;
 		if(fabs(area) > canny_area_detection_threshold) {
 			roi = boundingRect(contours[i]);
 			double aspect_ratio = 
@@ -281,64 +288,40 @@ int main(void)
 		0.0015f);
 
 	// step2: compute keypoints and descriptors (fecture vectors)
-	map<size_t,vector<KeyPoint> *> keypoints_map;
+	map<size_t,vector<KeyPoint *> *> keypoints_map;
 	map<size_t,Mat *> descriptors_map;
 	for(size_t i = RAW_IMAGE; 
 		i <= BLUR9_IMAGE; 
 		i = i+BLUR_INCREMENT) {
-		vector<KeyPoint> *keypoints = new vector<KeyPoint>();
-		keypoints_map.insert(pair<size_t,vector<KeyPoint> *>(
+		vector<KeyPoint *> *keypoints = new vector<KeyPoint* >();
+		keypoints_map.insert(pair<size_t,vector<KeyPoint* > *>(
 				i,keypoints));
 		
 		Mat *descriptors = new Mat(*(image_map.find(i)->second));
 		descriptors_map.insert(pair<size_t, Mat *>(
 				i,descriptors));
 
+		vector<KeyPoint> temp_keypoints;
+
 		detector->detectAndCompute(
 			*image_map.find(i)->second,
 			Mat(), 
-			*keypoints, 
+			temp_keypoints, 
 			*descriptors);
+		for_each(temp_keypoints.begin(),
+			temp_keypoints.end(),
+			[&](const KeyPoint pt) {
+				KeyPoint *kpt = new KeyPoint(pt);
+				keypoints->push_back(kpt);
+			});
 	}
 	///////////////////////////////////////////////////////////////////
 
-	list<size_t> ioi;
-	Mat correlation;
-	Mat mean_mat;
-	map<string,double> properties;
-	cv::calcCovarMatrix(
-		*descriptors_map.find(BLUR9_IMAGE)->second,
-		correlation,
-		mean_mat,
-		COVAR_NORMAL | COVAR_COLS | COVAR_SCALE);
-	DSCSELUnique *dscsel_unique = DSCSELUnique::get_instance();
-	(*dscsel_unique)(
-		ioi,
-		*keypoints_map.find(BLUR9_IMAGE)->second,
-		*descriptors_map.find(BLUR9_IMAGE)->second,
-		correlation,
-		'+',
-		properties);
 
-	DSCSELMajor *dscsel_major = DSCSELMajor::get_instance();
-	(*dscsel_major)(
-		ioi,
-		*keypoints_map.find(BLUR9_IMAGE)->second,
-		*descriptors_map.find(BLUR9_IMAGE)->second,
-		correlation,
-		'-',
-		properties);
-	vector<KeyPoint> filteredKeypoints;
-	for(list<size_t>::const_iterator citr = ioi.begin();
-		citr != ioi.end();
-		++citr) {
-		filteredKeypoints.push_back(
-			keypoints_map.find(BLUR9_IMAGE)->second->at(*citr));
-	}
 
 //	///////////////////////////////////////////////////////////////////
 //	// extract IOI (Index of Interest)
-//	const vector<KeyPoint> *ioi_keypoints = 0;
+//	const vector<KeyPoint *> *ioi_keypoints = 0;
 //	ioi_keypoints = keypoints_map.find(BLUR9_IMAGE)->second;
 //	const Mat *ioi_descriptors = 0;
 //	ioi_descriptors = descriptors_map.find(BLUR9_IMAGE)->second;
@@ -360,10 +343,9 @@ int main(void)
 //		filteredKeypoints.push_back(ioi_keypoints->at(*citr));
 //	}
 //	///////////////////////////////////////////////////////////////////
-
-
-//	filteredKeyPoints.clear();
-//	copy(KeyPoints.begin(),KeyPoints.end(),filteredKeyPoints.begin());
+//
+////	filteredKeyPoints.clear();
+////	copy(KeyPoints.begin(),KeyPoints.end(),filteredKeyPoints.begin());
 
 
 	///////////////////////////////////////////////////////////////////
@@ -371,10 +353,6 @@ int main(void)
 	const int image_width = refImage.rows;
 	const int image_height = refImage.cols;
 	const int cell_size = 32;
-//	type_t x_min = numeric_limits<type_t>::max();
-//	type_t x_max = 0;
-//	type_t y_min = numeric_limits<type_t>::max();
-//	type_t y_max = 0;
 	map<size_t, QuadTreePointCollection<type_t,KeyPoint *> *> 
 		kpcollection_map;
 	map<size_t, QuadTree<type_t,KeyPoint *> *> kptree_map;
@@ -382,8 +360,8 @@ int main(void)
 	for(size_t i = RAW_IMAGE; 
 		i <= BLUR9_IMAGE; 
 		i = i+BLUR_INCREMENT) {
-		vector<KeyPoint> *keypoints = 0;
-		map<size_t,vector<KeyPoint> *>::const_iterator citr =
+		vector<KeyPoint *> *keypoints = 0;
+		map<size_t,vector<KeyPoint *> *>::const_iterator citr =
 			keypoints_map.find(i);
 		assert(citr != keypoints_map.end());
 		if(citr == keypoints_map.end()) {
@@ -398,21 +376,16 @@ int main(void)
 		for_each(
 			keypoints->begin(),
 			keypoints->end(),
-			[&](KeyPoint &_keypoint) {
+			[&](KeyPoint *_keypoint) {
 				QuadTreePoint<type_t,KeyPoint *> *pt = 
 				new QuadTreePoint<type_t,KeyPoint *>(
-						_keypoint.pt.x,
-						_keypoint.pt.y,
-						&_keypoint);
+						_keypoint->pt.x,
+						_keypoint->pt.y,
+						_keypoint);
 				kpcollection->insert_point(
 					pt->get_x(),
 					pt->get_y(),
 					pt);
-
-//				x_min=std::min(x_min,(type_t)_keypoint.pt.x);
-//				x_max=std::max(x_max,(type_t)_keypoint.pt.x);
-//				y_min=std::min(y_min,(type_t)_keypoint.pt.y);
-//				y_max=std::max(y_max,(type_t)_keypoint.pt.y);
 			});
 
 		QuadTree<type_t,KeyPoint *> *kptree = 
@@ -498,100 +471,119 @@ int main(void)
 			}
 		});
 
+	list<size_t> ioi_index;
 	///////////////////////////////////////////////////////////////////
 	size_t test_count = 0;
 	for(size_t i = BLUR3_IMAGE; 
-		i <= BLUR9_IMAGE; 
+		i <= BLUR3_IMAGE; 
 		i = i+BLUR_INCREMENT) {
+
+		ioi_index.clear();
 
 		QuadTree<type_t,KeyPoint *> *kptree = 
 			kptree_map.find(i)->second;
 
-		QTreeFuncDensity<type_t,KeyPoint *> density_func;
-		list<const QuadTreeNode<type_t,KeyPoint *> *> node_list;
-		density_func(node_list,kptree);
+		map<string,double> properties;
 
-		cout<<"pre "<<node_list.size()<<endl;
-		node_list.sort();
-		node_list.unique();
-		cout<<"post "<<node_list.size()<<endl;
-		cout<<"density is calculated"<<endl;
-
-		double weight = 1.0;
-		for_each(
-			node_list.begin(),
-			node_list.end(),
-			[&](const QuadTreeNode<type_t,KeyPoint *> *_node) {
-			// find out reference nodes
-			// that are overlapped with _node 
-			list<const QuadTreeNode<type_t,KeyPoint *> *> 
-				overlapped_nodes; 
-			ref_kptree->find_neighbor_node(
-				overlapped_nodes,
-				ref_kptree->get_root(),
-				_node->get_x_from(),
-				_node->get_y_from(),
-				_node->get_x_to(),
-				_node->get_y_to(),
-				false);
-//			for_each(
-//				ref_node_list.begin(),
-//				ref_node_list.end(),
-//				[](const QuadTreeNode<KeyPoint *> *
-//					_ref_node) {
-//				cout
-//				<<_ref_node<<", ";
-//				_ref_node->print_index();
-//				cout<<endl;
-//			});
-
-//			cout<<_node<<"found neighbors "<<overlapped_nodes.size()<<", ";
-//			cout<<_node->get_x_from()
-//			<<", "<<_node->get_y_from()
-//			<<", "<<_node->get_width()
-//			<<", "<<_node->get_height()<<endl;
-			for_each(
-				overlapped_nodes.begin(),
-				overlapped_nodes.end(),
-				[&](const QuadTreeNode<type_t,KeyPoint *> *
-					node) {
-//			cout<<"ref node "<<node<<", "
-//			<<node->get_x_from()
-//			<<", "<<node->get_y_from()
-//			<<", "<<node->get_width()
-//			<<", "<<node->get_height()<<endl;
-				map<const QuadTreeNode<type_t,KeyPoint *> *, 
-					double>::iterator itr = 
-					probability_map.find(node);
-				if(itr != probability_map.end()) {
-					cout<<"p "<<itr->second<<endl;
-					itr->second += 1.0 * weight;
-				} else {
-				}
-			});
-
-		});
+//		SIFTFuncDensity<type_t,KeyPoint *> siftfunc_density;
+//		siftfunc_density(
+//			probability_map,
+//			ref_kptree,
+//			kptree,
+//			i,
+//			keypoints_map,
+//			descriptors_map,
+//			properties
+//			);
+			
+		SIFTFuncFrequency<type_t,KeyPoint *> siftfunc_frequency;
+		siftfunc_frequency.weight = 1.0;
+		siftfunc_frequency(
+			ioi_index,
+			probability_map,
+			ref_kptree,
+			kptree,
+			i,
+			keypoints_map,
+			descriptors_map,
+			properties
+			);
 
 		test_count++;
 	}
 	///////////////////////////////////////////////////////////////////
 
+	vector<KeyPoint> vKeyPoint;
+	vector<KeyPoint *> *ref_keypoints = 
+		keypoints_map.find(RAW_IMAGE)->second;
+	for_each(ref_keypoints->begin(),
+		ref_keypoints->end(),
+		[&](KeyPoint *pt) {
+			vKeyPoint.push_back(*pt);
+		});
 	Mat keypoints_raw_image;
 	drawKeypoints(
 		refImage, 
-		*keypoints_map.find(RAW_IMAGE)->second,
+//		*keypoints_map.find(RAW_IMAGE)->second,
+		vKeyPoint,
 		keypoints_raw_image, 
 		Scalar::all(-1), 
 		DrawMatchesFlags::DEFAULT);
 
+	vector<KeyPoint> temp;
+	vKeyPoint.clear();
+	ref_keypoints = keypoints_map.find(BLUR9_IMAGE)->second;
+	for_each(ref_keypoints->begin(),
+		ref_keypoints->end(),
+		[&](KeyPoint *pt) {
+//			vKeyPoint.push_back(*pt);
+			temp.push_back(*pt);
+		});
+	for_each(
+	ioi_index.begin(),
+	ioi_index.end(),
+	[&](size_t i) {
+		vKeyPoint.push_back(temp[i]);
+	});
+
 	Mat filtered_keypoints_raw_image;
 	drawKeypoints(
 		refImage, 
-		filteredKeypoints, 
 //		*keypoints_map.find(BLUR9_IMAGE)->second,
+		vKeyPoint,
 		filtered_keypoints_raw_image,
 		Scalar::all(-1), 
 		DrawMatchesFlags::DEFAULT);
+
+	list<double> probability_list;
+	for_each(
+		probability_map.begin(),
+		probability_map.end(),
+		[&](pair<const QuadTreeNode<type_t,KeyPoint *> *,double> 
+			a_pair) {
+			probability_list.push_back(a_pair.second);
+			});
+
+	SummaryStatistics probability_summary;
+	SummaryStatistics::get_summary(
+		probability_summary,
+		probability_list);
+	double fano_factor = 
+		probability_summary.var / probability_summary.avr;
+
+	cout
+	<<"[probability summary] avr:"
+	<<probability_summary.avr
+	<<", med:"
+	<<probability_summary.med
+	<<", var:"
+	<<probability_summary.var
+	<<", fano factor:"
+	<<fano_factor
+	<<endl;
+
+	const double pthres = 
+		probability_summary.avr + 1.0*sqrt(probability_summary.var);
 
 	for_each(
 		probability_map.begin(),
@@ -603,9 +595,16 @@ int main(void)
 				a_pair.first->get_y_from()+2,
 				a_pair.first->get_width()-4,
 				a_pair.first->get_height()-4);
-			cout<<a_pair.first<<", "<<a_pair.second<<endl;
+			cout
+			<<"node,prob "
+			<<a_pair.first
+			<<", "
+			<<a_pair.second<<endl;
+
 			Scalar color(255,255,0);
-			if(a_pair.second>= test_count) {
+			if(a_pair.second>= pthres) {
+//				std::max(probability_summary.avr,
+//				probability_summary.med)) {
 				color=Scalar(0,0,255);
 			}
 			rectangle(
@@ -620,6 +619,7 @@ int main(void)
 //			waitKey(0);
 		});
 
+
 	imshow("keypoints image", keypoints_raw_image);
 	imshow("filtered keypoints image", filtered_keypoints_raw_image);
 //	imshow("descriptors", descriptors_raw);
@@ -630,7 +630,7 @@ int main(void)
 
 	for_each(image_map.begin(),
 		image_map.end(),
-		[&](pair<size_t,Mat *> _a_pair) {
+		[&](const pair<size_t,Mat *> &_a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;
 			}
@@ -638,15 +638,20 @@ int main(void)
 
 	for_each(keypoints_map.begin(),
 		keypoints_map.end(),
-		[&](pair<size_t,vector<KeyPoint> *> _a_pair) {
+		[&](const pair<size_t,vector<KeyPoint *> *> &_a_pair) {
 			if(_a_pair.second) {
+				for_each(_a_pair.second->begin(),
+					_a_pair.second->end(),
+					[](KeyPoint *_pt) {
+						if(_pt) delete _pt;
+					});
 				delete _a_pair.second;
 			}
 		});
 
 	for_each(descriptors_map.begin(),
 		descriptors_map.end(),
-		[&](pair<size_t,Mat *> _a_pair) {
+		[&](const pair<size_t,Mat *> &_a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;
 			}
@@ -654,7 +659,8 @@ int main(void)
 
 	for_each(kptree_map.begin(),
 		kptree_map.end(),
-		[](pair<size_t,QuadTree<type_t,KeyPoint *> *> _a_pair) {
+		[](const pair<size_t,QuadTree<type_t,KeyPoint *> *> 
+			&_a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;
 			}
@@ -662,8 +668,9 @@ int main(void)
 
 	for_each(kpcollection_map.begin(),
 		kpcollection_map.end(),
-		[](pair<size_t,QuadTreePointCollection<type_t,KeyPoint *> *>
-			_a_pair) {
+		[](const pair<
+			size_t,QuadTreePointCollection<type_t,KeyPoint *> *>
+			&_a_pair) {
 			if(_a_pair.second) {
 				delete _a_pair.second;
 			}
