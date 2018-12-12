@@ -42,7 +42,8 @@ int main(int argc, char *argv[]) {
 		//client.setMsg(msg);
 		for(int32_t i=0; i<10000; i++) {
 			cout<<i<<endl;
-			client.writeI32(i);
+			string ret;
+			client.writeI32(ret,"id",i);
 			logger->debug(__FILE__,__LINE__,"writeI32(%d)",i);
 			//usleep(1000);
 		}
