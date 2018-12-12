@@ -48,7 +48,8 @@ public:
 		}
 
 		TransferServiceClient *thriftClient = (TransferServiceClient *)attribute;
-		thriftClient->writeMessage(_arg);
+		string ret;
+		thriftClient->writeMessage(ret,_arg);
 
 		return 0;
 	}
