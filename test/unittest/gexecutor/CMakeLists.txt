@@ -12,12 +12,12 @@ include_directories(${THRIFT_INCLUDE_DIR})
 link_directories(${THRIFT_LIB_DIR})
 
 set(SRC_THRIFT
-           ${INCDIR}/thrift_service/messenger_constants.cpp 
-	   ${INCDIR}/thrift_service/messenger_constants.h  
-           ${INCDIR}/thrift_service/messenger_types.cpp 
-	   ${INCDIR}/thrift_service/messenger_types.h 
-           ${INCDIR}/thrift_service/TransferService.cpp 
-	   ${INCDIR}/thrift_service/TransferService.h
+           ${INCDIR}/thrift/messenger_constants.cpp 
+	   ${INCDIR}/thrift/messenger_constants.h  
+           ${INCDIR}/thrift/messenger_types.cpp 
+	   ${INCDIR}/thrift/messenger_types.h 
+           ${INCDIR}/thrift/TransferService.cpp 
+	   ${INCDIR}/thrift/TransferService.h
            )
 
 set(PROJECT_TEST_NAME ${PROJECT_NAME}_test)

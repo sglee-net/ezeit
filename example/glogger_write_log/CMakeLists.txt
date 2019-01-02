@@ -11,7 +11,10 @@ include_directories(${SRCDIR})
 link_directories(${LIBDIR} /usr/local/lib)
 #find_library(NILIB NAMES libnidaqmx.so HINTS ${NIROOT}/lib) #REQUIRED
 
-set(SRC_HEADER ${INCDIR}/glogger/glogger.h ${INCDIR}/glogger/gexecutor_filewriter.h ${INCDIR}/gtaskque/gtaskque.h)
+set(SRC_HEADER 
+	${INCDIR}/glogger/glogger.h 
+	${INCDIR}/gexecutor/gexecutor_filewriter.h 
+	${INCDIR}/gtaskque/gtaskque.h)
 set(SRC_CPP main.cpp)
 set(SRC_FILES ${SRC_HEADER} ${SRC_CPP})
 

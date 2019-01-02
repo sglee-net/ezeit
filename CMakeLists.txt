@@ -49,7 +49,6 @@ link_directories(${LIBDIR})
 #  include_directories("${gtest_SOURCE_DIR}/include")
 #endif()
 
-add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(example)
 

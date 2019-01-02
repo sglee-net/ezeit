@@ -19,7 +19,7 @@ message(STATUS "OpenCV_LIBS = ${OpenCV_LIBS}")
 
 set(SRC_HEADER 
 	${INCDIR}/glogger/glogger.h 
-	${INCDIR}/glogger/gexecutor_filewriter.h 
+	${INCDIR}/gexecutor/gexecutor_filewriter.h 
 	${INCDIR}/gtaskque/gtaskque.h 
 	${SRCDIR}/bsp/QuadTreePoint.h 
 	${SRCDIR}/bsp/QuadTreePointCollection.h 

@@ -17,9 +17,9 @@ include_directories(${THRIFT_INCLUDE_DIR})
 link_directories(${THRIFT_LIB_DIR})
 
 set(SRC_THRIFT
-	   gen-cpp/messenger_constants.cpp gen-cpp/messenger_constants.h  
-	   gen-cpp/messenger_types.cpp gen-cpp/messenger_types.h 
-	   gen-cpp/TransferService.cpp gen-cpp/TransferService.h
+	   ${INCDIR}/thrift/messenger_constants.cpp gen-cpp/messenger_constants.h  
+	   ${INCDIR}/thrift/messenger_types.cpp gen-cpp/messenger_types.h 
+	   ${INCDIR}/thrift/TransferService.cpp gen-cpp/TransferService.h
 	   )
 
 #add_custom_command(
@@ -31,7 +31,7 @@ set(SRC_THRIFT
 
 set(SRC_HEADER 
 	${INCDIR}/glogger/glogger.h 
-	${INCDIR}/glogger/gexecutor_filewriter.h 
+	${INCDIR}/gexecutor/gexecutor_filewriter.h 
 	${INCDIR}/gtaskque/gtaskque.h
 	)
 set(SRC_CPP main.cpp)

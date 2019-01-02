@@ -9,9 +9,9 @@
 #include <thrift/transport/TTransportUtils.h>
 #include <thrift/stdcxx.h>
 
-#include "thrift_service/messenger_constants.h"
-#include "thrift_service/messenger_types.h"
-#include "thrift_service/TransferService.h"
+#include "thrift/messenger_constants.h"
+#include "thrift/messenger_types.h"
+#include "thrift/TransferService.h"
 
 using namespace std;
 using namespace apache::thrift;

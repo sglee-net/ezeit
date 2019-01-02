@@ -4,8 +4,8 @@
 #include <map>
 #include <string>
 #include "gtaskque/gtaskque.h"
-#include "thrift_service/TransferService.h"
-#include "thrift_service/messenger_types.h"
+#include "thrift/TransferService.h"
+#include "thrift/messenger_types.h"
 #include <fstream>
 
 #ifdef __linux__
@@ -41,14 +41,17 @@ private:
 		return *this; }
 public:
 	GExecutorThrift(TransferServiceClient *_val, const bool _autoRemove)
-		:GExecutorInterface<Message, TransferServiceClient>(_val,_autoRemove) {}
+		:GExecutorInterface<Message, TransferServiceClient>
+			(_val,_autoRemove) {}
 	virtual int execute(Message &_arg) {
 		if (!attribute) {
 			return -1;
 		}
 
-		TransferServiceClient *thriftClient = (TransferServiceClient *)attribute;
-		thriftClient->writeMessage(_arg);
+		TransferServiceClient *thriftClient = 
+			(TransferServiceClient *)attribute;
+		string ret;
+		thriftClient->writeMessage(ret,_arg);
 
 		return 0;
 	}

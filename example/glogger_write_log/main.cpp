@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include "glogger/glogger.h"
-#include "glogger/gexecutor_filewriter.h"
+#include "gexecutor/gexecutor_filewriter.h"
 #include <NIDAQmxBase.h>
 
 #define NUM_THREAD 1000 

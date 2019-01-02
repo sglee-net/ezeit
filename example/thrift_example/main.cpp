@@ -2,16 +2,16 @@
 #include <fstream>
 #include <string>
 #include "glogger/glogger.h"
-#include "glogger/gexecutor_filewriter.h"
+#include "gexecutor/gexecutor_filewriter.h"
 
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 #include <thrift/stdcxx.h>
 
-#include "./gen-cpp/messenger_constants.h"
-#include "./gen-cpp/messenger_types.h"
-#include "./gen-cpp/TransferService.h"
+#include "thrift/messenger_constants.h"
+#include "thrift/messenger_types.h"
+#include "thrift/TransferService.h"
 
 using namespace std;
 using namespace apache::thrift;
