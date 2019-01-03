@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 		new GExecutorFileWriter<string,ofstream>(fileout,true);
 	logger->addAppender("filewriter",appender);
 	
-	stdcxx::shared_ptr<TTransport> socket(new TSocket("192.168.0.41", 9091));
+	stdcxx::shared_ptr<TTransport> socket(new TSocket("192.168.0.13", 9091));
   	stdcxx::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
     	stdcxx::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 	TransferServiceClient client(protocol);
@@ -38,7 +38,8 @@ int main(int argc, char *argv[]) {
 	
 		Message msg;
 		msg._list_string.push_back("Test message");
-		
+	
+		client.writeId("id");
 		//client.setMsg(msg);
 		for(int32_t i=0; i<10000; i++) {
 			cout<<i<<endl;
