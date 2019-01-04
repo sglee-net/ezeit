@@ -30,7 +30,7 @@ set(PROJECT_TEST_NAME ${PROJECT_NAME}_test)
 
 file(GLOB SRCS *.cpp)
 set(SRC_HEADER ${SRCDIR}/gtaskque/gtaskque.h 
-		${SRCDIR}/gexecutor/gexecutor_thrift.h)
+		${SRCDIR}/gexecutor/gexecutor_thrift_writemessage.h)
 set(SRC_CPP ${SRCS})
 set(SRC_FILES ${SRC_HEADER} ${SRC_CPP} ${SRC_THRIFT})
 

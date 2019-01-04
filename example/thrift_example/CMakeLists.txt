@@ -17,9 +17,12 @@ include_directories(${THRIFT_INCLUDE_DIR})
 link_directories(${THRIFT_LIB_DIR})
 
 set(SRC_THRIFT
-	   ${INCDIR}/thrift/messenger_constants.cpp gen-cpp/messenger_constants.h  
-	   ${INCDIR}/thrift/messenger_types.cpp gen-cpp/messenger_types.h 
-	   ${INCDIR}/thrift/TransferService.cpp gen-cpp/TransferService.h
+	   ${INCDIR}/thrift/messenger_constants.cpp 
+	   ${INCDIR}/thrift/messenger_constants.h  
+	   ${INCDIR}/thrift/messenger_types.cpp 
+	   ${INCDIR}/thrift/messenger_types.h 
+	   ${INCDIR}/thrift/TransferService.cpp 
+	   ${INCDIR}/thrift/TransferService.h
 	   )
 
 #add_custom_command(

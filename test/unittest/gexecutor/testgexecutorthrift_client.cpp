@@ -1,5 +1,5 @@
 #include "gtaskque/gtaskque.h"
-#include "gexecutor/gexecutor_thrift.h"
+#include "gexecutor/gexecutor_thrift_writemessage.h"
 #include "gtest/gtest.h"
 
 #include <chrono>
@@ -37,7 +37,7 @@ public:
 		const size_t buffer_size = 10;
 
 		socket = stdcxx::shared_ptr<TTransport>(
-			new TSocket("192.168.0.41", 9091));
+			new TSocket("192.168.0.13", 9091));
 	        transport = stdcxx::shared_ptr<TTransport>(
 			new TBufferedTransport(socket));
 	        protocol = stdcxx::shared_ptr<TProtocol>(
@@ -47,10 +47,10 @@ public:
 
 //		transport->open();
 				
-		GExecutorInterface
-		<Message,TransferServiceClient> *executor = 
-			new GExecutorThrift
-			<Message,TransferServiceClient>(
+		GExecutorInterface<Message,TransferServiceClient> 
+			*executor = 
+			new GExecutorThriftWriteMessage
+				<Message,TransferServiceClient>(
 				serviceClient, false);
 		que = new GTaskQue<Message,TransferServiceClient>
 			(executor,buffer_size);
@@ -90,7 +90,7 @@ TEST_F(
 		ASSERT_TRUE(serviceClient!=nullptr);
 
 		Message msg;
-		msg._sender_id = "sender";
+		msg._sender_id = "id";
 		if(serviceClient) {
 			for(int i=0; i<icount; i++) {
 				msg._timestamp=str_ptime;

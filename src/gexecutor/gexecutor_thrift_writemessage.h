@@ -16,15 +16,15 @@ using namespace std;
 using namespace thrift_gen_messenger;
 
 template <typename T, typename U>
-class GExecutorThrift :public GExecutorInterface<T,U> {
+class GExecutorThriftWriteMessage :public GExecutorInterface<T,U> {
 private:
 private:
-	GExecutorThrift() { }
-	GExecutorThrift(const GExecutorThrift &) { }
-	GExecutorThrift& operator=(const GExecutorThrift &) { 
+	GExecutorThriftWriteMessage() { }
+	GExecutorThriftWriteMessage(const GExecutorThriftWriteMessage &) { }
+	GExecutorThriftWriteMessage& operator=(const GExecutorThriftWriteMessage &) { 
 		return *this; }
 public:
-	GExecutorThrift(U *_val, const bool _autoRemove) 
+	GExecutorThriftWriteMessage(U *_val, const bool _autoRemove) 
 		: GExecutorInterface<T,U>(_val, _autoRemove) {
 	}
 	virtual int execute(T &_arg);
@@ -32,15 +32,15 @@ public:
 
 // specialization
 template <>
-class GExecutorThrift<Message, TransferServiceClient>
+class GExecutorThriftWriteMessage<Message, TransferServiceClient>
 	:public GExecutorInterface<Message, TransferServiceClient> {
 private:
-	GExecutorThrift() {}
-	GExecutorThrift(const GExecutorThrift &) {}
-	GExecutorThrift& operator=(const GExecutorThrift &) { 
+	GExecutorThriftWriteMessage() {}
+	GExecutorThriftWriteMessage(const GExecutorThriftWriteMessage &) {}
+	GExecutorThriftWriteMessage& operator=(const GExecutorThriftWriteMessage &) { 
 		return *this; }
 public:
-	GExecutorThrift(TransferServiceClient *_val, const bool _autoRemove)
+	GExecutorThriftWriteMessage(TransferServiceClient *_val, const bool _autoRemove)
 		:GExecutorInterface<Message, TransferServiceClient>
 			(_val,_autoRemove) {}
 	virtual int execute(Message &_arg) {
@@ -53,7 +53,7 @@ public:
 		string ret;
 		try {
 			thriftClient->writeMessage(ret,_arg);
-		} catch (exception &e) {
+		} catch (...) {
 		}
 
 		return 0;
