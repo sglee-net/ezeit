@@ -51,7 +51,11 @@ public:
 		TransferServiceClient *thriftClient = 
 			(TransferServiceClient *)attribute;
 		string ret;
-		thriftClient->writeMessage(ret,_arg);
+		try {
+			thriftClient->writeMessage(ret,_arg);
+		} catch (exception &e) {
+			cout << e << endl;
+		}
 
 		return 0;
 	}
