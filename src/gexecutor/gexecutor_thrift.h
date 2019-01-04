@@ -54,7 +54,6 @@ public:
 		try {
 			thriftClient->writeMessage(ret,_arg);
 		} catch (exception &e) {
-			cout << e << endl;
 		}
 
 		return 0;
