@@ -21,8 +21,8 @@ set(SRC_THRIFT
 	   ${INCDIR}/thrift/messenger_constants.h  
 	   ${INCDIR}/thrift/messenger_types.cpp 
 	   ${INCDIR}/thrift/messenger_types.h 
-	   ${INCDIR}/thrift/TransferService.cpp 
-	   ${INCDIR}/thrift/TransferService.h
+	   ${INCDIR}/thrift/ThriftService.cpp 
+	   ${INCDIR}/thrift/ThriftService.h
 	   )
 
 #add_custom_command(
@@ -40,13 +40,13 @@ set(SRC_HEADER
 set(SRC_CPP main.cpp)
 set(SRC_FILES ${SRC_HEADER} ${SRC_CPP} ${SRC_THRIFT})
 
-add_executable(thrift_example 
+add_executable(thriftserver 
 	${SRC_FILES})
-target_link_libraries(thrift_example 
+target_link_libraries(thriftserver 
 	${CMAKE_THREAD_LIBS_INIT} 
 	${Boost_LIBRARIES}
 	thrift)
-#add_test(NAME test_example COMMAND test_example)
+#add_test(NAME test_thriftserver COMMAND test_thriftserver)
 
-message(STATUS "thrifttest is built")
+message(STATUS "thriftserver is built")
 

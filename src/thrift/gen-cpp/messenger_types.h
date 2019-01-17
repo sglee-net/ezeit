@@ -18,24 +18,30 @@
 #include <thrift/stdcxx.h>
 
 
-namespace thrift_gen_messenger {
+namespace thrift_gen {
 
 class Message;
 
+class InvalidOperationException;
+
 typedef struct _Message__isset {
-  _Message__isset() : _receiver_id(false), _subject(false), _sequence_no(false), _total_count(false), _list_bool(false), _list_i16(false), _list_i32(false), _list_i64(false), _list_double(false), _list_string(false), _binary(false), _payload(false) {}
-  bool _receiver_id :1;
-  bool _subject :1;
-  bool _sequence_no :1;
-  bool _total_count :1;
-  bool _list_bool :1;
-  bool _list_i16 :1;
-  bool _list_i32 :1;
-  bool _list_i64 :1;
-  bool _list_double :1;
-  bool _list_string :1;
-  bool _binary :1;
-  bool _payload :1;
+  _Message__isset() : receiver_id(false), timestamp(false), subject(false), sequence_no(false), total_count(false), list_bool(false), list_i16(false), list_i32(false), list_i64(false), list_double(false), list_string(false), binary_value(false), payload(false), list_message(false), set_message(false), map_message(false) {}
+  bool receiver_id :1;
+  bool timestamp :1;
+  bool subject :1;
+  bool sequence_no :1;
+  bool total_count :1;
+  bool list_bool :1;
+  bool list_i16 :1;
+  bool list_i32 :1;
+  bool list_i64 :1;
+  bool list_double :1;
+  bool list_string :1;
+  bool binary_value :1;
+  bool payload :1;
+  bool list_message :1;
+  bool set_message :1;
+  bool map_message :1;
 } _Message__isset;
 
 class Message : public virtual ::apache::thrift::TBase {
@@ -43,108 +49,131 @@ class Message : public virtual ::apache::thrift::TBase {
 
   Message(const Message&);
   Message& operator=(const Message&);
-  Message() : _timestamp(), _sender_id(), _receiver_id(), _subject(), _sequence_no(0), _total_count(0), _binary(), _payload() {
+  Message() : sender_id(), receiver_id(), timestamp(), subject(), sequence_no(0), total_count(0), binary_value(), payload() {
   }
 
   virtual ~Message() throw();
-  std::string _timestamp;
-  std::string _sender_id;
-  std::string _receiver_id;
-  std::string _subject;
-  int64_t _sequence_no;
-  int64_t _total_count;
-  std::vector<bool>  _list_bool;
-  std::vector<int16_t>  _list_i16;
-  std::vector<int32_t>  _list_i32;
-  std::vector<int64_t>  _list_i64;
-  std::vector<double>  _list_double;
-  std::vector<std::string>  _list_string;
-  std::string _binary;
-  std::string _payload;
+  std::string sender_id;
+  std::string receiver_id;
+  std::string timestamp;
+  std::string subject;
+  int64_t sequence_no;
+  int64_t total_count;
+  std::vector<bool>  list_bool;
+  std::vector<int16_t>  list_i16;
+  std::vector<int32_t>  list_i32;
+  std::vector<int64_t>  list_i64;
+  std::vector<double>  list_double;
+  std::vector<std::string>  list_string;
+  std::string binary_value;
+  std::string payload;
+  std::vector<Message>  list_message;
+  std::set<Message>  set_message;
+  std::map<std::string, Message>  map_message;
 
   _Message__isset __isset;
 
-  void __set__timestamp(const std::string& val);
+  void __set_sender_id(const std::string& val);
 
-  void __set__sender_id(const std::string& val);
+  void __set_receiver_id(const std::string& val);
 
-  void __set__receiver_id(const std::string& val);
+  void __set_timestamp(const std::string& val);
 
-  void __set__subject(const std::string& val);
+  void __set_subject(const std::string& val);
 
-  void __set__sequence_no(const int64_t val);
+  void __set_sequence_no(const int64_t val);
 
-  void __set__total_count(const int64_t val);
+  void __set_total_count(const int64_t val);
 
-  void __set__list_bool(const std::vector<bool> & val);
+  void __set_list_bool(const std::vector<bool> & val);
 
-  void __set__list_i16(const std::vector<int16_t> & val);
+  void __set_list_i16(const std::vector<int16_t> & val);
 
-  void __set__list_i32(const std::vector<int32_t> & val);
+  void __set_list_i32(const std::vector<int32_t> & val);
 
-  void __set__list_i64(const std::vector<int64_t> & val);
+  void __set_list_i64(const std::vector<int64_t> & val);
 
-  void __set__list_double(const std::vector<double> & val);
+  void __set_list_double(const std::vector<double> & val);
 
-  void __set__list_string(const std::vector<std::string> & val);
+  void __set_list_string(const std::vector<std::string> & val);
 
-  void __set__binary(const std::string& val);
+  void __set_binary_value(const std::string& val);
 
-  void __set__payload(const std::string& val);
+  void __set_payload(const std::string& val);
+
+  void __set_list_message(const std::vector<Message> & val);
+
+  void __set_set_message(const std::set<Message> & val);
+
+  void __set_map_message(const std::map<std::string, Message> & val);
 
   bool operator == (const Message & rhs) const
   {
-    if (!(_timestamp == rhs._timestamp))
+    if (!(sender_id == rhs.sender_id))
       return false;
-    if (!(_sender_id == rhs._sender_id))
+    if (__isset.receiver_id != rhs.__isset.receiver_id)
       return false;
-    if (__isset._receiver_id != rhs.__isset._receiver_id)
+    else if (__isset.receiver_id && !(receiver_id == rhs.receiver_id))
       return false;
-    else if (__isset._receiver_id && !(_receiver_id == rhs._receiver_id))
+    if (__isset.timestamp != rhs.__isset.timestamp)
       return false;
-    if (__isset._subject != rhs.__isset._subject)
+    else if (__isset.timestamp && !(timestamp == rhs.timestamp))
       return false;
-    else if (__isset._subject && !(_subject == rhs._subject))
+    if (__isset.subject != rhs.__isset.subject)
       return false;
-    if (__isset._sequence_no != rhs.__isset._sequence_no)
+    else if (__isset.subject && !(subject == rhs.subject))
       return false;
-    else if (__isset._sequence_no && !(_sequence_no == rhs._sequence_no))
+    if (__isset.sequence_no != rhs.__isset.sequence_no)
       return false;
-    if (__isset._total_count != rhs.__isset._total_count)
+    else if (__isset.sequence_no && !(sequence_no == rhs.sequence_no))
       return false;
-    else if (__isset._total_count && !(_total_count == rhs._total_count))
+    if (__isset.total_count != rhs.__isset.total_count)
       return false;
-    if (__isset._list_bool != rhs.__isset._list_bool)
+    else if (__isset.total_count && !(total_count == rhs.total_count))
       return false;
-    else if (__isset._list_bool && !(_list_bool == rhs._list_bool))
+    if (__isset.list_bool != rhs.__isset.list_bool)
       return false;
-    if (__isset._list_i16 != rhs.__isset._list_i16)
+    else if (__isset.list_bool && !(list_bool == rhs.list_bool))
       return false;
-    else if (__isset._list_i16 && !(_list_i16 == rhs._list_i16))
+    if (__isset.list_i16 != rhs.__isset.list_i16)
       return false;
-    if (__isset._list_i32 != rhs.__isset._list_i32)
+    else if (__isset.list_i16 && !(list_i16 == rhs.list_i16))
       return false;
-    else if (__isset._list_i32 && !(_list_i32 == rhs._list_i32))
+    if (__isset.list_i32 != rhs.__isset.list_i32)
       return false;
-    if (__isset._list_i64 != rhs.__isset._list_i64)
+    else if (__isset.list_i32 && !(list_i32 == rhs.list_i32))
       return false;
-    else if (__isset._list_i64 && !(_list_i64 == rhs._list_i64))
+    if (__isset.list_i64 != rhs.__isset.list_i64)
       return false;
-    if (__isset._list_double != rhs.__isset._list_double)
+    else if (__isset.list_i64 && !(list_i64 == rhs.list_i64))
       return false;
-    else if (__isset._list_double && !(_list_double == rhs._list_double))
+    if (__isset.list_double != rhs.__isset.list_double)
       return false;
-    if (__isset._list_string != rhs.__isset._list_string)
+    else if (__isset.list_double && !(list_double == rhs.list_double))
       return false;
-    else if (__isset._list_string && !(_list_string == rhs._list_string))
+    if (__isset.list_string != rhs.__isset.list_string)
       return false;
-    if (__isset._binary != rhs.__isset._binary)
+    else if (__isset.list_string && !(list_string == rhs.list_string))
       return false;
-    else if (__isset._binary && !(_binary == rhs._binary))
+    if (__isset.binary_value != rhs.__isset.binary_value)
       return false;
-    if (__isset._payload != rhs.__isset._payload)
+    else if (__isset.binary_value && !(binary_value == rhs.binary_value))
       return false;
-    else if (__isset._payload && !(_payload == rhs._payload))
+    if (__isset.payload != rhs.__isset.payload)
+      return false;
+    else if (__isset.payload && !(payload == rhs.payload))
+      return false;
+    if (__isset.list_message != rhs.__isset.list_message)
+      return false;
+    else if (__isset.list_message && !(list_message == rhs.list_message))
+      return false;
+    if (__isset.set_message != rhs.__isset.set_message)
+      return false;
+    else if (__isset.set_message && !(set_message == rhs.set_message))
+      return false;
+    if (__isset.map_message != rhs.__isset.map_message)
+      return false;
+    else if (__isset.map_message && !(map_message == rhs.map_message))
       return false;
     return true;
   }
@@ -152,7 +181,9 @@ class Message : public virtual ::apache::thrift::TBase {
     return !(*this == rhs);
   }
 
-  bool operator < (const Message & ) const;
+  bool operator < (const Message &rhs) const {
+	  return (sender_id < rhs.sender_id)? true : false;
+  }
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -163,6 +194,56 @@ class Message : public virtual ::apache::thrift::TBase {
 void swap(Message &a, Message &b);
 
 std::ostream& operator<<(std::ostream& out, const Message& obj);
+
+typedef struct _InvalidOperationException__isset {
+  _InvalidOperationException__isset() : code(false), description(false) {}
+  bool code :1;
+  bool description :1;
+} _InvalidOperationException__isset;
+
+class InvalidOperationException : public ::apache::thrift::TException {
+ public:
+
+  InvalidOperationException(const InvalidOperationException&);
+  InvalidOperationException& operator=(const InvalidOperationException&);
+  InvalidOperationException() : code(0), description() {
+  }
+
+  virtual ~InvalidOperationException() throw();
+  int32_t code;
+  std::string description;
+
+  _InvalidOperationException__isset __isset;
+
+  void __set_code(const int32_t val);
+
+  void __set_description(const std::string& val);
+
+  bool operator == (const InvalidOperationException & rhs) const
+  {
+    if (!(code == rhs.code))
+      return false;
+    if (!(description == rhs.description))
+      return false;
+    return true;
+  }
+  bool operator != (const InvalidOperationException &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const InvalidOperationException & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+  mutable std::string thriftTExceptionMessageHolder_;
+  const char* what() const throw();
+};
+
+void swap(InvalidOperationException &a, InvalidOperationException &b);
+
+std::ostream& operator<<(std::ostream& out, const InvalidOperationException& obj);
 
 } // namespace
 

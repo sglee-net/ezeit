@@ -16,7 +16,7 @@ else:
 from thrift.transport import TTransport, TSocket, TSSLSocket, THttpClient
 from thrift.protocol.TBinaryProtocol import TBinaryProtocol
 
-from messenger import TransferService
+from messenger import ThriftService
 from messenger.ttypes import *
 
 if len(sys.argv) <= 1 or sys.argv[1] == '--help':
@@ -24,6 +24,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] [-s[sl]] [-novalidate] [-ca_certs certs] [-keyfile keyfile] [-certfile certfile] function [arg1 [arg2...]]')
     print('')
     print('Functions:')
+    print('  bool ping()')
     print('  string writeMessage(Message _v)')
     print('  string writeBool(string _id, bool _v)')
     print('  string writeI16(string _id, i16 _v)')
@@ -116,10 +117,16 @@ else:
     else:
         transport = TTransport.TBufferedTransport(socket)
 protocol = TBinaryProtocol(transport)
-client = TransferService.Client(protocol)
+client = ThriftService.Client(protocol)
 transport.open()
 
-if cmd == 'writeMessage':
+if cmd == 'ping':
+    if len(args) != 0:
+        print('ping requires 0 args')
+        sys.exit(1)
+    pp.pprint(client.ping())
+
+elif cmd == 'writeMessage':
     if len(args) != 1:
         print('writeMessage requires 1 args')
         sys.exit(1)

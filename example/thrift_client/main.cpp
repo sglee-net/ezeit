@@ -11,33 +11,36 @@
 
 #include "thrift/messenger_constants.h"
 #include "thrift/messenger_types.h"
-#include "thrift/TransferService.h"
+#include "thrift/ThriftService.h"
 
 using namespace std;
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
-using namespace thrift_gen_messenger;
+using namespace thrift_gen;
 
 int main(int argc, char *argv[]) {
-	ofstream *fileout=new ofstream("log.txt",ios::out);
+	ofstream *fileout=new ofstream("./log.txt",ios::out);
 	GLogger<string,ofstream> *logger = 
 		GLogger<string,ofstream>::getInstance();
 	GExecutorInterface<string,ofstream> *appender = 
 		new GExecutorFileWriter<string,ofstream>(fileout,true);
 	logger->addAppender("filewriter",appender);
 	
-	stdcxx::shared_ptr<TTransport> socket(new TSocket("192.168.0.13", 9091));
-  	stdcxx::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
-    	stdcxx::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
-	TransferServiceClient client(protocol);
+	stdcxx::shared_ptr<TTransport> 
+		socket(new TSocket("localhost", 9090));
+  	stdcxx::shared_ptr<TTransport> 
+		transport(new TBufferedTransport(socket));
+    	stdcxx::shared_ptr<TProtocol> 
+		protocol(new TBinaryProtocol(transport));
+	ThriftServiceClient client(protocol);
 
         try {
 		transport->open();
 	
 		Message msg;
-		msg._list_string.push_back("Test message");
+		msg.list_string.push_back("Test message");
 	
 		client.writeId("id");
 		//client.setMsg(msg);

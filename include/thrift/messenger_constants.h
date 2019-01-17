@@ -9,7 +9,7 @@
 
 #include "messenger_types.h"
 
-namespace thrift_gen_messenger {
+namespace thrift_gen {
 
 class messengerConstants {
  public:

@@ -4,16 +4,202 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "TransferService.h"
+#include "ThriftService.h"
 
-namespace thrift_gen_messenger {
+namespace thrift_gen {
 
 
-TransferService_writeMessage_args::~TransferService_writeMessage_args() throw() {
+ThriftService_ping_args::~ThriftService_ping_args() throw() {
 }
 
 
-uint32_t TransferService_writeMessage_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_ping_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ThriftService_ping_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ThriftService_ping_args");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ThriftService_ping_pargs::~ThriftService_ping_pargs() throw() {
+}
+
+
+uint32_t ThriftService_ping_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ThriftService_ping_pargs");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ThriftService_ping_result::~ThriftService_ping_result() throw() {
+}
+
+
+uint32_t ThriftService_ping_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ThriftService_ping_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("ThriftService_ping_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+ThriftService_ping_presult::~ThriftService_ping_presult() throw() {
+}
+
+
+uint32_t ThriftService_ping_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+ThriftService_writeMessage_args::~ThriftService_writeMessage_args() throw() {
+}
+
+
+uint32_t ThriftService_writeMessage_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -54,10 +240,10 @@ uint32_t TransferService_writeMessage_args::read(::apache::thrift::protocol::TPr
   return xfer;
 }
 
-uint32_t TransferService_writeMessage_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeMessage_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeMessage_args");
+  xfer += oprot->writeStructBegin("ThriftService_writeMessage_args");
 
   xfer += oprot->writeFieldBegin("_v", ::apache::thrift::protocol::T_STRUCT, 1);
   xfer += this->_v.write(oprot);
@@ -69,14 +255,14 @@ uint32_t TransferService_writeMessage_args::write(::apache::thrift::protocol::TP
 }
 
 
-TransferService_writeMessage_pargs::~TransferService_writeMessage_pargs() throw() {
+ThriftService_writeMessage_pargs::~ThriftService_writeMessage_pargs() throw() {
 }
 
 
-uint32_t TransferService_writeMessage_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeMessage_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeMessage_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_writeMessage_pargs");
 
   xfer += oprot->writeFieldBegin("_v", ::apache::thrift::protocol::T_STRUCT, 1);
   xfer += (*(this->_v)).write(oprot);
@@ -88,11 +274,11 @@ uint32_t TransferService_writeMessage_pargs::write(::apache::thrift::protocol::T
 }
 
 
-TransferService_writeMessage_result::~TransferService_writeMessage_result() throw() {
+ThriftService_writeMessage_result::~ThriftService_writeMessage_result() throw() {
 }
 
 
-uint32_t TransferService_writeMessage_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeMessage_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -121,6 +307,14 @@ uint32_t TransferService_writeMessage_result::read(::apache::thrift::protocol::T
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -133,15 +327,19 @@ uint32_t TransferService_writeMessage_result::read(::apache::thrift::protocol::T
   return xfer;
 }
 
-uint32_t TransferService_writeMessage_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeMessage_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_writeMessage_result");
+  xfer += oprot->writeStructBegin("ThriftService_writeMessage_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
     xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -150,11 +348,11 @@ uint32_t TransferService_writeMessage_result::write(::apache::thrift::protocol::
 }
 
 
-TransferService_writeMessage_presult::~TransferService_writeMessage_presult() throw() {
+ThriftService_writeMessage_presult::~ThriftService_writeMessage_presult() throw() {
 }
 
 
-uint32_t TransferService_writeMessage_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeMessage_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -183,6 +381,14 @@ uint32_t TransferService_writeMessage_presult::read(::apache::thrift::protocol::
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -196,11 +402,11 @@ uint32_t TransferService_writeMessage_presult::read(::apache::thrift::protocol::
 }
 
 
-TransferService_writeBool_args::~TransferService_writeBool_args() throw() {
+ThriftService_writeBool_args::~ThriftService_writeBool_args() throw() {
 }
 
 
-uint32_t TransferService_writeBool_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeBool_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -249,10 +455,10 @@ uint32_t TransferService_writeBool_args::read(::apache::thrift::protocol::TProto
   return xfer;
 }
 
-uint32_t TransferService_writeBool_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeBool_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeBool_args");
+  xfer += oprot->writeStructBegin("ThriftService_writeBool_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -268,14 +474,14 @@ uint32_t TransferService_writeBool_args::write(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_writeBool_pargs::~TransferService_writeBool_pargs() throw() {
+ThriftService_writeBool_pargs::~ThriftService_writeBool_pargs() throw() {
 }
 
 
-uint32_t TransferService_writeBool_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeBool_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeBool_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_writeBool_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -291,11 +497,11 @@ uint32_t TransferService_writeBool_pargs::write(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_writeBool_result::~TransferService_writeBool_result() throw() {
+ThriftService_writeBool_result::~ThriftService_writeBool_result() throw() {
 }
 
 
-uint32_t TransferService_writeBool_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeBool_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -324,6 +530,14 @@ uint32_t TransferService_writeBool_result::read(::apache::thrift::protocol::TPro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -336,15 +550,19 @@ uint32_t TransferService_writeBool_result::read(::apache::thrift::protocol::TPro
   return xfer;
 }
 
-uint32_t TransferService_writeBool_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeBool_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_writeBool_result");
+  xfer += oprot->writeStructBegin("ThriftService_writeBool_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
     xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -353,11 +571,11 @@ uint32_t TransferService_writeBool_result::write(::apache::thrift::protocol::TPr
 }
 
 
-TransferService_writeBool_presult::~TransferService_writeBool_presult() throw() {
+ThriftService_writeBool_presult::~ThriftService_writeBool_presult() throw() {
 }
 
 
-uint32_t TransferService_writeBool_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeBool_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -386,6 +604,14 @@ uint32_t TransferService_writeBool_presult::read(::apache::thrift::protocol::TPr
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -399,11 +625,11 @@ uint32_t TransferService_writeBool_presult::read(::apache::thrift::protocol::TPr
 }
 
 
-TransferService_writeI16_args::~TransferService_writeI16_args() throw() {
+ThriftService_writeI16_args::~ThriftService_writeI16_args() throw() {
 }
 
 
-uint32_t TransferService_writeI16_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeI16_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -452,10 +678,10 @@ uint32_t TransferService_writeI16_args::read(::apache::thrift::protocol::TProtoc
   return xfer;
 }
 
-uint32_t TransferService_writeI16_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeI16_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeI16_args");
+  xfer += oprot->writeStructBegin("ThriftService_writeI16_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -471,14 +697,14 @@ uint32_t TransferService_writeI16_args::write(::apache::thrift::protocol::TProto
 }
 
 
-TransferService_writeI16_pargs::~TransferService_writeI16_pargs() throw() {
+ThriftService_writeI16_pargs::~ThriftService_writeI16_pargs() throw() {
 }
 
 
-uint32_t TransferService_writeI16_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeI16_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeI16_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_writeI16_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -494,11 +720,11 @@ uint32_t TransferService_writeI16_pargs::write(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_writeI16_result::~TransferService_writeI16_result() throw() {
+ThriftService_writeI16_result::~ThriftService_writeI16_result() throw() {
 }
 
 
-uint32_t TransferService_writeI16_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeI16_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -527,6 +753,14 @@ uint32_t TransferService_writeI16_result::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -539,15 +773,19 @@ uint32_t TransferService_writeI16_result::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t TransferService_writeI16_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeI16_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_writeI16_result");
+  xfer += oprot->writeStructBegin("ThriftService_writeI16_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
     xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -556,11 +794,11 @@ uint32_t TransferService_writeI16_result::write(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_writeI16_presult::~TransferService_writeI16_presult() throw() {
+ThriftService_writeI16_presult::~ThriftService_writeI16_presult() throw() {
 }
 
 
-uint32_t TransferService_writeI16_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeI16_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -589,6 +827,14 @@ uint32_t TransferService_writeI16_presult::read(::apache::thrift::protocol::TPro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -602,11 +848,11 @@ uint32_t TransferService_writeI16_presult::read(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_writeI32_args::~TransferService_writeI32_args() throw() {
+ThriftService_writeI32_args::~ThriftService_writeI32_args() throw() {
 }
 
 
-uint32_t TransferService_writeI32_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeI32_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -655,10 +901,10 @@ uint32_t TransferService_writeI32_args::read(::apache::thrift::protocol::TProtoc
   return xfer;
 }
 
-uint32_t TransferService_writeI32_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeI32_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeI32_args");
+  xfer += oprot->writeStructBegin("ThriftService_writeI32_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -674,14 +920,14 @@ uint32_t TransferService_writeI32_args::write(::apache::thrift::protocol::TProto
 }
 
 
-TransferService_writeI32_pargs::~TransferService_writeI32_pargs() throw() {
+ThriftService_writeI32_pargs::~ThriftService_writeI32_pargs() throw() {
 }
 
 
-uint32_t TransferService_writeI32_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeI32_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeI32_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_writeI32_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -697,11 +943,11 @@ uint32_t TransferService_writeI32_pargs::write(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_writeI32_result::~TransferService_writeI32_result() throw() {
+ThriftService_writeI32_result::~ThriftService_writeI32_result() throw() {
 }
 
 
-uint32_t TransferService_writeI32_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeI32_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -730,6 +976,14 @@ uint32_t TransferService_writeI32_result::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -742,15 +996,19 @@ uint32_t TransferService_writeI32_result::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t TransferService_writeI32_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeI32_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_writeI32_result");
+  xfer += oprot->writeStructBegin("ThriftService_writeI32_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
     xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -759,11 +1017,11 @@ uint32_t TransferService_writeI32_result::write(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_writeI32_presult::~TransferService_writeI32_presult() throw() {
+ThriftService_writeI32_presult::~ThriftService_writeI32_presult() throw() {
 }
 
 
-uint32_t TransferService_writeI32_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeI32_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -792,6 +1050,14 @@ uint32_t TransferService_writeI32_presult::read(::apache::thrift::protocol::TPro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -805,11 +1071,11 @@ uint32_t TransferService_writeI32_presult::read(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_writeI64_args::~TransferService_writeI64_args() throw() {
+ThriftService_writeI64_args::~ThriftService_writeI64_args() throw() {
 }
 
 
-uint32_t TransferService_writeI64_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeI64_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -858,10 +1124,10 @@ uint32_t TransferService_writeI64_args::read(::apache::thrift::protocol::TProtoc
   return xfer;
 }
 
-uint32_t TransferService_writeI64_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeI64_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeI64_args");
+  xfer += oprot->writeStructBegin("ThriftService_writeI64_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -877,14 +1143,14 @@ uint32_t TransferService_writeI64_args::write(::apache::thrift::protocol::TProto
 }
 
 
-TransferService_writeI64_pargs::~TransferService_writeI64_pargs() throw() {
+ThriftService_writeI64_pargs::~ThriftService_writeI64_pargs() throw() {
 }
 
 
-uint32_t TransferService_writeI64_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeI64_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeI64_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_writeI64_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -900,11 +1166,11 @@ uint32_t TransferService_writeI64_pargs::write(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_writeI64_result::~TransferService_writeI64_result() throw() {
+ThriftService_writeI64_result::~ThriftService_writeI64_result() throw() {
 }
 
 
-uint32_t TransferService_writeI64_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeI64_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -933,6 +1199,14 @@ uint32_t TransferService_writeI64_result::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -945,15 +1219,19 @@ uint32_t TransferService_writeI64_result::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t TransferService_writeI64_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeI64_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_writeI64_result");
+  xfer += oprot->writeStructBegin("ThriftService_writeI64_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
     xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -962,11 +1240,11 @@ uint32_t TransferService_writeI64_result::write(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_writeI64_presult::~TransferService_writeI64_presult() throw() {
+ThriftService_writeI64_presult::~ThriftService_writeI64_presult() throw() {
 }
 
 
-uint32_t TransferService_writeI64_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeI64_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -995,6 +1273,14 @@ uint32_t TransferService_writeI64_presult::read(::apache::thrift::protocol::TPro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1008,11 +1294,11 @@ uint32_t TransferService_writeI64_presult::read(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_writeDouble_args::~TransferService_writeDouble_args() throw() {
+ThriftService_writeDouble_args::~ThriftService_writeDouble_args() throw() {
 }
 
 
-uint32_t TransferService_writeDouble_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeDouble_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1061,10 +1347,10 @@ uint32_t TransferService_writeDouble_args::read(::apache::thrift::protocol::TPro
   return xfer;
 }
 
-uint32_t TransferService_writeDouble_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeDouble_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeDouble_args");
+  xfer += oprot->writeStructBegin("ThriftService_writeDouble_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -1080,14 +1366,14 @@ uint32_t TransferService_writeDouble_args::write(::apache::thrift::protocol::TPr
 }
 
 
-TransferService_writeDouble_pargs::~TransferService_writeDouble_pargs() throw() {
+ThriftService_writeDouble_pargs::~ThriftService_writeDouble_pargs() throw() {
 }
 
 
-uint32_t TransferService_writeDouble_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeDouble_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeDouble_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_writeDouble_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -1103,11 +1389,11 @@ uint32_t TransferService_writeDouble_pargs::write(::apache::thrift::protocol::TP
 }
 
 
-TransferService_writeDouble_result::~TransferService_writeDouble_result() throw() {
+ThriftService_writeDouble_result::~ThriftService_writeDouble_result() throw() {
 }
 
 
-uint32_t TransferService_writeDouble_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeDouble_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1136,6 +1422,14 @@ uint32_t TransferService_writeDouble_result::read(::apache::thrift::protocol::TP
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1148,15 +1442,19 @@ uint32_t TransferService_writeDouble_result::read(::apache::thrift::protocol::TP
   return xfer;
 }
 
-uint32_t TransferService_writeDouble_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeDouble_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_writeDouble_result");
+  xfer += oprot->writeStructBegin("ThriftService_writeDouble_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
     xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -1165,11 +1463,11 @@ uint32_t TransferService_writeDouble_result::write(::apache::thrift::protocol::T
 }
 
 
-TransferService_writeDouble_presult::~TransferService_writeDouble_presult() throw() {
+ThriftService_writeDouble_presult::~ThriftService_writeDouble_presult() throw() {
 }
 
 
-uint32_t TransferService_writeDouble_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeDouble_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1198,6 +1496,14 @@ uint32_t TransferService_writeDouble_presult::read(::apache::thrift::protocol::T
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1211,11 +1517,11 @@ uint32_t TransferService_writeDouble_presult::read(::apache::thrift::protocol::T
 }
 
 
-TransferService_writeString_args::~TransferService_writeString_args() throw() {
+ThriftService_writeString_args::~ThriftService_writeString_args() throw() {
 }
 
 
-uint32_t TransferService_writeString_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeString_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1264,10 +1570,10 @@ uint32_t TransferService_writeString_args::read(::apache::thrift::protocol::TPro
   return xfer;
 }
 
-uint32_t TransferService_writeString_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeString_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeString_args");
+  xfer += oprot->writeStructBegin("ThriftService_writeString_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -1283,14 +1589,14 @@ uint32_t TransferService_writeString_args::write(::apache::thrift::protocol::TPr
 }
 
 
-TransferService_writeString_pargs::~TransferService_writeString_pargs() throw() {
+ThriftService_writeString_pargs::~ThriftService_writeString_pargs() throw() {
 }
 
 
-uint32_t TransferService_writeString_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeString_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeString_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_writeString_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -1306,11 +1612,11 @@ uint32_t TransferService_writeString_pargs::write(::apache::thrift::protocol::TP
 }
 
 
-TransferService_writeString_result::~TransferService_writeString_result() throw() {
+ThriftService_writeString_result::~ThriftService_writeString_result() throw() {
 }
 
 
-uint32_t TransferService_writeString_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeString_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1339,6 +1645,14 @@ uint32_t TransferService_writeString_result::read(::apache::thrift::protocol::TP
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1351,15 +1665,19 @@ uint32_t TransferService_writeString_result::read(::apache::thrift::protocol::TP
   return xfer;
 }
 
-uint32_t TransferService_writeString_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeString_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_writeString_result");
+  xfer += oprot->writeStructBegin("ThriftService_writeString_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
     xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -1368,11 +1686,11 @@ uint32_t TransferService_writeString_result::write(::apache::thrift::protocol::T
 }
 
 
-TransferService_writeString_presult::~TransferService_writeString_presult() throw() {
+ThriftService_writeString_presult::~ThriftService_writeString_presult() throw() {
 }
 
 
-uint32_t TransferService_writeString_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeString_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1401,6 +1719,14 @@ uint32_t TransferService_writeString_presult::read(::apache::thrift::protocol::T
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1414,11 +1740,11 @@ uint32_t TransferService_writeString_presult::read(::apache::thrift::protocol::T
 }
 
 
-TransferService_readMessage_args::~TransferService_readMessage_args() throw() {
+ThriftService_readMessage_args::~ThriftService_readMessage_args() throw() {
 }
 
 
-uint32_t TransferService_readMessage_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readMessage_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1459,10 +1785,10 @@ uint32_t TransferService_readMessage_args::read(::apache::thrift::protocol::TPro
   return xfer;
 }
 
-uint32_t TransferService_readMessage_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readMessage_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readMessage_args");
+  xfer += oprot->writeStructBegin("ThriftService_readMessage_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -1474,14 +1800,14 @@ uint32_t TransferService_readMessage_args::write(::apache::thrift::protocol::TPr
 }
 
 
-TransferService_readMessage_pargs::~TransferService_readMessage_pargs() throw() {
+ThriftService_readMessage_pargs::~ThriftService_readMessage_pargs() throw() {
 }
 
 
-uint32_t TransferService_readMessage_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readMessage_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readMessage_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_readMessage_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -1493,11 +1819,11 @@ uint32_t TransferService_readMessage_pargs::write(::apache::thrift::protocol::TP
 }
 
 
-TransferService_readMessage_result::~TransferService_readMessage_result() throw() {
+ThriftService_readMessage_result::~ThriftService_readMessage_result() throw() {
 }
 
 
-uint32_t TransferService_readMessage_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readMessage_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1526,6 +1852,14 @@ uint32_t TransferService_readMessage_result::read(::apache::thrift::protocol::TP
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1538,15 +1872,19 @@ uint32_t TransferService_readMessage_result::read(::apache::thrift::protocol::TP
   return xfer;
 }
 
-uint32_t TransferService_readMessage_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readMessage_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_readMessage_result");
+  xfer += oprot->writeStructBegin("ThriftService_readMessage_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
     xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -1555,11 +1893,11 @@ uint32_t TransferService_readMessage_result::write(::apache::thrift::protocol::T
 }
 
 
-TransferService_readMessage_presult::~TransferService_readMessage_presult() throw() {
+ThriftService_readMessage_presult::~ThriftService_readMessage_presult() throw() {
 }
 
 
-uint32_t TransferService_readMessage_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readMessage_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1588,6 +1926,14 @@ uint32_t TransferService_readMessage_presult::read(::apache::thrift::protocol::T
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1601,11 +1947,11 @@ uint32_t TransferService_readMessage_presult::read(::apache::thrift::protocol::T
 }
 
 
-TransferService_readBool_args::~TransferService_readBool_args() throw() {
+ThriftService_readBool_args::~ThriftService_readBool_args() throw() {
 }
 
 
-uint32_t TransferService_readBool_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readBool_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1646,10 +1992,10 @@ uint32_t TransferService_readBool_args::read(::apache::thrift::protocol::TProtoc
   return xfer;
 }
 
-uint32_t TransferService_readBool_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readBool_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readBool_args");
+  xfer += oprot->writeStructBegin("ThriftService_readBool_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -1661,14 +2007,14 @@ uint32_t TransferService_readBool_args::write(::apache::thrift::protocol::TProto
 }
 
 
-TransferService_readBool_pargs::~TransferService_readBool_pargs() throw() {
+ThriftService_readBool_pargs::~ThriftService_readBool_pargs() throw() {
 }
 
 
-uint32_t TransferService_readBool_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readBool_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readBool_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_readBool_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -1680,11 +2026,11 @@ uint32_t TransferService_readBool_pargs::write(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_readBool_result::~TransferService_readBool_result() throw() {
+ThriftService_readBool_result::~ThriftService_readBool_result() throw() {
 }
 
 
-uint32_t TransferService_readBool_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readBool_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1713,6 +2059,14 @@ uint32_t TransferService_readBool_result::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1725,15 +2079,19 @@ uint32_t TransferService_readBool_result::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t TransferService_readBool_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readBool_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_readBool_result");
+  xfer += oprot->writeStructBegin("ThriftService_readBool_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
     xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -1742,11 +2100,11 @@ uint32_t TransferService_readBool_result::write(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_readBool_presult::~TransferService_readBool_presult() throw() {
+ThriftService_readBool_presult::~ThriftService_readBool_presult() throw() {
 }
 
 
-uint32_t TransferService_readBool_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readBool_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1775,6 +2133,14 @@ uint32_t TransferService_readBool_presult::read(::apache::thrift::protocol::TPro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1788,11 +2154,11 @@ uint32_t TransferService_readBool_presult::read(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_readI16_args::~TransferService_readI16_args() throw() {
+ThriftService_readI16_args::~ThriftService_readI16_args() throw() {
 }
 
 
-uint32_t TransferService_readI16_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readI16_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1833,10 +2199,10 @@ uint32_t TransferService_readI16_args::read(::apache::thrift::protocol::TProtoco
   return xfer;
 }
 
-uint32_t TransferService_readI16_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readI16_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readI16_args");
+  xfer += oprot->writeStructBegin("ThriftService_readI16_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -1848,14 +2214,14 @@ uint32_t TransferService_readI16_args::write(::apache::thrift::protocol::TProtoc
 }
 
 
-TransferService_readI16_pargs::~TransferService_readI16_pargs() throw() {
+ThriftService_readI16_pargs::~ThriftService_readI16_pargs() throw() {
 }
 
 
-uint32_t TransferService_readI16_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readI16_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readI16_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_readI16_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -1867,11 +2233,11 @@ uint32_t TransferService_readI16_pargs::write(::apache::thrift::protocol::TProto
 }
 
 
-TransferService_readI16_result::~TransferService_readI16_result() throw() {
+ThriftService_readI16_result::~ThriftService_readI16_result() throw() {
 }
 
 
-uint32_t TransferService_readI16_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readI16_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1900,6 +2266,14 @@ uint32_t TransferService_readI16_result::read(::apache::thrift::protocol::TProto
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1912,15 +2286,19 @@ uint32_t TransferService_readI16_result::read(::apache::thrift::protocol::TProto
   return xfer;
 }
 
-uint32_t TransferService_readI16_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readI16_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_readI16_result");
+  xfer += oprot->writeStructBegin("ThriftService_readI16_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I16, 0);
     xfer += oprot->writeI16(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -1929,11 +2307,11 @@ uint32_t TransferService_readI16_result::write(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_readI16_presult::~TransferService_readI16_presult() throw() {
+ThriftService_readI16_presult::~ThriftService_readI16_presult() throw() {
 }
 
 
-uint32_t TransferService_readI16_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readI16_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -1962,6 +2340,14 @@ uint32_t TransferService_readI16_presult::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1975,11 +2361,11 @@ uint32_t TransferService_readI16_presult::read(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_readI32_args::~TransferService_readI32_args() throw() {
+ThriftService_readI32_args::~ThriftService_readI32_args() throw() {
 }
 
 
-uint32_t TransferService_readI32_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readI32_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2020,10 +2406,10 @@ uint32_t TransferService_readI32_args::read(::apache::thrift::protocol::TProtoco
   return xfer;
 }
 
-uint32_t TransferService_readI32_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readI32_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readI32_args");
+  xfer += oprot->writeStructBegin("ThriftService_readI32_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -2035,14 +2421,14 @@ uint32_t TransferService_readI32_args::write(::apache::thrift::protocol::TProtoc
 }
 
 
-TransferService_readI32_pargs::~TransferService_readI32_pargs() throw() {
+ThriftService_readI32_pargs::~ThriftService_readI32_pargs() throw() {
 }
 
 
-uint32_t TransferService_readI32_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readI32_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readI32_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_readI32_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -2054,11 +2440,11 @@ uint32_t TransferService_readI32_pargs::write(::apache::thrift::protocol::TProto
 }
 
 
-TransferService_readI32_result::~TransferService_readI32_result() throw() {
+ThriftService_readI32_result::~ThriftService_readI32_result() throw() {
 }
 
 
-uint32_t TransferService_readI32_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readI32_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2087,6 +2473,14 @@ uint32_t TransferService_readI32_result::read(::apache::thrift::protocol::TProto
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2099,15 +2493,19 @@ uint32_t TransferService_readI32_result::read(::apache::thrift::protocol::TProto
   return xfer;
 }
 
-uint32_t TransferService_readI32_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readI32_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_readI32_result");
+  xfer += oprot->writeStructBegin("ThriftService_readI32_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
     xfer += oprot->writeI32(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -2116,11 +2514,11 @@ uint32_t TransferService_readI32_result::write(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_readI32_presult::~TransferService_readI32_presult() throw() {
+ThriftService_readI32_presult::~ThriftService_readI32_presult() throw() {
 }
 
 
-uint32_t TransferService_readI32_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readI32_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2149,6 +2547,14 @@ uint32_t TransferService_readI32_presult::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2162,11 +2568,11 @@ uint32_t TransferService_readI32_presult::read(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_readI64_args::~TransferService_readI64_args() throw() {
+ThriftService_readI64_args::~ThriftService_readI64_args() throw() {
 }
 
 
-uint32_t TransferService_readI64_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readI64_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2207,10 +2613,10 @@ uint32_t TransferService_readI64_args::read(::apache::thrift::protocol::TProtoco
   return xfer;
 }
 
-uint32_t TransferService_readI64_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readI64_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readI64_args");
+  xfer += oprot->writeStructBegin("ThriftService_readI64_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -2222,14 +2628,14 @@ uint32_t TransferService_readI64_args::write(::apache::thrift::protocol::TProtoc
 }
 
 
-TransferService_readI64_pargs::~TransferService_readI64_pargs() throw() {
+ThriftService_readI64_pargs::~ThriftService_readI64_pargs() throw() {
 }
 
 
-uint32_t TransferService_readI64_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readI64_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readI64_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_readI64_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -2241,11 +2647,11 @@ uint32_t TransferService_readI64_pargs::write(::apache::thrift::protocol::TProto
 }
 
 
-TransferService_readI64_result::~TransferService_readI64_result() throw() {
+ThriftService_readI64_result::~ThriftService_readI64_result() throw() {
 }
 
 
-uint32_t TransferService_readI64_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readI64_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2274,6 +2680,14 @@ uint32_t TransferService_readI64_result::read(::apache::thrift::protocol::TProto
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2286,15 +2700,19 @@ uint32_t TransferService_readI64_result::read(::apache::thrift::protocol::TProto
   return xfer;
 }
 
-uint32_t TransferService_readI64_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readI64_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_readI64_result");
+  xfer += oprot->writeStructBegin("ThriftService_readI64_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I64, 0);
     xfer += oprot->writeI64(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -2303,11 +2721,11 @@ uint32_t TransferService_readI64_result::write(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_readI64_presult::~TransferService_readI64_presult() throw() {
+ThriftService_readI64_presult::~ThriftService_readI64_presult() throw() {
 }
 
 
-uint32_t TransferService_readI64_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readI64_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2336,6 +2754,14 @@ uint32_t TransferService_readI64_presult::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2349,11 +2775,11 @@ uint32_t TransferService_readI64_presult::read(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_readDouble_args::~TransferService_readDouble_args() throw() {
+ThriftService_readDouble_args::~ThriftService_readDouble_args() throw() {
 }
 
 
-uint32_t TransferService_readDouble_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readDouble_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2394,10 +2820,10 @@ uint32_t TransferService_readDouble_args::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t TransferService_readDouble_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readDouble_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readDouble_args");
+  xfer += oprot->writeStructBegin("ThriftService_readDouble_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -2409,14 +2835,14 @@ uint32_t TransferService_readDouble_args::write(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_readDouble_pargs::~TransferService_readDouble_pargs() throw() {
+ThriftService_readDouble_pargs::~ThriftService_readDouble_pargs() throw() {
 }
 
 
-uint32_t TransferService_readDouble_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readDouble_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readDouble_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_readDouble_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -2428,11 +2854,11 @@ uint32_t TransferService_readDouble_pargs::write(::apache::thrift::protocol::TPr
 }
 
 
-TransferService_readDouble_result::~TransferService_readDouble_result() throw() {
+ThriftService_readDouble_result::~ThriftService_readDouble_result() throw() {
 }
 
 
-uint32_t TransferService_readDouble_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readDouble_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2461,6 +2887,14 @@ uint32_t TransferService_readDouble_result::read(::apache::thrift::protocol::TPr
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2473,15 +2907,19 @@ uint32_t TransferService_readDouble_result::read(::apache::thrift::protocol::TPr
   return xfer;
 }
 
-uint32_t TransferService_readDouble_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readDouble_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_readDouble_result");
+  xfer += oprot->writeStructBegin("ThriftService_readDouble_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_DOUBLE, 0);
     xfer += oprot->writeDouble(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -2490,11 +2928,11 @@ uint32_t TransferService_readDouble_result::write(::apache::thrift::protocol::TP
 }
 
 
-TransferService_readDouble_presult::~TransferService_readDouble_presult() throw() {
+ThriftService_readDouble_presult::~ThriftService_readDouble_presult() throw() {
 }
 
 
-uint32_t TransferService_readDouble_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readDouble_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2523,6 +2961,14 @@ uint32_t TransferService_readDouble_presult::read(::apache::thrift::protocol::TP
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2536,11 +2982,11 @@ uint32_t TransferService_readDouble_presult::read(::apache::thrift::protocol::TP
 }
 
 
-TransferService_readString_args::~TransferService_readString_args() throw() {
+ThriftService_readString_args::~ThriftService_readString_args() throw() {
 }
 
 
-uint32_t TransferService_readString_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readString_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2581,10 +3027,10 @@ uint32_t TransferService_readString_args::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t TransferService_readString_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readString_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readString_args");
+  xfer += oprot->writeStructBegin("ThriftService_readString_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -2596,14 +3042,14 @@ uint32_t TransferService_readString_args::write(::apache::thrift::protocol::TPro
 }
 
 
-TransferService_readString_pargs::~TransferService_readString_pargs() throw() {
+ThriftService_readString_pargs::~ThriftService_readString_pargs() throw() {
 }
 
 
-uint32_t TransferService_readString_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readString_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readString_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_readString_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -2615,11 +3061,11 @@ uint32_t TransferService_readString_pargs::write(::apache::thrift::protocol::TPr
 }
 
 
-TransferService_readString_result::~TransferService_readString_result() throw() {
+ThriftService_readString_result::~ThriftService_readString_result() throw() {
 }
 
 
-uint32_t TransferService_readString_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readString_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2648,6 +3094,14 @@ uint32_t TransferService_readString_result::read(::apache::thrift::protocol::TPr
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2660,15 +3114,19 @@ uint32_t TransferService_readString_result::read(::apache::thrift::protocol::TPr
   return xfer;
 }
 
-uint32_t TransferService_readString_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readString_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_readString_result");
+  xfer += oprot->writeStructBegin("ThriftService_readString_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
     xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -2677,11 +3135,11 @@ uint32_t TransferService_readString_result::write(::apache::thrift::protocol::TP
 }
 
 
-TransferService_readString_presult::~TransferService_readString_presult() throw() {
+ThriftService_readString_presult::~ThriftService_readString_presult() throw() {
 }
 
 
-uint32_t TransferService_readString_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readString_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2710,6 +3168,14 @@ uint32_t TransferService_readString_presult::read(::apache::thrift::protocol::TP
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2723,11 +3189,11 @@ uint32_t TransferService_readString_presult::read(::apache::thrift::protocol::TP
 }
 
 
-TransferService_writeId_args::~TransferService_writeId_args() throw() {
+ThriftService_writeId_args::~ThriftService_writeId_args() throw() {
 }
 
 
-uint32_t TransferService_writeId_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeId_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2768,10 +3234,10 @@ uint32_t TransferService_writeId_args::read(::apache::thrift::protocol::TProtoco
   return xfer;
 }
 
-uint32_t TransferService_writeId_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeId_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeId_args");
+  xfer += oprot->writeStructBegin("ThriftService_writeId_args");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->_id);
@@ -2783,14 +3249,14 @@ uint32_t TransferService_writeId_args::write(::apache::thrift::protocol::TProtoc
 }
 
 
-TransferService_writeId_pargs::~TransferService_writeId_pargs() throw() {
+ThriftService_writeId_pargs::~ThriftService_writeId_pargs() throw() {
 }
 
 
-uint32_t TransferService_writeId_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeId_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_writeId_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_writeId_pargs");
 
   xfer += oprot->writeFieldBegin("_id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->_id)));
@@ -2802,11 +3268,11 @@ uint32_t TransferService_writeId_pargs::write(::apache::thrift::protocol::TProto
 }
 
 
-TransferService_writeId_result::~TransferService_writeId_result() throw() {
+ThriftService_writeId_result::~ThriftService_writeId_result() throw() {
 }
 
 
-uint32_t TransferService_writeId_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeId_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2835,6 +3301,14 @@ uint32_t TransferService_writeId_result::read(::apache::thrift::protocol::TProto
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2847,15 +3321,19 @@ uint32_t TransferService_writeId_result::read(::apache::thrift::protocol::TProto
   return xfer;
 }
 
-uint32_t TransferService_writeId_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_writeId_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_writeId_result");
+  xfer += oprot->writeStructBegin("ThriftService_writeId_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
     xfer += oprot->writeBool(this->success);
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -2864,11 +3342,11 @@ uint32_t TransferService_writeId_result::write(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_writeId_presult::~TransferService_writeId_presult() throw() {
+ThriftService_writeId_presult::~ThriftService_writeId_presult() throw() {
 }
 
 
-uint32_t TransferService_writeId_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_writeId_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2897,6 +3375,14 @@ uint32_t TransferService_writeId_presult::read(::apache::thrift::protocol::TProt
           xfer += iprot->skip(ftype);
         }
         break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2910,11 +3396,11 @@ uint32_t TransferService_writeId_presult::read(::apache::thrift::protocol::TProt
 }
 
 
-TransferService_readId_args::~TransferService_readId_args() throw() {
+ThriftService_readId_args::~ThriftService_readId_args() throw() {
 }
 
 
-uint32_t TransferService_readId_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readId_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2942,10 +3428,10 @@ uint32_t TransferService_readId_args::read(::apache::thrift::protocol::TProtocol
   return xfer;
 }
 
-uint32_t TransferService_readId_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readId_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readId_args");
+  xfer += oprot->writeStructBegin("ThriftService_readId_args");
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -2953,14 +3439,14 @@ uint32_t TransferService_readId_args::write(::apache::thrift::protocol::TProtoco
 }
 
 
-TransferService_readId_pargs::~TransferService_readId_pargs() throw() {
+ThriftService_readId_pargs::~ThriftService_readId_pargs() throw() {
 }
 
 
-uint32_t TransferService_readId_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readId_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("TransferService_readId_pargs");
+  xfer += oprot->writeStructBegin("ThriftService_readId_pargs");
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -2968,11 +3454,11 @@ uint32_t TransferService_readId_pargs::write(::apache::thrift::protocol::TProtoc
 }
 
 
-TransferService_readId_result::~TransferService_readId_result() throw() {
+ThriftService_readId_result::~ThriftService_readId_result() throw() {
 }
 
 
-uint32_t TransferService_readId_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readId_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2997,18 +3483,26 @@ uint32_t TransferService_readId_result::read(::apache::thrift::protocol::TProtoc
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->success.clear();
-            uint32_t _size38;
-            ::apache::thrift::protocol::TType _etype41;
-            xfer += iprot->readListBegin(_etype41, _size38);
-            this->success.resize(_size38);
-            uint32_t _i42;
-            for (_i42 = 0; _i42 < _size38; ++_i42)
+            uint32_t _size61;
+            ::apache::thrift::protocol::TType _etype64;
+            xfer += iprot->readListBegin(_etype64, _size61);
+            this->success.resize(_size61);
+            uint32_t _i65;
+            for (_i65 = 0; _i65 < _size61; ++_i65)
             {
-              xfer += iprot->readString(this->success[_i42]);
+              xfer += iprot->readString(this->success[_i65]);
             }
             xfer += iprot->readListEnd();
           }
           this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -3025,23 +3519,27 @@ uint32_t TransferService_readId_result::read(::apache::thrift::protocol::TProtoc
   return xfer;
 }
 
-uint32_t TransferService_readId_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ThriftService_readId_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("TransferService_readId_result");
+  xfer += oprot->writeStructBegin("ThriftService_readId_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_LIST, 0);
     {
       xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(this->success.size()));
-      std::vector<std::string> ::const_iterator _iter43;
-      for (_iter43 = this->success.begin(); _iter43 != this->success.end(); ++_iter43)
+      std::vector<std::string> ::const_iterator _iter66;
+      for (_iter66 = this->success.begin(); _iter66 != this->success.end(); ++_iter66)
       {
-        xfer += oprot->writeString((*_iter43));
+        xfer += oprot->writeString((*_iter66));
       }
       xfer += oprot->writeListEnd();
     }
+    xfer += oprot->writeFieldEnd();
+  } else if (this->__isset.e) {
+    xfer += oprot->writeFieldBegin("e", ::apache::thrift::protocol::T_STRUCT, 1);
+    xfer += this->e.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -3050,11 +3548,11 @@ uint32_t TransferService_readId_result::write(::apache::thrift::protocol::TProto
 }
 
 
-TransferService_readId_presult::~TransferService_readId_presult() throw() {
+ThriftService_readId_presult::~ThriftService_readId_presult() throw() {
 }
 
 
-uint32_t TransferService_readId_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ThriftService_readId_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -3079,18 +3577,26 @@ uint32_t TransferService_readId_presult::read(::apache::thrift::protocol::TProto
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             (*(this->success)).clear();
-            uint32_t _size44;
-            ::apache::thrift::protocol::TType _etype47;
-            xfer += iprot->readListBegin(_etype47, _size44);
-            (*(this->success)).resize(_size44);
-            uint32_t _i48;
-            for (_i48 = 0; _i48 < _size44; ++_i48)
+            uint32_t _size67;
+            ::apache::thrift::protocol::TType _etype70;
+            xfer += iprot->readListBegin(_etype70, _size67);
+            (*(this->success)).resize(_size67);
+            uint32_t _i71;
+            for (_i71 = 0; _i71 < _size67; ++_i71)
             {
-              xfer += iprot->readString((*(this->success))[_i48]);
+              xfer += iprot->readString((*(this->success))[_i71]);
             }
             xfer += iprot->readListEnd();
           }
           this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->e.read(iprot);
+          this->__isset.e = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -3107,18 +3613,78 @@ uint32_t TransferService_readId_presult::read(::apache::thrift::protocol::TProto
   return xfer;
 }
 
-void TransferServiceClient::writeMessage(std::string& _return, const Message& _v)
+bool ThriftServiceClient::ping()
+{
+  send_ping();
+  return recv_ping();
+}
+
+void ThriftServiceClient::send_ping()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("ping", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ThriftService_ping_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+bool ThriftServiceClient::recv_ping()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("ping") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  bool _return;
+  ThriftService_ping_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  if (result.__isset.e) {
+    throw result.e;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ping failed: unknown result");
+}
+
+void ThriftServiceClient::writeMessage(std::string& _return, const Message& _v)
 {
   send_writeMessage(_v);
   recv_writeMessage(_return);
 }
 
-void TransferServiceClient::send_writeMessage(const Message& _v)
+void ThriftServiceClient::send_writeMessage(const Message& _v)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("writeMessage", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeMessage_pargs args;
+  ThriftService_writeMessage_pargs args;
   args._v = &_v;
   args.write(oprot_);
 
@@ -3127,7 +3693,7 @@ void TransferServiceClient::send_writeMessage(const Message& _v)
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_writeMessage(std::string& _return)
+void ThriftServiceClient::recv_writeMessage(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -3152,7 +3718,7 @@ void TransferServiceClient::recv_writeMessage(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_writeMessage_presult result;
+  ThriftService_writeMessage_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3162,21 +3728,24 @@ void TransferServiceClient::recv_writeMessage(std::string& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeMessage failed: unknown result");
 }
 
-void TransferServiceClient::writeBool(std::string& _return, const std::string& _id, const bool _v)
+void ThriftServiceClient::writeBool(std::string& _return, const std::string& _id, const bool _v)
 {
   send_writeBool(_id, _v);
   recv_writeBool(_return);
 }
 
-void TransferServiceClient::send_writeBool(const std::string& _id, const bool _v)
+void ThriftServiceClient::send_writeBool(const std::string& _id, const bool _v)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("writeBool", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeBool_pargs args;
+  ThriftService_writeBool_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -3186,7 +3755,7 @@ void TransferServiceClient::send_writeBool(const std::string& _id, const bool _v
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_writeBool(std::string& _return)
+void ThriftServiceClient::recv_writeBool(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -3211,7 +3780,7 @@ void TransferServiceClient::recv_writeBool(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_writeBool_presult result;
+  ThriftService_writeBool_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3221,21 +3790,24 @@ void TransferServiceClient::recv_writeBool(std::string& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeBool failed: unknown result");
 }
 
-void TransferServiceClient::writeI16(std::string& _return, const std::string& _id, const int16_t _v)
+void ThriftServiceClient::writeI16(std::string& _return, const std::string& _id, const int16_t _v)
 {
   send_writeI16(_id, _v);
   recv_writeI16(_return);
 }
 
-void TransferServiceClient::send_writeI16(const std::string& _id, const int16_t _v)
+void ThriftServiceClient::send_writeI16(const std::string& _id, const int16_t _v)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("writeI16", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeI16_pargs args;
+  ThriftService_writeI16_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -3245,7 +3817,7 @@ void TransferServiceClient::send_writeI16(const std::string& _id, const int16_t 
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_writeI16(std::string& _return)
+void ThriftServiceClient::recv_writeI16(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -3270,7 +3842,7 @@ void TransferServiceClient::recv_writeI16(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_writeI16_presult result;
+  ThriftService_writeI16_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3280,21 +3852,24 @@ void TransferServiceClient::recv_writeI16(std::string& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeI16 failed: unknown result");
 }
 
-void TransferServiceClient::writeI32(std::string& _return, const std::string& _id, const int32_t _v)
+void ThriftServiceClient::writeI32(std::string& _return, const std::string& _id, const int32_t _v)
 {
   send_writeI32(_id, _v);
   recv_writeI32(_return);
 }
 
-void TransferServiceClient::send_writeI32(const std::string& _id, const int32_t _v)
+void ThriftServiceClient::send_writeI32(const std::string& _id, const int32_t _v)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("writeI32", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeI32_pargs args;
+  ThriftService_writeI32_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -3304,7 +3879,7 @@ void TransferServiceClient::send_writeI32(const std::string& _id, const int32_t 
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_writeI32(std::string& _return)
+void ThriftServiceClient::recv_writeI32(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -3329,7 +3904,7 @@ void TransferServiceClient::recv_writeI32(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_writeI32_presult result;
+  ThriftService_writeI32_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3339,21 +3914,24 @@ void TransferServiceClient::recv_writeI32(std::string& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeI32 failed: unknown result");
 }
 
-void TransferServiceClient::writeI64(std::string& _return, const std::string& _id, const int64_t _v)
+void ThriftServiceClient::writeI64(std::string& _return, const std::string& _id, const int64_t _v)
 {
   send_writeI64(_id, _v);
   recv_writeI64(_return);
 }
 
-void TransferServiceClient::send_writeI64(const std::string& _id, const int64_t _v)
+void ThriftServiceClient::send_writeI64(const std::string& _id, const int64_t _v)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("writeI64", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeI64_pargs args;
+  ThriftService_writeI64_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -3363,7 +3941,7 @@ void TransferServiceClient::send_writeI64(const std::string& _id, const int64_t 
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_writeI64(std::string& _return)
+void ThriftServiceClient::recv_writeI64(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -3388,7 +3966,7 @@ void TransferServiceClient::recv_writeI64(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_writeI64_presult result;
+  ThriftService_writeI64_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3398,21 +3976,24 @@ void TransferServiceClient::recv_writeI64(std::string& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeI64 failed: unknown result");
 }
 
-void TransferServiceClient::writeDouble(std::string& _return, const std::string& _id, const double _v)
+void ThriftServiceClient::writeDouble(std::string& _return, const std::string& _id, const double _v)
 {
   send_writeDouble(_id, _v);
   recv_writeDouble(_return);
 }
 
-void TransferServiceClient::send_writeDouble(const std::string& _id, const double _v)
+void ThriftServiceClient::send_writeDouble(const std::string& _id, const double _v)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("writeDouble", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeDouble_pargs args;
+  ThriftService_writeDouble_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -3422,7 +4003,7 @@ void TransferServiceClient::send_writeDouble(const std::string& _id, const doubl
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_writeDouble(std::string& _return)
+void ThriftServiceClient::recv_writeDouble(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -3447,7 +4028,7 @@ void TransferServiceClient::recv_writeDouble(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_writeDouble_presult result;
+  ThriftService_writeDouble_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3457,21 +4038,24 @@ void TransferServiceClient::recv_writeDouble(std::string& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeDouble failed: unknown result");
 }
 
-void TransferServiceClient::writeString(std::string& _return, const std::string& _id, const std::string& _v)
+void ThriftServiceClient::writeString(std::string& _return, const std::string& _id, const std::string& _v)
 {
   send_writeString(_id, _v);
   recv_writeString(_return);
 }
 
-void TransferServiceClient::send_writeString(const std::string& _id, const std::string& _v)
+void ThriftServiceClient::send_writeString(const std::string& _id, const std::string& _v)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("writeString", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeString_pargs args;
+  ThriftService_writeString_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -3481,7 +4065,7 @@ void TransferServiceClient::send_writeString(const std::string& _id, const std::
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_writeString(std::string& _return)
+void ThriftServiceClient::recv_writeString(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -3506,7 +4090,7 @@ void TransferServiceClient::recv_writeString(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_writeString_presult result;
+  ThriftService_writeString_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3516,21 +4100,24 @@ void TransferServiceClient::recv_writeString(std::string& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeString failed: unknown result");
 }
 
-void TransferServiceClient::readMessage(Message& _return, const std::string& _id)
+void ThriftServiceClient::readMessage(Message& _return, const std::string& _id)
 {
   send_readMessage(_id);
   recv_readMessage(_return);
 }
 
-void TransferServiceClient::send_readMessage(const std::string& _id)
+void ThriftServiceClient::send_readMessage(const std::string& _id)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("readMessage", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readMessage_pargs args;
+  ThriftService_readMessage_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -3539,7 +4126,7 @@ void TransferServiceClient::send_readMessage(const std::string& _id)
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_readMessage(Message& _return)
+void ThriftServiceClient::recv_readMessage(Message& _return)
 {
 
   int32_t rseqid = 0;
@@ -3564,7 +4151,7 @@ void TransferServiceClient::recv_readMessage(Message& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_readMessage_presult result;
+  ThriftService_readMessage_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3574,21 +4161,24 @@ void TransferServiceClient::recv_readMessage(Message& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readMessage failed: unknown result");
 }
 
-bool TransferServiceClient::readBool(const std::string& _id)
+bool ThriftServiceClient::readBool(const std::string& _id)
 {
   send_readBool(_id);
   return recv_readBool();
 }
 
-void TransferServiceClient::send_readBool(const std::string& _id)
+void ThriftServiceClient::send_readBool(const std::string& _id)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("readBool", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readBool_pargs args;
+  ThriftService_readBool_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -3597,7 +4187,7 @@ void TransferServiceClient::send_readBool(const std::string& _id)
   oprot_->getTransport()->flush();
 }
 
-bool TransferServiceClient::recv_readBool()
+bool ThriftServiceClient::recv_readBool()
 {
 
   int32_t rseqid = 0;
@@ -3623,7 +4213,7 @@ bool TransferServiceClient::recv_readBool()
     iprot_->getTransport()->readEnd();
   }
   bool _return;
-  TransferService_readBool_presult result;
+  ThriftService_readBool_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3632,21 +4222,24 @@ bool TransferServiceClient::recv_readBool()
   if (result.__isset.success) {
     return _return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readBool failed: unknown result");
 }
 
-int16_t TransferServiceClient::readI16(const std::string& _id)
+int16_t ThriftServiceClient::readI16(const std::string& _id)
 {
   send_readI16(_id);
   return recv_readI16();
 }
 
-void TransferServiceClient::send_readI16(const std::string& _id)
+void ThriftServiceClient::send_readI16(const std::string& _id)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("readI16", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readI16_pargs args;
+  ThriftService_readI16_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -3655,7 +4248,7 @@ void TransferServiceClient::send_readI16(const std::string& _id)
   oprot_->getTransport()->flush();
 }
 
-int16_t TransferServiceClient::recv_readI16()
+int16_t ThriftServiceClient::recv_readI16()
 {
 
   int32_t rseqid = 0;
@@ -3681,7 +4274,7 @@ int16_t TransferServiceClient::recv_readI16()
     iprot_->getTransport()->readEnd();
   }
   int16_t _return;
-  TransferService_readI16_presult result;
+  ThriftService_readI16_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3690,21 +4283,24 @@ int16_t TransferServiceClient::recv_readI16()
   if (result.__isset.success) {
     return _return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readI16 failed: unknown result");
 }
 
-int32_t TransferServiceClient::readI32(const std::string& _id)
+int32_t ThriftServiceClient::readI32(const std::string& _id)
 {
   send_readI32(_id);
   return recv_readI32();
 }
 
-void TransferServiceClient::send_readI32(const std::string& _id)
+void ThriftServiceClient::send_readI32(const std::string& _id)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("readI32", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readI32_pargs args;
+  ThriftService_readI32_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -3713,7 +4309,7 @@ void TransferServiceClient::send_readI32(const std::string& _id)
   oprot_->getTransport()->flush();
 }
 
-int32_t TransferServiceClient::recv_readI32()
+int32_t ThriftServiceClient::recv_readI32()
 {
 
   int32_t rseqid = 0;
@@ -3739,7 +4335,7 @@ int32_t TransferServiceClient::recv_readI32()
     iprot_->getTransport()->readEnd();
   }
   int32_t _return;
-  TransferService_readI32_presult result;
+  ThriftService_readI32_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3748,21 +4344,24 @@ int32_t TransferServiceClient::recv_readI32()
   if (result.__isset.success) {
     return _return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readI32 failed: unknown result");
 }
 
-int64_t TransferServiceClient::readI64(const std::string& _id)
+int64_t ThriftServiceClient::readI64(const std::string& _id)
 {
   send_readI64(_id);
   return recv_readI64();
 }
 
-void TransferServiceClient::send_readI64(const std::string& _id)
+void ThriftServiceClient::send_readI64(const std::string& _id)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("readI64", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readI64_pargs args;
+  ThriftService_readI64_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -3771,7 +4370,7 @@ void TransferServiceClient::send_readI64(const std::string& _id)
   oprot_->getTransport()->flush();
 }
 
-int64_t TransferServiceClient::recv_readI64()
+int64_t ThriftServiceClient::recv_readI64()
 {
 
   int32_t rseqid = 0;
@@ -3797,7 +4396,7 @@ int64_t TransferServiceClient::recv_readI64()
     iprot_->getTransport()->readEnd();
   }
   int64_t _return;
-  TransferService_readI64_presult result;
+  ThriftService_readI64_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3806,21 +4405,24 @@ int64_t TransferServiceClient::recv_readI64()
   if (result.__isset.success) {
     return _return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readI64 failed: unknown result");
 }
 
-double TransferServiceClient::readDouble(const std::string& _id)
+double ThriftServiceClient::readDouble(const std::string& _id)
 {
   send_readDouble(_id);
   return recv_readDouble();
 }
 
-void TransferServiceClient::send_readDouble(const std::string& _id)
+void ThriftServiceClient::send_readDouble(const std::string& _id)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("readDouble", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readDouble_pargs args;
+  ThriftService_readDouble_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -3829,7 +4431,7 @@ void TransferServiceClient::send_readDouble(const std::string& _id)
   oprot_->getTransport()->flush();
 }
 
-double TransferServiceClient::recv_readDouble()
+double ThriftServiceClient::recv_readDouble()
 {
 
   int32_t rseqid = 0;
@@ -3855,7 +4457,7 @@ double TransferServiceClient::recv_readDouble()
     iprot_->getTransport()->readEnd();
   }
   double _return;
-  TransferService_readDouble_presult result;
+  ThriftService_readDouble_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3864,21 +4466,24 @@ double TransferServiceClient::recv_readDouble()
   if (result.__isset.success) {
     return _return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readDouble failed: unknown result");
 }
 
-void TransferServiceClient::readString(std::string& _return, const std::string& _id)
+void ThriftServiceClient::readString(std::string& _return, const std::string& _id)
 {
   send_readString(_id);
   recv_readString(_return);
 }
 
-void TransferServiceClient::send_readString(const std::string& _id)
+void ThriftServiceClient::send_readString(const std::string& _id)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("readString", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readString_pargs args;
+  ThriftService_readString_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -3887,7 +4492,7 @@ void TransferServiceClient::send_readString(const std::string& _id)
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_readString(std::string& _return)
+void ThriftServiceClient::recv_readString(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -3912,7 +4517,7 @@ void TransferServiceClient::recv_readString(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_readString_presult result;
+  ThriftService_readString_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3922,21 +4527,24 @@ void TransferServiceClient::recv_readString(std::string& _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readString failed: unknown result");
 }
 
-bool TransferServiceClient::writeId(const std::string& _id)
+bool ThriftServiceClient::writeId(const std::string& _id)
 {
   send_writeId(_id);
   return recv_writeId();
 }
 
-void TransferServiceClient::send_writeId(const std::string& _id)
+void ThriftServiceClient::send_writeId(const std::string& _id)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("writeId", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeId_pargs args;
+  ThriftService_writeId_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -3945,7 +4553,7 @@ void TransferServiceClient::send_writeId(const std::string& _id)
   oprot_->getTransport()->flush();
 }
 
-bool TransferServiceClient::recv_writeId()
+bool ThriftServiceClient::recv_writeId()
 {
 
   int32_t rseqid = 0;
@@ -3971,7 +4579,7 @@ bool TransferServiceClient::recv_writeId()
     iprot_->getTransport()->readEnd();
   }
   bool _return;
-  TransferService_writeId_presult result;
+  ThriftService_writeId_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -3980,21 +4588,24 @@ bool TransferServiceClient::recv_writeId()
   if (result.__isset.success) {
     return _return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeId failed: unknown result");
 }
 
-void TransferServiceClient::readId(std::vector<std::string> & _return)
+void ThriftServiceClient::readId(std::vector<std::string> & _return)
 {
   send_readId();
   recv_readId(_return);
 }
 
-void TransferServiceClient::send_readId()
+void ThriftServiceClient::send_readId()
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("readId", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readId_pargs args;
+  ThriftService_readId_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4002,7 +4613,7 @@ void TransferServiceClient::send_readId()
   oprot_->getTransport()->flush();
 }
 
-void TransferServiceClient::recv_readId(std::vector<std::string> & _return)
+void ThriftServiceClient::recv_readId(std::vector<std::string> & _return)
 {
 
   int32_t rseqid = 0;
@@ -4027,7 +4638,7 @@ void TransferServiceClient::recv_readId(std::vector<std::string> & _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TransferService_readId_presult result;
+  ThriftService_readId_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -4037,10 +4648,13 @@ void TransferServiceClient::recv_readId(std::vector<std::string> & _return)
     // _return pointer has now been filled
     return;
   }
+  if (result.__isset.e) {
+    throw result.e;
+  }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readId failed: unknown result");
 }
 
-bool TransferServiceProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
+bool ThriftServiceProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
   ProcessMap::iterator pfn;
   pfn = processMap_.find(fname);
   if (pfn == processMap_.end()) {
@@ -4059,34 +4673,94 @@ bool TransferServiceProcessor::dispatchCall(::apache::thrift::protocol::TProtoco
   return true;
 }
 
-void TransferServiceProcessor::process_writeMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.writeMessage", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.ping", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.writeMessage");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.ping");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.writeMessage");
+    this->eventHandler_->preRead(ctx, "ThriftService.ping");
   }
 
-  TransferService_writeMessage_args args;
+  ThriftService_ping_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.writeMessage", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.ping", bytes);
   }
 
-  TransferService_writeMessage_result result;
+  ThriftService_ping_result result;
+  try {
+    result.success = iface_->ping();
+    result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "ThriftService.ping");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("ping", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "ThriftService.ping");
+  }
+
+  oprot->writeMessageBegin("ping", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "ThriftService.ping", bytes);
+  }
+}
+
+void ThriftServiceProcessor::process_writeMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("ThriftService.writeMessage", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.writeMessage");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "ThriftService.writeMessage");
+  }
+
+  ThriftService_writeMessage_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "ThriftService.writeMessage", bytes);
+  }
+
+  ThriftService_writeMessage_result result;
   try {
     iface_->writeMessage(result.success, args._v);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.writeMessage");
+      this->eventHandler_->handlerError(ctx, "ThriftService.writeMessage");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4099,7 +4773,7 @@ void TransferServiceProcessor::process_writeMessage(int32_t seqid, ::apache::thr
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.writeMessage");
+    this->eventHandler_->preWrite(ctx, "ThriftService.writeMessage");
   }
 
   oprot->writeMessageBegin("writeMessage", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4109,38 +4783,41 @@ void TransferServiceProcessor::process_writeMessage(int32_t seqid, ::apache::thr
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.writeMessage", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.writeMessage", bytes);
   }
 }
 
-void TransferServiceProcessor::process_writeBool(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_writeBool(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.writeBool", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.writeBool", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.writeBool");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.writeBool");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.writeBool");
+    this->eventHandler_->preRead(ctx, "ThriftService.writeBool");
   }
 
-  TransferService_writeBool_args args;
+  ThriftService_writeBool_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.writeBool", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.writeBool", bytes);
   }
 
-  TransferService_writeBool_result result;
+  ThriftService_writeBool_result result;
   try {
     iface_->writeBool(result.success, args._id, args._v);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.writeBool");
+      this->eventHandler_->handlerError(ctx, "ThriftService.writeBool");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4153,7 +4830,7 @@ void TransferServiceProcessor::process_writeBool(int32_t seqid, ::apache::thrift
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.writeBool");
+    this->eventHandler_->preWrite(ctx, "ThriftService.writeBool");
   }
 
   oprot->writeMessageBegin("writeBool", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4163,38 +4840,41 @@ void TransferServiceProcessor::process_writeBool(int32_t seqid, ::apache::thrift
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.writeBool", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.writeBool", bytes);
   }
 }
 
-void TransferServiceProcessor::process_writeI16(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_writeI16(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.writeI16", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.writeI16", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.writeI16");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.writeI16");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.writeI16");
+    this->eventHandler_->preRead(ctx, "ThriftService.writeI16");
   }
 
-  TransferService_writeI16_args args;
+  ThriftService_writeI16_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.writeI16", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.writeI16", bytes);
   }
 
-  TransferService_writeI16_result result;
+  ThriftService_writeI16_result result;
   try {
     iface_->writeI16(result.success, args._id, args._v);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.writeI16");
+      this->eventHandler_->handlerError(ctx, "ThriftService.writeI16");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4207,7 +4887,7 @@ void TransferServiceProcessor::process_writeI16(int32_t seqid, ::apache::thrift:
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.writeI16");
+    this->eventHandler_->preWrite(ctx, "ThriftService.writeI16");
   }
 
   oprot->writeMessageBegin("writeI16", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4217,38 +4897,41 @@ void TransferServiceProcessor::process_writeI16(int32_t seqid, ::apache::thrift:
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.writeI16", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.writeI16", bytes);
   }
 }
 
-void TransferServiceProcessor::process_writeI32(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_writeI32(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.writeI32", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.writeI32", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.writeI32");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.writeI32");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.writeI32");
+    this->eventHandler_->preRead(ctx, "ThriftService.writeI32");
   }
 
-  TransferService_writeI32_args args;
+  ThriftService_writeI32_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.writeI32", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.writeI32", bytes);
   }
 
-  TransferService_writeI32_result result;
+  ThriftService_writeI32_result result;
   try {
     iface_->writeI32(result.success, args._id, args._v);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.writeI32");
+      this->eventHandler_->handlerError(ctx, "ThriftService.writeI32");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4261,7 +4944,7 @@ void TransferServiceProcessor::process_writeI32(int32_t seqid, ::apache::thrift:
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.writeI32");
+    this->eventHandler_->preWrite(ctx, "ThriftService.writeI32");
   }
 
   oprot->writeMessageBegin("writeI32", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4271,38 +4954,41 @@ void TransferServiceProcessor::process_writeI32(int32_t seqid, ::apache::thrift:
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.writeI32", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.writeI32", bytes);
   }
 }
 
-void TransferServiceProcessor::process_writeI64(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_writeI64(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.writeI64", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.writeI64", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.writeI64");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.writeI64");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.writeI64");
+    this->eventHandler_->preRead(ctx, "ThriftService.writeI64");
   }
 
-  TransferService_writeI64_args args;
+  ThriftService_writeI64_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.writeI64", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.writeI64", bytes);
   }
 
-  TransferService_writeI64_result result;
+  ThriftService_writeI64_result result;
   try {
     iface_->writeI64(result.success, args._id, args._v);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.writeI64");
+      this->eventHandler_->handlerError(ctx, "ThriftService.writeI64");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4315,7 +5001,7 @@ void TransferServiceProcessor::process_writeI64(int32_t seqid, ::apache::thrift:
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.writeI64");
+    this->eventHandler_->preWrite(ctx, "ThriftService.writeI64");
   }
 
   oprot->writeMessageBegin("writeI64", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4325,38 +5011,41 @@ void TransferServiceProcessor::process_writeI64(int32_t seqid, ::apache::thrift:
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.writeI64", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.writeI64", bytes);
   }
 }
 
-void TransferServiceProcessor::process_writeDouble(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_writeDouble(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.writeDouble", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.writeDouble", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.writeDouble");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.writeDouble");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.writeDouble");
+    this->eventHandler_->preRead(ctx, "ThriftService.writeDouble");
   }
 
-  TransferService_writeDouble_args args;
+  ThriftService_writeDouble_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.writeDouble", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.writeDouble", bytes);
   }
 
-  TransferService_writeDouble_result result;
+  ThriftService_writeDouble_result result;
   try {
     iface_->writeDouble(result.success, args._id, args._v);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.writeDouble");
+      this->eventHandler_->handlerError(ctx, "ThriftService.writeDouble");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4369,7 +5058,7 @@ void TransferServiceProcessor::process_writeDouble(int32_t seqid, ::apache::thri
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.writeDouble");
+    this->eventHandler_->preWrite(ctx, "ThriftService.writeDouble");
   }
 
   oprot->writeMessageBegin("writeDouble", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4379,38 +5068,41 @@ void TransferServiceProcessor::process_writeDouble(int32_t seqid, ::apache::thri
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.writeDouble", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.writeDouble", bytes);
   }
 }
 
-void TransferServiceProcessor::process_writeString(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_writeString(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.writeString", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.writeString", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.writeString");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.writeString");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.writeString");
+    this->eventHandler_->preRead(ctx, "ThriftService.writeString");
   }
 
-  TransferService_writeString_args args;
+  ThriftService_writeString_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.writeString", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.writeString", bytes);
   }
 
-  TransferService_writeString_result result;
+  ThriftService_writeString_result result;
   try {
     iface_->writeString(result.success, args._id, args._v);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.writeString");
+      this->eventHandler_->handlerError(ctx, "ThriftService.writeString");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4423,7 +5115,7 @@ void TransferServiceProcessor::process_writeString(int32_t seqid, ::apache::thri
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.writeString");
+    this->eventHandler_->preWrite(ctx, "ThriftService.writeString");
   }
 
   oprot->writeMessageBegin("writeString", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4433,38 +5125,41 @@ void TransferServiceProcessor::process_writeString(int32_t seqid, ::apache::thri
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.writeString", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.writeString", bytes);
   }
 }
 
-void TransferServiceProcessor::process_readMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_readMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.readMessage", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.readMessage", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.readMessage");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.readMessage");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.readMessage");
+    this->eventHandler_->preRead(ctx, "ThriftService.readMessage");
   }
 
-  TransferService_readMessage_args args;
+  ThriftService_readMessage_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.readMessage", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.readMessage", bytes);
   }
 
-  TransferService_readMessage_result result;
+  ThriftService_readMessage_result result;
   try {
     iface_->readMessage(result.success, args._id);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.readMessage");
+      this->eventHandler_->handlerError(ctx, "ThriftService.readMessage");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4477,7 +5172,7 @@ void TransferServiceProcessor::process_readMessage(int32_t seqid, ::apache::thri
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.readMessage");
+    this->eventHandler_->preWrite(ctx, "ThriftService.readMessage");
   }
 
   oprot->writeMessageBegin("readMessage", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4487,38 +5182,41 @@ void TransferServiceProcessor::process_readMessage(int32_t seqid, ::apache::thri
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.readMessage", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.readMessage", bytes);
   }
 }
 
-void TransferServiceProcessor::process_readBool(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_readBool(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.readBool", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.readBool", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.readBool");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.readBool");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.readBool");
+    this->eventHandler_->preRead(ctx, "ThriftService.readBool");
   }
 
-  TransferService_readBool_args args;
+  ThriftService_readBool_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.readBool", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.readBool", bytes);
   }
 
-  TransferService_readBool_result result;
+  ThriftService_readBool_result result;
   try {
     result.success = iface_->readBool(args._id);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.readBool");
+      this->eventHandler_->handlerError(ctx, "ThriftService.readBool");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4531,7 +5229,7 @@ void TransferServiceProcessor::process_readBool(int32_t seqid, ::apache::thrift:
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.readBool");
+    this->eventHandler_->preWrite(ctx, "ThriftService.readBool");
   }
 
   oprot->writeMessageBegin("readBool", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4541,38 +5239,41 @@ void TransferServiceProcessor::process_readBool(int32_t seqid, ::apache::thrift:
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.readBool", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.readBool", bytes);
   }
 }
 
-void TransferServiceProcessor::process_readI16(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_readI16(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.readI16", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.readI16", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.readI16");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.readI16");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.readI16");
+    this->eventHandler_->preRead(ctx, "ThriftService.readI16");
   }
 
-  TransferService_readI16_args args;
+  ThriftService_readI16_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.readI16", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.readI16", bytes);
   }
 
-  TransferService_readI16_result result;
+  ThriftService_readI16_result result;
   try {
     result.success = iface_->readI16(args._id);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.readI16");
+      this->eventHandler_->handlerError(ctx, "ThriftService.readI16");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4585,7 +5286,7 @@ void TransferServiceProcessor::process_readI16(int32_t seqid, ::apache::thrift::
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.readI16");
+    this->eventHandler_->preWrite(ctx, "ThriftService.readI16");
   }
 
   oprot->writeMessageBegin("readI16", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4595,38 +5296,41 @@ void TransferServiceProcessor::process_readI16(int32_t seqid, ::apache::thrift::
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.readI16", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.readI16", bytes);
   }
 }
 
-void TransferServiceProcessor::process_readI32(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_readI32(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.readI32", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.readI32", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.readI32");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.readI32");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.readI32");
+    this->eventHandler_->preRead(ctx, "ThriftService.readI32");
   }
 
-  TransferService_readI32_args args;
+  ThriftService_readI32_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.readI32", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.readI32", bytes);
   }
 
-  TransferService_readI32_result result;
+  ThriftService_readI32_result result;
   try {
     result.success = iface_->readI32(args._id);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.readI32");
+      this->eventHandler_->handlerError(ctx, "ThriftService.readI32");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4639,7 +5343,7 @@ void TransferServiceProcessor::process_readI32(int32_t seqid, ::apache::thrift::
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.readI32");
+    this->eventHandler_->preWrite(ctx, "ThriftService.readI32");
   }
 
   oprot->writeMessageBegin("readI32", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4649,38 +5353,41 @@ void TransferServiceProcessor::process_readI32(int32_t seqid, ::apache::thrift::
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.readI32", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.readI32", bytes);
   }
 }
 
-void TransferServiceProcessor::process_readI64(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_readI64(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.readI64", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.readI64", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.readI64");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.readI64");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.readI64");
+    this->eventHandler_->preRead(ctx, "ThriftService.readI64");
   }
 
-  TransferService_readI64_args args;
+  ThriftService_readI64_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.readI64", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.readI64", bytes);
   }
 
-  TransferService_readI64_result result;
+  ThriftService_readI64_result result;
   try {
     result.success = iface_->readI64(args._id);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.readI64");
+      this->eventHandler_->handlerError(ctx, "ThriftService.readI64");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4693,7 +5400,7 @@ void TransferServiceProcessor::process_readI64(int32_t seqid, ::apache::thrift::
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.readI64");
+    this->eventHandler_->preWrite(ctx, "ThriftService.readI64");
   }
 
   oprot->writeMessageBegin("readI64", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4703,38 +5410,41 @@ void TransferServiceProcessor::process_readI64(int32_t seqid, ::apache::thrift::
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.readI64", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.readI64", bytes);
   }
 }
 
-void TransferServiceProcessor::process_readDouble(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_readDouble(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.readDouble", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.readDouble", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.readDouble");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.readDouble");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.readDouble");
+    this->eventHandler_->preRead(ctx, "ThriftService.readDouble");
   }
 
-  TransferService_readDouble_args args;
+  ThriftService_readDouble_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.readDouble", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.readDouble", bytes);
   }
 
-  TransferService_readDouble_result result;
+  ThriftService_readDouble_result result;
   try {
     result.success = iface_->readDouble(args._id);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.readDouble");
+      this->eventHandler_->handlerError(ctx, "ThriftService.readDouble");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4747,7 +5457,7 @@ void TransferServiceProcessor::process_readDouble(int32_t seqid, ::apache::thrif
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.readDouble");
+    this->eventHandler_->preWrite(ctx, "ThriftService.readDouble");
   }
 
   oprot->writeMessageBegin("readDouble", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4757,38 +5467,41 @@ void TransferServiceProcessor::process_readDouble(int32_t seqid, ::apache::thrif
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.readDouble", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.readDouble", bytes);
   }
 }
 
-void TransferServiceProcessor::process_readString(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_readString(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.readString", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.readString", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.readString");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.readString");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.readString");
+    this->eventHandler_->preRead(ctx, "ThriftService.readString");
   }
 
-  TransferService_readString_args args;
+  ThriftService_readString_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.readString", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.readString", bytes);
   }
 
-  TransferService_readString_result result;
+  ThriftService_readString_result result;
   try {
     iface_->readString(result.success, args._id);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.readString");
+      this->eventHandler_->handlerError(ctx, "ThriftService.readString");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4801,7 +5514,7 @@ void TransferServiceProcessor::process_readString(int32_t seqid, ::apache::thrif
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.readString");
+    this->eventHandler_->preWrite(ctx, "ThriftService.readString");
   }
 
   oprot->writeMessageBegin("readString", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4811,38 +5524,41 @@ void TransferServiceProcessor::process_readString(int32_t seqid, ::apache::thrif
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.readString", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.readString", bytes);
   }
 }
 
-void TransferServiceProcessor::process_writeId(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_writeId(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.writeId", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.writeId", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.writeId");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.writeId");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.writeId");
+    this->eventHandler_->preRead(ctx, "ThriftService.writeId");
   }
 
-  TransferService_writeId_args args;
+  ThriftService_writeId_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.writeId", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.writeId", bytes);
   }
 
-  TransferService_writeId_result result;
+  ThriftService_writeId_result result;
   try {
     result.success = iface_->writeId(args._id);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.writeId");
+      this->eventHandler_->handlerError(ctx, "ThriftService.writeId");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4855,7 +5571,7 @@ void TransferServiceProcessor::process_writeId(int32_t seqid, ::apache::thrift::
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.writeId");
+    this->eventHandler_->preWrite(ctx, "ThriftService.writeId");
   }
 
   oprot->writeMessageBegin("writeId", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4865,38 +5581,41 @@ void TransferServiceProcessor::process_writeId(int32_t seqid, ::apache::thrift::
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.writeId", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.writeId", bytes);
   }
 }
 
-void TransferServiceProcessor::process_readId(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ThriftServiceProcessor::process_readId(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("TransferService.readId", callContext);
+    ctx = this->eventHandler_->getContext("ThriftService.readId", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "TransferService.readId");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ThriftService.readId");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "TransferService.readId");
+    this->eventHandler_->preRead(ctx, "ThriftService.readId");
   }
 
-  TransferService_readId_args args;
+  ThriftService_readId_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "TransferService.readId", bytes);
+    this->eventHandler_->postRead(ctx, "ThriftService.readId", bytes);
   }
 
-  TransferService_readId_result result;
+  ThriftService_readId_result result;
   try {
     iface_->readId(result.success);
     result.__isset.success = true;
+  } catch (InvalidOperationException &e) {
+    result.e = e;
+    result.__isset.e = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "TransferService.readId");
+      this->eventHandler_->handlerError(ctx, "ThriftService.readId");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -4909,7 +5628,7 @@ void TransferServiceProcessor::process_readId(int32_t seqid, ::apache::thrift::p
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "TransferService.readId");
+    this->eventHandler_->preWrite(ctx, "ThriftService.readId");
   }
 
   oprot->writeMessageBegin("readId", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -4919,30 +5638,117 @@ void TransferServiceProcessor::process_readId(int32_t seqid, ::apache::thrift::p
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "TransferService.readId", bytes);
+    this->eventHandler_->postWrite(ctx, "ThriftService.readId", bytes);
   }
 }
 
-::apache::thrift::stdcxx::shared_ptr< ::apache::thrift::TProcessor > TransferServiceProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
-  ::apache::thrift::ReleaseHandler< TransferServiceIfFactory > cleanup(handlerFactory_);
-  ::apache::thrift::stdcxx::shared_ptr< TransferServiceIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
-  ::apache::thrift::stdcxx::shared_ptr< ::apache::thrift::TProcessor > processor(new TransferServiceProcessor(handler));
+::apache::thrift::stdcxx::shared_ptr< ::apache::thrift::TProcessor > ThriftServiceProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
+  ::apache::thrift::ReleaseHandler< ThriftServiceIfFactory > cleanup(handlerFactory_);
+  ::apache::thrift::stdcxx::shared_ptr< ThriftServiceIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
+  ::apache::thrift::stdcxx::shared_ptr< ::apache::thrift::TProcessor > processor(new ThriftServiceProcessor(handler));
   return processor;
 }
 
-void TransferServiceConcurrentClient::writeMessage(std::string& _return, const Message& _v)
+bool ThriftServiceConcurrentClient::ping()
+{
+  int32_t seqid = send_ping();
+  return recv_ping(seqid);
+}
+
+int32_t ThriftServiceConcurrentClient::send_ping()
+{
+  int32_t cseqid = this->sync_.generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
+  oprot_->writeMessageBegin("ping", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  ThriftService_ping_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+bool ThriftServiceConcurrentClient::recv_ping(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(&this->sync_, seqid);
+
+  while(true) {
+    if(!this->sync_.getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("ping") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      bool _return;
+      ThriftService_ping_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "ping failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_.updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_.waitForWork(seqid);
+  } // end while(true)
+}
+
+void ThriftServiceConcurrentClient::writeMessage(std::string& _return, const Message& _v)
 {
   int32_t seqid = send_writeMessage(_v);
   recv_writeMessage(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_writeMessage(const Message& _v)
+int32_t ThriftServiceConcurrentClient::send_writeMessage(const Message& _v)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("writeMessage", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeMessage_pargs args;
+  ThriftService_writeMessage_pargs args;
   args._v = &_v;
   args.write(oprot_);
 
@@ -4954,7 +5760,7 @@ int32_t TransferServiceConcurrentClient::send_writeMessage(const Message& _v)
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_writeMessage(std::string& _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_writeMessage(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -4992,7 +5798,7 @@ void TransferServiceConcurrentClient::recv_writeMessage(std::string& _return, co
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_writeMessage_presult result;
+      ThriftService_writeMessage_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5002,6 +5808,10 @@ void TransferServiceConcurrentClient::recv_writeMessage(std::string& _return, co
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeMessage failed: unknown result");
@@ -5014,19 +5824,19 @@ void TransferServiceConcurrentClient::recv_writeMessage(std::string& _return, co
   } // end while(true)
 }
 
-void TransferServiceConcurrentClient::writeBool(std::string& _return, const std::string& _id, const bool _v)
+void ThriftServiceConcurrentClient::writeBool(std::string& _return, const std::string& _id, const bool _v)
 {
   int32_t seqid = send_writeBool(_id, _v);
   recv_writeBool(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_writeBool(const std::string& _id, const bool _v)
+int32_t ThriftServiceConcurrentClient::send_writeBool(const std::string& _id, const bool _v)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("writeBool", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeBool_pargs args;
+  ThriftService_writeBool_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -5039,7 +5849,7 @@ int32_t TransferServiceConcurrentClient::send_writeBool(const std::string& _id, 
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_writeBool(std::string& _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_writeBool(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5077,7 +5887,7 @@ void TransferServiceConcurrentClient::recv_writeBool(std::string& _return, const
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_writeBool_presult result;
+      ThriftService_writeBool_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5087,6 +5897,10 @@ void TransferServiceConcurrentClient::recv_writeBool(std::string& _return, const
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeBool failed: unknown result");
@@ -5099,19 +5913,19 @@ void TransferServiceConcurrentClient::recv_writeBool(std::string& _return, const
   } // end while(true)
 }
 
-void TransferServiceConcurrentClient::writeI16(std::string& _return, const std::string& _id, const int16_t _v)
+void ThriftServiceConcurrentClient::writeI16(std::string& _return, const std::string& _id, const int16_t _v)
 {
   int32_t seqid = send_writeI16(_id, _v);
   recv_writeI16(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_writeI16(const std::string& _id, const int16_t _v)
+int32_t ThriftServiceConcurrentClient::send_writeI16(const std::string& _id, const int16_t _v)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("writeI16", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeI16_pargs args;
+  ThriftService_writeI16_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -5124,7 +5938,7 @@ int32_t TransferServiceConcurrentClient::send_writeI16(const std::string& _id, c
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_writeI16(std::string& _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_writeI16(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5162,7 +5976,7 @@ void TransferServiceConcurrentClient::recv_writeI16(std::string& _return, const 
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_writeI16_presult result;
+      ThriftService_writeI16_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5172,6 +5986,10 @@ void TransferServiceConcurrentClient::recv_writeI16(std::string& _return, const 
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeI16 failed: unknown result");
@@ -5184,19 +6002,19 @@ void TransferServiceConcurrentClient::recv_writeI16(std::string& _return, const 
   } // end while(true)
 }
 
-void TransferServiceConcurrentClient::writeI32(std::string& _return, const std::string& _id, const int32_t _v)
+void ThriftServiceConcurrentClient::writeI32(std::string& _return, const std::string& _id, const int32_t _v)
 {
   int32_t seqid = send_writeI32(_id, _v);
   recv_writeI32(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_writeI32(const std::string& _id, const int32_t _v)
+int32_t ThriftServiceConcurrentClient::send_writeI32(const std::string& _id, const int32_t _v)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("writeI32", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeI32_pargs args;
+  ThriftService_writeI32_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -5209,7 +6027,7 @@ int32_t TransferServiceConcurrentClient::send_writeI32(const std::string& _id, c
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_writeI32(std::string& _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_writeI32(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5247,7 +6065,7 @@ void TransferServiceConcurrentClient::recv_writeI32(std::string& _return, const 
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_writeI32_presult result;
+      ThriftService_writeI32_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5257,6 +6075,10 @@ void TransferServiceConcurrentClient::recv_writeI32(std::string& _return, const 
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeI32 failed: unknown result");
@@ -5269,19 +6091,19 @@ void TransferServiceConcurrentClient::recv_writeI32(std::string& _return, const 
   } // end while(true)
 }
 
-void TransferServiceConcurrentClient::writeI64(std::string& _return, const std::string& _id, const int64_t _v)
+void ThriftServiceConcurrentClient::writeI64(std::string& _return, const std::string& _id, const int64_t _v)
 {
   int32_t seqid = send_writeI64(_id, _v);
   recv_writeI64(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_writeI64(const std::string& _id, const int64_t _v)
+int32_t ThriftServiceConcurrentClient::send_writeI64(const std::string& _id, const int64_t _v)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("writeI64", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeI64_pargs args;
+  ThriftService_writeI64_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -5294,7 +6116,7 @@ int32_t TransferServiceConcurrentClient::send_writeI64(const std::string& _id, c
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_writeI64(std::string& _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_writeI64(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5332,7 +6154,7 @@ void TransferServiceConcurrentClient::recv_writeI64(std::string& _return, const 
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_writeI64_presult result;
+      ThriftService_writeI64_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5342,6 +6164,10 @@ void TransferServiceConcurrentClient::recv_writeI64(std::string& _return, const 
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeI64 failed: unknown result");
@@ -5354,19 +6180,19 @@ void TransferServiceConcurrentClient::recv_writeI64(std::string& _return, const 
   } // end while(true)
 }
 
-void TransferServiceConcurrentClient::writeDouble(std::string& _return, const std::string& _id, const double _v)
+void ThriftServiceConcurrentClient::writeDouble(std::string& _return, const std::string& _id, const double _v)
 {
   int32_t seqid = send_writeDouble(_id, _v);
   recv_writeDouble(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_writeDouble(const std::string& _id, const double _v)
+int32_t ThriftServiceConcurrentClient::send_writeDouble(const std::string& _id, const double _v)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("writeDouble", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeDouble_pargs args;
+  ThriftService_writeDouble_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -5379,7 +6205,7 @@ int32_t TransferServiceConcurrentClient::send_writeDouble(const std::string& _id
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_writeDouble(std::string& _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_writeDouble(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5417,7 +6243,7 @@ void TransferServiceConcurrentClient::recv_writeDouble(std::string& _return, con
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_writeDouble_presult result;
+      ThriftService_writeDouble_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5427,6 +6253,10 @@ void TransferServiceConcurrentClient::recv_writeDouble(std::string& _return, con
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeDouble failed: unknown result");
@@ -5439,19 +6269,19 @@ void TransferServiceConcurrentClient::recv_writeDouble(std::string& _return, con
   } // end while(true)
 }
 
-void TransferServiceConcurrentClient::writeString(std::string& _return, const std::string& _id, const std::string& _v)
+void ThriftServiceConcurrentClient::writeString(std::string& _return, const std::string& _id, const std::string& _v)
 {
   int32_t seqid = send_writeString(_id, _v);
   recv_writeString(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_writeString(const std::string& _id, const std::string& _v)
+int32_t ThriftServiceConcurrentClient::send_writeString(const std::string& _id, const std::string& _v)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("writeString", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeString_pargs args;
+  ThriftService_writeString_pargs args;
   args._id = &_id;
   args._v = &_v;
   args.write(oprot_);
@@ -5464,7 +6294,7 @@ int32_t TransferServiceConcurrentClient::send_writeString(const std::string& _id
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_writeString(std::string& _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_writeString(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5502,7 +6332,7 @@ void TransferServiceConcurrentClient::recv_writeString(std::string& _return, con
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_writeString_presult result;
+      ThriftService_writeString_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5512,6 +6342,10 @@ void TransferServiceConcurrentClient::recv_writeString(std::string& _return, con
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeString failed: unknown result");
@@ -5524,19 +6358,19 @@ void TransferServiceConcurrentClient::recv_writeString(std::string& _return, con
   } // end while(true)
 }
 
-void TransferServiceConcurrentClient::readMessage(Message& _return, const std::string& _id)
+void ThriftServiceConcurrentClient::readMessage(Message& _return, const std::string& _id)
 {
   int32_t seqid = send_readMessage(_id);
   recv_readMessage(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_readMessage(const std::string& _id)
+int32_t ThriftServiceConcurrentClient::send_readMessage(const std::string& _id)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("readMessage", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readMessage_pargs args;
+  ThriftService_readMessage_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -5548,7 +6382,7 @@ int32_t TransferServiceConcurrentClient::send_readMessage(const std::string& _id
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_readMessage(Message& _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_readMessage(Message& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5586,7 +6420,7 @@ void TransferServiceConcurrentClient::recv_readMessage(Message& _return, const i
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_readMessage_presult result;
+      ThriftService_readMessage_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5596,6 +6430,10 @@ void TransferServiceConcurrentClient::recv_readMessage(Message& _return, const i
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readMessage failed: unknown result");
@@ -5608,19 +6446,19 @@ void TransferServiceConcurrentClient::recv_readMessage(Message& _return, const i
   } // end while(true)
 }
 
-bool TransferServiceConcurrentClient::readBool(const std::string& _id)
+bool ThriftServiceConcurrentClient::readBool(const std::string& _id)
 {
   int32_t seqid = send_readBool(_id);
   return recv_readBool(seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_readBool(const std::string& _id)
+int32_t ThriftServiceConcurrentClient::send_readBool(const std::string& _id)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("readBool", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readBool_pargs args;
+  ThriftService_readBool_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -5632,7 +6470,7 @@ int32_t TransferServiceConcurrentClient::send_readBool(const std::string& _id)
   return cseqid;
 }
 
-bool TransferServiceConcurrentClient::recv_readBool(const int32_t seqid)
+bool ThriftServiceConcurrentClient::recv_readBool(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5671,7 +6509,7 @@ bool TransferServiceConcurrentClient::recv_readBool(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       bool _return;
-      TransferService_readBool_presult result;
+      ThriftService_readBool_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5680,6 +6518,10 @@ bool TransferServiceConcurrentClient::recv_readBool(const int32_t seqid)
       if (result.__isset.success) {
         sentry.commit();
         return _return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readBool failed: unknown result");
@@ -5692,19 +6534,19 @@ bool TransferServiceConcurrentClient::recv_readBool(const int32_t seqid)
   } // end while(true)
 }
 
-int16_t TransferServiceConcurrentClient::readI16(const std::string& _id)
+int16_t ThriftServiceConcurrentClient::readI16(const std::string& _id)
 {
   int32_t seqid = send_readI16(_id);
   return recv_readI16(seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_readI16(const std::string& _id)
+int32_t ThriftServiceConcurrentClient::send_readI16(const std::string& _id)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("readI16", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readI16_pargs args;
+  ThriftService_readI16_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -5716,7 +6558,7 @@ int32_t TransferServiceConcurrentClient::send_readI16(const std::string& _id)
   return cseqid;
 }
 
-int16_t TransferServiceConcurrentClient::recv_readI16(const int32_t seqid)
+int16_t ThriftServiceConcurrentClient::recv_readI16(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5755,7 +6597,7 @@ int16_t TransferServiceConcurrentClient::recv_readI16(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       int16_t _return;
-      TransferService_readI16_presult result;
+      ThriftService_readI16_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5764,6 +6606,10 @@ int16_t TransferServiceConcurrentClient::recv_readI16(const int32_t seqid)
       if (result.__isset.success) {
         sentry.commit();
         return _return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readI16 failed: unknown result");
@@ -5776,19 +6622,19 @@ int16_t TransferServiceConcurrentClient::recv_readI16(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t TransferServiceConcurrentClient::readI32(const std::string& _id)
+int32_t ThriftServiceConcurrentClient::readI32(const std::string& _id)
 {
   int32_t seqid = send_readI32(_id);
   return recv_readI32(seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_readI32(const std::string& _id)
+int32_t ThriftServiceConcurrentClient::send_readI32(const std::string& _id)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("readI32", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readI32_pargs args;
+  ThriftService_readI32_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -5800,7 +6646,7 @@ int32_t TransferServiceConcurrentClient::send_readI32(const std::string& _id)
   return cseqid;
 }
 
-int32_t TransferServiceConcurrentClient::recv_readI32(const int32_t seqid)
+int32_t ThriftServiceConcurrentClient::recv_readI32(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5839,7 +6685,7 @@ int32_t TransferServiceConcurrentClient::recv_readI32(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       int32_t _return;
-      TransferService_readI32_presult result;
+      ThriftService_readI32_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5848,6 +6694,10 @@ int32_t TransferServiceConcurrentClient::recv_readI32(const int32_t seqid)
       if (result.__isset.success) {
         sentry.commit();
         return _return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readI32 failed: unknown result");
@@ -5860,19 +6710,19 @@ int32_t TransferServiceConcurrentClient::recv_readI32(const int32_t seqid)
   } // end while(true)
 }
 
-int64_t TransferServiceConcurrentClient::readI64(const std::string& _id)
+int64_t ThriftServiceConcurrentClient::readI64(const std::string& _id)
 {
   int32_t seqid = send_readI64(_id);
   return recv_readI64(seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_readI64(const std::string& _id)
+int32_t ThriftServiceConcurrentClient::send_readI64(const std::string& _id)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("readI64", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readI64_pargs args;
+  ThriftService_readI64_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -5884,7 +6734,7 @@ int32_t TransferServiceConcurrentClient::send_readI64(const std::string& _id)
   return cseqid;
 }
 
-int64_t TransferServiceConcurrentClient::recv_readI64(const int32_t seqid)
+int64_t ThriftServiceConcurrentClient::recv_readI64(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -5923,7 +6773,7 @@ int64_t TransferServiceConcurrentClient::recv_readI64(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       int64_t _return;
-      TransferService_readI64_presult result;
+      ThriftService_readI64_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -5932,6 +6782,10 @@ int64_t TransferServiceConcurrentClient::recv_readI64(const int32_t seqid)
       if (result.__isset.success) {
         sentry.commit();
         return _return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readI64 failed: unknown result");
@@ -5944,19 +6798,19 @@ int64_t TransferServiceConcurrentClient::recv_readI64(const int32_t seqid)
   } // end while(true)
 }
 
-double TransferServiceConcurrentClient::readDouble(const std::string& _id)
+double ThriftServiceConcurrentClient::readDouble(const std::string& _id)
 {
   int32_t seqid = send_readDouble(_id);
   return recv_readDouble(seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_readDouble(const std::string& _id)
+int32_t ThriftServiceConcurrentClient::send_readDouble(const std::string& _id)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("readDouble", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readDouble_pargs args;
+  ThriftService_readDouble_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -5968,7 +6822,7 @@ int32_t TransferServiceConcurrentClient::send_readDouble(const std::string& _id)
   return cseqid;
 }
 
-double TransferServiceConcurrentClient::recv_readDouble(const int32_t seqid)
+double ThriftServiceConcurrentClient::recv_readDouble(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -6007,7 +6861,7 @@ double TransferServiceConcurrentClient::recv_readDouble(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       double _return;
-      TransferService_readDouble_presult result;
+      ThriftService_readDouble_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -6016,6 +6870,10 @@ double TransferServiceConcurrentClient::recv_readDouble(const int32_t seqid)
       if (result.__isset.success) {
         sentry.commit();
         return _return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readDouble failed: unknown result");
@@ -6028,19 +6886,19 @@ double TransferServiceConcurrentClient::recv_readDouble(const int32_t seqid)
   } // end while(true)
 }
 
-void TransferServiceConcurrentClient::readString(std::string& _return, const std::string& _id)
+void ThriftServiceConcurrentClient::readString(std::string& _return, const std::string& _id)
 {
   int32_t seqid = send_readString(_id);
   recv_readString(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_readString(const std::string& _id)
+int32_t ThriftServiceConcurrentClient::send_readString(const std::string& _id)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("readString", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readString_pargs args;
+  ThriftService_readString_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -6052,7 +6910,7 @@ int32_t TransferServiceConcurrentClient::send_readString(const std::string& _id)
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_readString(std::string& _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_readString(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -6090,7 +6948,7 @@ void TransferServiceConcurrentClient::recv_readString(std::string& _return, cons
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_readString_presult result;
+      ThriftService_readString_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -6100,6 +6958,10 @@ void TransferServiceConcurrentClient::recv_readString(std::string& _return, cons
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readString failed: unknown result");
@@ -6112,19 +6974,19 @@ void TransferServiceConcurrentClient::recv_readString(std::string& _return, cons
   } // end while(true)
 }
 
-bool TransferServiceConcurrentClient::writeId(const std::string& _id)
+bool ThriftServiceConcurrentClient::writeId(const std::string& _id)
 {
   int32_t seqid = send_writeId(_id);
   return recv_writeId(seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_writeId(const std::string& _id)
+int32_t ThriftServiceConcurrentClient::send_writeId(const std::string& _id)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("writeId", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_writeId_pargs args;
+  ThriftService_writeId_pargs args;
   args._id = &_id;
   args.write(oprot_);
 
@@ -6136,7 +6998,7 @@ int32_t TransferServiceConcurrentClient::send_writeId(const std::string& _id)
   return cseqid;
 }
 
-bool TransferServiceConcurrentClient::recv_writeId(const int32_t seqid)
+bool ThriftServiceConcurrentClient::recv_writeId(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -6175,7 +7037,7 @@ bool TransferServiceConcurrentClient::recv_writeId(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       bool _return;
-      TransferService_writeId_presult result;
+      ThriftService_writeId_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -6184,6 +7046,10 @@ bool TransferServiceConcurrentClient::recv_writeId(const int32_t seqid)
       if (result.__isset.success) {
         sentry.commit();
         return _return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "writeId failed: unknown result");
@@ -6196,19 +7062,19 @@ bool TransferServiceConcurrentClient::recv_writeId(const int32_t seqid)
   } // end while(true)
 }
 
-void TransferServiceConcurrentClient::readId(std::vector<std::string> & _return)
+void ThriftServiceConcurrentClient::readId(std::vector<std::string> & _return)
 {
   int32_t seqid = send_readId();
   recv_readId(_return, seqid);
 }
 
-int32_t TransferServiceConcurrentClient::send_readId()
+int32_t ThriftServiceConcurrentClient::send_readId()
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("readId", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  TransferService_readId_pargs args;
+  ThriftService_readId_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -6219,7 +7085,7 @@ int32_t TransferServiceConcurrentClient::send_readId()
   return cseqid;
 }
 
-void TransferServiceConcurrentClient::recv_readId(std::vector<std::string> & _return, const int32_t seqid)
+void ThriftServiceConcurrentClient::recv_readId(std::vector<std::string> & _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -6257,7 +7123,7 @@ void TransferServiceConcurrentClient::recv_readId(std::vector<std::string> & _re
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TransferService_readId_presult result;
+      ThriftService_readId_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -6267,6 +7133,10 @@ void TransferServiceConcurrentClient::recv_readId(std::vector<std::string> & _re
         // _return pointer has now been filled
         sentry.commit();
         return;
+      }
+      if (result.__isset.e) {
+        sentry.commit();
+        throw result.e;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readId failed: unknown result");

@@ -6,7 +6,7 @@
  */
 #include "messenger_constants.h"
 
-namespace thrift_gen_messenger {
+namespace thrift_gen {
 
 const messengerConstants g_messenger_constants;
 
