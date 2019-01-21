@@ -11,13 +11,13 @@
 
 #include "thrift/messenger_constants.h"
 #include "thrift/messenger_types.h"
-#include "thrift/TransferService.h"
+#include "thrift/ThriftRWService.h"
 
 using namespace std;
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
-using namespace thrift_gen_messenger;
+using namespace thrift_gen;
 
 class TestGExecutorThrift: public ::testing::Test {
 public:
@@ -37,22 +37,22 @@ public:
 		const size_t buffer_size = 10;
 
 		socket = stdcxx::shared_ptr<TTransport>(
-			new TSocket("192.168.0.13", 9091));
+			new TSocket("localhost", 9090));
 	        transport = stdcxx::shared_ptr<TTransport>(
 			new TBufferedTransport(socket));
 	        protocol = stdcxx::shared_ptr<TProtocol>(
 			new TBinaryProtocol(transport));
 	
-		serviceClient = new TransferServiceClient(protocol); 
+		serviceClient = new ThriftRWServiceClient(protocol); 
 
 //		transport->open();
 				
-		GExecutorInterface<Message,TransferServiceClient> 
+		GExecutorInterface<ThriftMessage,ThriftRWServiceClient> 
 			*executor = 
 			new GExecutorThriftWriteMessage
-				<Message,TransferServiceClient>(
+				<ThriftMessage,ThriftRWServiceClient>(
 				serviceClient, false);
-		que = new GTaskQue<Message,TransferServiceClient>
+		que = new GTaskQue<ThriftMessage,ThriftRWServiceClient>
 			(executor,buffer_size);
 	}
 	virtual void TearDown() {
@@ -61,8 +61,8 @@ public:
 	stdcxx::shared_ptr<TTransport> socket;
 	stdcxx::shared_ptr<TTransport> transport;
 	stdcxx::shared_ptr<TProtocol> protocol;
-	TransferServiceClient *serviceClient;
-	GTaskQue<Message,TransferServiceClient> *que;
+	ThriftRWServiceClient *serviceClient;
+	GTaskQue<ThriftMessage,ThriftRWServiceClient> *que;
 };
 
 TEST_F(
@@ -89,7 +89,7 @@ TEST_F(
 
 		ASSERT_TRUE(serviceClient!=nullptr);
 
-		Message msg;
+		ThriftMessage msg;
 		msg._sender_id = "id";
 		if(serviceClient) {
 			for(int i=0; i<icount; i++) {

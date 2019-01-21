@@ -2,7 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/thriftserver.dir/main.cpp.o"
   "CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_constants.cpp.o"
   "CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_types.cpp.o"
-  "CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.o"
+  "CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.o"
   "thriftserver.pdb"
   "thriftserver"
 )

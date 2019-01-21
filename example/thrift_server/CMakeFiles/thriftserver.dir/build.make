@@ -96,25 +96,25 @@ example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_types.cpp.s"
 	cd /home/sglee/ezeit/example/thrift_server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sglee/ezeit/include/thrift/messenger_types.cpp -o CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_types.cpp.s
 
-example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.o: example/thrift_server/CMakeFiles/thriftserver.dir/flags.make
-example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.o: include/thrift/ThriftService.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sglee/ezeit/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.o"
-	cd /home/sglee/ezeit/example/thrift_server && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.o -c /home/sglee/ezeit/include/thrift/ThriftService.cpp
+example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.o: example/thrift_server/CMakeFiles/thriftserver.dir/flags.make
+example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.o: include/thrift/ThriftRWService.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sglee/ezeit/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.o"
+	cd /home/sglee/ezeit/example/thrift_server && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.o -c /home/sglee/ezeit/include/thrift/ThriftRWService.cpp
 
-example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.i"
-	cd /home/sglee/ezeit/example/thrift_server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sglee/ezeit/include/thrift/ThriftService.cpp > CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.i
+example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.i"
+	cd /home/sglee/ezeit/example/thrift_server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sglee/ezeit/include/thrift/ThriftRWService.cpp > CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.i
 
-example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.s"
-	cd /home/sglee/ezeit/example/thrift_server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sglee/ezeit/include/thrift/ThriftService.cpp -o CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.s
+example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.s"
+	cd /home/sglee/ezeit/example/thrift_server && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sglee/ezeit/include/thrift/ThriftRWService.cpp -o CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.s
 
 # Object files for target thriftserver
 thriftserver_OBJECTS = \
 "CMakeFiles/thriftserver.dir/main.cpp.o" \
 "CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_constants.cpp.o" \
 "CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_types.cpp.o" \
-"CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.o"
+"CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.o"
 
 # External object files for target thriftserver
 thriftserver_EXTERNAL_OBJECTS =
@@ -122,7 +122,7 @@ thriftserver_EXTERNAL_OBJECTS =
 example/thrift_server/thriftserver: example/thrift_server/CMakeFiles/thriftserver.dir/main.cpp.o
 example/thrift_server/thriftserver: example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_constants.cpp.o
 example/thrift_server/thriftserver: example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_types.cpp.o
-example/thrift_server/thriftserver: example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftService.cpp.o
+example/thrift_server/thriftserver: example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.o
 example/thrift_server/thriftserver: example/thrift_server/CMakeFiles/thriftserver.dir/build.make
 example/thrift_server/thriftserver: example/thrift_server/CMakeFiles/thriftserver.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sglee/ezeit/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable thriftserver"

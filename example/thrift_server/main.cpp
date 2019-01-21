@@ -20,7 +20,7 @@
 
 #include "thrift/messenger_constants.h"
 #include "thrift/messenger_types.h"
-#include "thrift/ThriftService.h"
+#include "thrift/ThriftRWService.h"
 
 #include "thrift_server.h"
 
@@ -40,13 +40,13 @@ int main(int argc, char *argv[]) {
 
 	int port = 9090;
 	TThreadedServer server(
-		std::make_shared<ThriftServiceProcessorFactory>(
-			std::make_shared<ThriftServiceImpFactory>()),
+		std::make_shared<ThriftRWServiceProcessorFactory>(
+			std::make_shared<ThriftRWServiceImpFactory>()),
 		std::make_shared<TServerSocket>(port),
 		std::make_shared<TBufferedTransportFactory>(),
 		std::make_shared<TBinaryProtocolFactory>());
 
-	cout << "starting the thrift server..." << endl;
+	cout << "starting the thrift server...port:" << port << endl;
 	server.serve();
 	cout << "Done." << endl;
 	return 0;

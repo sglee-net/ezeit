@@ -11,7 +11,7 @@
 
 #include "thrift/messenger_constants.h"
 #include "thrift/messenger_types.h"
-#include "thrift/ThriftService.h"
+#include "thrift/ThriftRWService.h"
 
 using namespace std;
 using namespace apache::thrift;
@@ -34,13 +34,13 @@ int main(int argc, char *argv[]) {
 		transport(new TBufferedTransport(socket));
     	stdcxx::shared_ptr<TProtocol> 
 		protocol(new TBinaryProtocol(transport));
-	ThriftServiceClient client(protocol);
+	ThriftRWServiceClient client(protocol);
 
         try {
 		transport->open();
 	
-		Message msg;
-		msg.list_string.push_back("Test message");
+		ThriftMessage msg;
+		msg._list_string.push_back("Test message");
 	
 		client.writeId("id");
 		//client.setMsg(msg);

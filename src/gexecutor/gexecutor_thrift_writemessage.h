@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 #include "gtaskque/gtaskque.h"
-#include "thrift/TransferService.h"
+#include "thrift/ThriftRWService.h"
 #include "thrift/messenger_types.h"
 #include <fstream>
 
@@ -13,7 +13,7 @@
 #endif
 
 using namespace std;
-using namespace thrift_gen_messenger;
+using namespace thrift_gen;
 
 template <typename T, typename U>
 class GExecutorThriftWriteMessage :public GExecutorInterface<T,U> {
@@ -32,27 +32,27 @@ public:
 
 // specialization
 template <>
-class GExecutorThriftWriteMessage<Message, TransferServiceClient>
-	:public GExecutorInterface<Message, TransferServiceClient> {
+class GExecutorThriftWriteMessage<ThriftMessage, ThriftRWServiceClient>
+	:public GExecutorInterface<ThriftMessage, ThriftRWServiceClient> {
 private:
 	GExecutorThriftWriteMessage() {}
 	GExecutorThriftWriteMessage(const GExecutorThriftWriteMessage &) {}
 	GExecutorThriftWriteMessage& operator=(const GExecutorThriftWriteMessage &) { 
 		return *this; }
 public:
-	GExecutorThriftWriteMessage(TransferServiceClient *_val, const bool _autoRemove)
-		:GExecutorInterface<Message, TransferServiceClient>
+	GExecutorThriftWriteMessage(ThriftRWServiceClient *_val, const bool _autoRemove)
+		:GExecutorInterface<ThriftMessage, ThriftRWServiceClient>
 			(_val,_autoRemove) {}
-	virtual int execute(Message &_arg) {
+	virtual int execute(ThriftMessage &_arg) {
 		if (!attribute) {
 			return -1;
 		}
 
-		TransferServiceClient *thriftClient = 
-			(TransferServiceClient *)attribute;
+		ThriftRWServiceClient *thriftClient = 
+			(ThriftRWServiceClient *)attribute;
 		string ret;
 		try {
-			thriftClient->writeMessage(ret,_arg);
+			thriftClient->writeThriftMessage(ret,_arg);
 		} catch (...) {
 		}
 

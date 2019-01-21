@@ -20,7 +20,7 @@
 
 #include "thrift/messenger_constants.h"
 #include "thrift/messenger_types.h"
-#include "thrift/ThriftService.h"
+#include "thrift/ThriftRWService.h"
 
 using namespace std;
 using namespace apache::thrift;
@@ -34,17 +34,17 @@ using namespace apache::thrift::server;
 
 using namespace thrift_gen;
 
-class ThriftServiceImp : public ThriftServiceIf {
+class ThriftRWServiceImp : public ThriftRWServiceIf {
 public:
-	ThriftServiceImp() {}
-	virtual ~ThriftServiceImp() {}
+	ThriftRWServiceImp() {}
+	virtual ~ThriftRWServiceImp() {}
 
 	bool ping() { return true; }
 
-	void writeMessage(
+	void writeThriftMessage(
 		string &_return, 
-		const Message &_v) {
-		cout << "writeMessage" << endl;
+		const ThriftMessage &_v) {
+		cout << "writeThriftMessage" << endl;
 	}
 
 	void writeBool(
@@ -89,11 +89,10 @@ public:
 		cout << "writeString" << endl;
 	}
 
-	void readMessage(
-		Message &_return,
+	void readThriftMessage(
+		ThriftMessage &_return,
 		const string &_id) {
-		_return.sender_id = "server";
-		cout << "readMessage" << endl;
+		cout << "readThriftMessage" << endl;
 	}
 
 	bool readBool(
@@ -145,12 +144,12 @@ public:
 	}
 };
 
-class ThriftServiceImpFactory : public ThriftServiceIfFactory {
+class ThriftRWServiceImpFactory : public ThriftRWServiceIfFactory {
 public:
-	ThriftServiceImpFactory() {}
-	virtual ~ThriftServiceImpFactory() {}
+	ThriftRWServiceImpFactory() {}
+	virtual ~ThriftRWServiceImpFactory() {}
 
-	virtual ThriftServiceIf *getHandler(
+	virtual ThriftRWServiceIf *getHandler(
 		const ::apache::thrift::TConnectionInfo &connInfo) {
 		std::shared_ptr<TSocket> sock =
 			std::dynamic_pointer_cast<TSocket>(connInfo.transport);
@@ -159,10 +158,10 @@ public:
 //		cout << "PeerHost: " << sock->getPeerHost() << endl;
 //		cout << "PeerAddress: " << sock->getPeerAddress() << endl;
 //		cout << "PeerPort: " << socket->getPeerPort() << endl;
-		return new ThriftServiceImp();
+		return new ThriftRWServiceImp();
 	}
 
-	virtual void releaseHandler(ThriftServiceIf *handler) {
+	virtual void releaseHandler(ThriftRWServiceIf *handler) {
 		delete handler;
 	}
 };

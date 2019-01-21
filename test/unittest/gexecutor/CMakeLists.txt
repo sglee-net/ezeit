@@ -16,8 +16,8 @@ set(SRC_THRIFT
 	   ${INCDIR}/thrift/messenger_constants.h  
            ${INCDIR}/thrift/messenger_types.cpp 
 	   ${INCDIR}/thrift/messenger_types.h 
-           ${INCDIR}/thrift/ThriftService.cpp 
-	   ${INCDIR}/thrift/ThriftService.h
+           ${INCDIR}/thrift/ThriftRWService.cpp 
+	   ${INCDIR}/thrift/ThriftRWService.h
            )
 
 set(PROJECT_TEST_NAME ${PROJECT_NAME}_test)

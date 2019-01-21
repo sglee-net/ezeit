@@ -45,8 +45,8 @@ thrift/messenger_constants.h
 /home/sglee/ezeit/example/thrift_server/thrift/messenger_constants.h
 thrift/messenger_types.h
 /home/sglee/ezeit/example/thrift_server/thrift/messenger_types.h
-thrift/ThriftService.h
-/home/sglee/ezeit/example/thrift_server/thrift/ThriftService.h
+thrift/ThriftRWService.h
+/home/sglee/ezeit/example/thrift_server/thrift/ThriftRWService.h
 thrift_server.h
 /home/sglee/ezeit/example/thrift_server/thrift_server.h
 
@@ -89,10 +89,10 @@ thrift/messenger_constants.h
 /home/sglee/ezeit/example/thrift_server/thrift/messenger_constants.h
 thrift/messenger_types.h
 /home/sglee/ezeit/example/thrift_server/thrift/messenger_types.h
-thrift/ThriftService.h
-/home/sglee/ezeit/example/thrift_server/thrift/ThriftService.h
+thrift/ThriftRWService.h
+/home/sglee/ezeit/example/thrift_server/thrift/ThriftRWService.h
 
-include/thrift/ThriftService.h
+include/thrift/ThriftRWService.h
 thrift/TDispatchProcessor.h
 -
 thrift/async/TConcurrentClientSyncInfo.h
