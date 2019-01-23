@@ -9,17 +9,29 @@ struct ThriftMessage {
 	4:  optional string 			_subject;
 	5:  optional i64 			_sequence_no;
 	6:  optional i64			_total_count;
-	7:  optional list<bool> 		_list_bool;
-	8:  optional list<i16> 			_list_i16;
-	9:  optional list<i32> 			_list_i32;
-	10: optional list<i64> 			_list_i64;
-	11: optional list<double> 		_list_double;
-	12: optional list<string>		_list_string;
-	13: optional binary 			_binary;
-	14: optional string 			_payload;
-	15: optional list<ThriftMessage> 	_list_message;
-	16: optional set<ThriftMessage>		_set_message;
-	17: optional map<string,ThriftMessage> 	_map_message;
+	7:  optional binary 			_binary;
+	8:  optional string 			_payload;
+	9:  optional list<ThriftMessage> 	_list_message;
+	10: optional set<ThriftMessage>		_set_message;
+	11: optional map<string,ThriftMessage> 	_map_message;
+	12: optional list<bool> 		_list_bool;
+	13: optional list<i16> 			_list_i16;
+	14: optional list<i32> 			_list_i32;
+	15: optional list<i64> 			_list_i64;
+	16: optional list<double> 		_list_double;
+	17: optional list<string>		_list_string;
+	18: optional set<bool> 			_set_bool;
+	19: optional set<i16> 			_set_i16;
+	20: optional set<i32> 			_set_i32;
+	21: optional set<i64> 			_set_i64;
+	22: optional set<double> 		_set_double;
+	23: optional set<string>		_set_string;
+	24: optional map<string,bool> 		_map_bool;
+	25: optional map<string,i16> 		_map_i16;
+	26: optional map<string,i32> 		_map_i32;
+	27: optional map<string,i64> 		_map_i64;
+	28: optional map<string,double> 	_map_double;
+	29: optional map<string,string>		_map_string;
 }
 
 exception InvalidOperationException {

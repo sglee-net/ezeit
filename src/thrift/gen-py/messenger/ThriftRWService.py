@@ -3457,10 +3457,10 @@ class readId_result(object):
             if fid == 0:
                 if ftype == TType.LIST:
                     self.success = []
-                    (_etype68, _size65) = iprot.readListBegin()
-                    for _i69 in range(_size65):
-                        _elem70 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.success.append(_elem70)
+                    (_etype164, _size161) = iprot.readListBegin()
+                    for _i165 in range(_size161):
+                        _elem166 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.success.append(_elem166)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -3483,8 +3483,8 @@ class readId_result(object):
         if self.success is not None:
             oprot.writeFieldBegin('success', TType.LIST, 0)
             oprot.writeListBegin(TType.STRING, len(self.success))
-            for iter71 in self.success:
-                oprot.writeString(iter71.encode('utf-8') if sys.version_info[0] == 2 else iter71)
+            for iter167 in self.success:
+                oprot.writeString(iter167.encode('utf-8') if sys.version_info[0] == 2 else iter167)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.e is not None:
