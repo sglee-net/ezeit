@@ -5,7 +5,7 @@ namespace php thrift_gen
 struct ThriftMessage {
 	1:  required string 			_sender_id;
 	2:  optional string 			_receiver_id;
-	3:  optional string			_timestamp;
+	3:  required string			_timestamp;
 	4:  optional string 			_subject;
 	5:  optional i64 			_sequence_no;
 	6:  optional i64			_total_count;
@@ -18,7 +18,7 @@ struct ThriftMessage {
 	13: optional list<i16> 			_list_i16;
 	14: optional list<i32> 			_list_i32;
 	15: optional list<i64> 			_list_i64;
-	16: optional list<double> 		_list_double;
+	16: required list<double> 		_list_double;
 	17: optional list<string>		_list_string;
 	18: optional set<bool> 			_set_bool;
 	19: optional set<i16> 			_set_i16;
