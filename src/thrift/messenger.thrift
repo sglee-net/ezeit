@@ -29,7 +29,7 @@ struct ThriftMessage {
 	24: optional map<string,i64> 		_map_i64;
 	25: optional map<string,double> 	_map_double;
 	26: optional map<string,string>		_map_string;
-	27:  optional list<ThriftMessage> 	_list_message;
+	27: optional list<ThriftMessage> 	_list_message;
 	28: optional set<ThriftMessage>		_set_message;
 	29: optional map<string,ThriftMessage> 	_map_message;
 }
