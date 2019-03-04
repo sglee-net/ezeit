@@ -7,7 +7,7 @@ thrift -r --gen py messenger.thrift
 
 ## How to make and use .thrift files
 ### Case of C++
-You have to modify the funtion of operator== in ThriftRWService.h 
+You have to modify the funtion of ThriftMessage::operator< in messenger-types.h 
 ### Server - Client
 Client: "required" is needed for parameter you want to use
 Server: "option" is OK 
