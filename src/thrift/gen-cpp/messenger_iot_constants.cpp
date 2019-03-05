@@ -4,13 +4,13 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "messenger_constants.h"
+#include "messenger_iot_constants.h"
 
 namespace thrift_gen {
 
-const messengerConstants g_messenger_constants;
+const messenger_iotConstants g_messenger_iot_constants;
 
-messengerConstants::messengerConstants() {
+messenger_iotConstants::messenger_iotConstants() {
 }
 
 } // namespace

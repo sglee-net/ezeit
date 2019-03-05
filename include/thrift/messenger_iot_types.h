@@ -4,8 +4,8 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#ifndef messenger_TYPES_H
-#define messenger_TYPES_H
+#ifndef messenger_iot_TYPES_H
+#define messenger_iot_TYPES_H
 
 #include <iosfwd>
 
@@ -25,22 +25,17 @@ class ThriftMessage;
 class InvalidOperationException;
 
 typedef struct _ThriftMessage__isset {
-  _ThriftMessage__isset() : _receiver_id(false), _timestamp(false), _subject(false), _sequence_no(false), _total_count(false), _binary(false), _payload(false), _list_message(false), _set_message(false), _map_message(false), _list_bool(false), _list_i16(false), _list_i32(false), _list_i64(false), _list_double(false), _list_string(false), _set_bool(false), _set_i16(false), _set_i32(false), _set_i64(false), _set_double(false), _set_string(false), _map_bool(false), _map_i16(false), _map_i32(false), _map_i64(false), _map_double(false), _map_string(false) {}
+  _ThriftMessage__isset() : _receiver_id(false), _subject(false), _sequence_no(false), _total_count(false), _binary(false), _payload(false), _list_bool(false), _list_i16(false), _list_i32(false), _list_i64(false), _list_string(false), _set_bool(false), _set_i16(false), _set_i32(false), _set_i64(false), _set_double(false), _set_string(false), _map_bool(false), _map_i16(false), _map_i32(false), _map_i64(false), _map_double(false), _map_string(false), _list_message(false), _set_message(false), _map_message(false) {}
   bool _receiver_id :1;
-  bool _timestamp :1;
   bool _subject :1;
   bool _sequence_no :1;
   bool _total_count :1;
   bool _binary :1;
   bool _payload :1;
-  bool _list_message :1;
-  bool _set_message :1;
-  bool _map_message :1;
   bool _list_bool :1;
   bool _list_i16 :1;
   bool _list_i32 :1;
   bool _list_i64 :1;
-  bool _list_double :1;
   bool _list_string :1;
   bool _set_bool :1;
   bool _set_i16 :1;
@@ -54,6 +49,9 @@ typedef struct _ThriftMessage__isset {
   bool _map_i64 :1;
   bool _map_double :1;
   bool _map_string :1;
+  bool _list_message :1;
+  bool _set_message :1;
+  bool _map_message :1;
 } _ThriftMessage__isset;
 
 class ThriftMessage : public virtual ::apache::thrift::TBase {
@@ -73,9 +71,6 @@ class ThriftMessage : public virtual ::apache::thrift::TBase {
   int64_t _total_count;
   std::string _binary;
   std::string _payload;
-  std::vector<ThriftMessage>  _list_message;
-  std::set<ThriftMessage>  _set_message;
-  std::map<std::string, ThriftMessage>  _map_message;
   std::vector<bool>  _list_bool;
   std::vector<int16_t>  _list_i16;
   std::vector<int32_t>  _list_i32;
@@ -94,6 +89,9 @@ class ThriftMessage : public virtual ::apache::thrift::TBase {
   std::map<std::string, int64_t>  _map_i64;
   std::map<std::string, double>  _map_double;
   std::map<std::string, std::string>  _map_string;
+  std::vector<ThriftMessage>  _list_message;
+  std::set<ThriftMessage>  _set_message;
+  std::map<std::string, ThriftMessage>  _map_message;
 
   _ThriftMessage__isset __isset;
 
@@ -112,12 +110,6 @@ class ThriftMessage : public virtual ::apache::thrift::TBase {
   void __set__binary(const std::string& val);
 
   void __set__payload(const std::string& val);
-
-  void __set__list_message(const std::vector<ThriftMessage> & val);
-
-  void __set__set_message(const std::set<ThriftMessage> & val);
-
-  void __set__map_message(const std::map<std::string, ThriftMessage> & val);
 
   void __set__list_bool(const std::vector<bool> & val);
 
@@ -155,6 +147,12 @@ class ThriftMessage : public virtual ::apache::thrift::TBase {
 
   void __set__map_string(const std::map<std::string, std::string> & val);
 
+  void __set__list_message(const std::vector<ThriftMessage> & val);
+
+  void __set__set_message(const std::set<ThriftMessage> & val);
+
+  void __set__map_message(const std::map<std::string, ThriftMessage> & val);
+
   bool operator == (const ThriftMessage & rhs) const
   {
     if (!(_sender_id == rhs._sender_id))
@@ -163,9 +161,7 @@ class ThriftMessage : public virtual ::apache::thrift::TBase {
       return false;
     else if (__isset._receiver_id && !(_receiver_id == rhs._receiver_id))
       return false;
-    if (__isset._timestamp != rhs.__isset._timestamp)
-      return false;
-    else if (__isset._timestamp && !(_timestamp == rhs._timestamp))
+    if (!(_timestamp == rhs._timestamp))
       return false;
     if (__isset._subject != rhs.__isset._subject)
       return false;
@@ -187,18 +183,6 @@ class ThriftMessage : public virtual ::apache::thrift::TBase {
       return false;
     else if (__isset._payload && !(_payload == rhs._payload))
       return false;
-    if (__isset._list_message != rhs.__isset._list_message)
-      return false;
-    else if (__isset._list_message && !(_list_message == rhs._list_message))
-      return false;
-    if (__isset._set_message != rhs.__isset._set_message)
-      return false;
-    else if (__isset._set_message && !(_set_message == rhs._set_message))
-      return false;
-    if (__isset._map_message != rhs.__isset._map_message)
-      return false;
-    else if (__isset._map_message && !(_map_message == rhs._map_message))
-      return false;
     if (__isset._list_bool != rhs.__isset._list_bool)
       return false;
     else if (__isset._list_bool && !(_list_bool == rhs._list_bool))
@@ -215,9 +199,7 @@ class ThriftMessage : public virtual ::apache::thrift::TBase {
       return false;
     else if (__isset._list_i64 && !(_list_i64 == rhs._list_i64))
       return false;
-    if (__isset._list_double != rhs.__isset._list_double)
-      return false;
-    else if (__isset._list_double && !(_list_double == rhs._list_double))
+    if (!(_list_double == rhs._list_double))
       return false;
     if (__isset._list_string != rhs.__isset._list_string)
       return false;
@@ -271,15 +253,25 @@ class ThriftMessage : public virtual ::apache::thrift::TBase {
       return false;
     else if (__isset._map_string && !(_map_string == rhs._map_string))
       return false;
+    if (__isset._list_message != rhs.__isset._list_message)
+      return false;
+    else if (__isset._list_message && !(_list_message == rhs._list_message))
+      return false;
+    if (__isset._set_message != rhs.__isset._set_message)
+      return false;
+    else if (__isset._set_message && !(_set_message == rhs._set_message))
+      return false;
+    if (__isset._map_message != rhs.__isset._map_message)
+      return false;
+    else if (__isset._map_message && !(_map_message == rhs._map_message))
+      return false;
     return true;
   }
   bool operator != (const ThriftMessage &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const ThriftMessage &rhs) const {
-	  return (_sender_id < rhs._sender_id)? true : false;
-  }
+  bool operator < (const ThriftMessage & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
