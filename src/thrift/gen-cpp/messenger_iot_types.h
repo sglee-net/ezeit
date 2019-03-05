@@ -271,7 +271,9 @@ class ThriftMessage : public virtual ::apache::thrift::TBase {
     return !(*this == rhs);
   }
 
-  bool operator < (const ThriftMessage & ) const;
+  bool operator < (const ThriftMessage &rhs) const {
+	  return _sender_id < rhs._sender_id ? true : false;
+  }
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
