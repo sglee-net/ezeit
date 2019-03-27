@@ -8,7 +8,6 @@
 #include <thrift/stdcxx.h>
 
 #include <thrift/concurrency/ThreadManager.h>
-#include <thrift/concurrency/StdThreadFactory.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/server/TThreadPoolServer.h>

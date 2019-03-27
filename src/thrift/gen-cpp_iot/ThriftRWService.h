@@ -10,7 +10,7 @@
 #include <thrift/TDispatchProcessor.h>
 #include <thrift/async/TConcurrentClientSyncInfo.h>
 #include <memory>
-#include "messenger_types.h"
+#include "messenger_iot_types.h"
 
 namespace thrift_gen {
 
