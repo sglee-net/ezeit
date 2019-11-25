@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 	logger->addAppender("filewriter",appender);
 	
 	stdcxx::shared_ptr<TTransport> 
-		socket(new TSocket("localhost", 9090));
+		socket(new TSocket("localhost", 9091));
   	stdcxx::shared_ptr<TTransport> 
 		transport(new TBufferedTransport(socket));
     	stdcxx::shared_ptr<TProtocol> 

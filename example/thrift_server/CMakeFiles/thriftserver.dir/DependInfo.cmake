@@ -4,12 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/sglee/ezeit/include/thrift/ThriftRWService.cpp" "/home/sglee/ezeit/example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.o"
-  "/home/sglee/ezeit/include/thrift/messenger_constants.cpp" "/home/sglee/ezeit/example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_constants.cpp.o"
-  "/home/sglee/ezeit/include/thrift/messenger_types.cpp" "/home/sglee/ezeit/example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_types.cpp.o"
-  "/home/sglee/ezeit/example/thrift_server/main.cpp" "/home/sglee/ezeit/example/thrift_server/CMakeFiles/thriftserver.dir/main.cpp.o"
+  "/Users/sglee/workspace/clion/prj/ezeit/include/thrift/ThriftRWService.cpp" "/Users/sglee/workspace/clion/prj/ezeit/example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/ThriftRWService.cpp.o"
+  "/Users/sglee/workspace/clion/prj/ezeit/include/thrift/messenger_constants.cpp" "/Users/sglee/workspace/clion/prj/ezeit/example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_constants.cpp.o"
+  "/Users/sglee/workspace/clion/prj/ezeit/include/thrift/messenger_types.cpp" "/Users/sglee/workspace/clion/prj/ezeit/example/thrift_server/CMakeFiles/thriftserver.dir/__/__/include/thrift/messenger_types.cpp.o"
+  "/Users/sglee/workspace/clion/prj/ezeit/example/thrift_server/main.cpp" "/Users/sglee/workspace/clion/prj/ezeit/example/thrift_server/CMakeFiles/thriftserver.dir/main.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX

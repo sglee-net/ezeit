@@ -37,7 +37,7 @@ public:
 		const size_t buffer_size = 10;
 
 		socket = stdcxx::shared_ptr<TTransport>(
-			new TSocket("localhost", 9090));
+			new TSocket("localhost", 9091));
 	        transport = stdcxx::shared_ptr<TTransport>(
 			new TBufferedTransport(socket));
 	        protocol = stdcxx::shared_ptr<TProtocol>(
