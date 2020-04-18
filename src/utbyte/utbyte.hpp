@@ -18,6 +18,27 @@
 
 using namespace std;
 
+// to get the size of array
+template <typename T,unsigned S>
+inline unsigned arraysize(const T (&v)[S]) { return S; }
+//int main()
+//{
+//    // different kinds of arrays, all size 5
+//    int normalarray[] = {1,2,3,4,5};
+//    std::vector<int> vec(5);
+//    int* dynamic = new int[5];
+//
+//    // ARRAY_SIZE will only work for normalarray:
+//    cout << ARRAY_SIZE(normalarray);  // prints 5 as expected
+//    cout << ARRAY_SIZE(vec);          // prints unreliable garbage
+//    cout << ARRAY_SIZE(dynamic);      // prints unreliable garbage
+//
+//    // on the other hand, arraysize will give you an error if you use it incorrectly:
+//    cout << arraysize(normalarray);   // prints 5 as expected
+//    cout << arraysize(vec);           // gives you a compiler error
+//    cout << arraysize(dynamic);       // gives you a compiler error
+//}
+
 namespace utbyte {
     
 	using byte=unsigned char;
